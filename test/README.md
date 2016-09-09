@@ -1,5 +1,5 @@
 ### Run Commands
-- make -s clang/gcc/icc
+- make -s -j 8
 - make -s clean
 
 ### Testcase Features
