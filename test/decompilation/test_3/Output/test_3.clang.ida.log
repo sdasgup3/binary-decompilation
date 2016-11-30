@@ -3,33 +3,33 @@ Will lift 1 exports
 CFG Output File file: Output/test_3.clang.ida.cfg
 PROCESSING: test_3.clang.o
 Adding data seg: .rodata: 0xc0L-0xe8L
-Adding data seg: .rodata.str1.1: 0xe8L-0xebL
-Adding data seg: .eh_frame: 0xf0L-0x140L
+Adding data seg: .rodata.str1.1: 0xe8L-0xf2L
+Adding data seg: .eh_frame: 0xf8L-0x148L
 Looking for relocations in c0 - e8
 Not scanning data sections of object file for pointer-alikes
 Adding data seg: .rodata: 0xc0L-0xe8L
-Looking for relocations in e8 - eb
+Looking for relocations in e8 - f2
 Not scanning data sections of object file for pointer-alikes
-Adding data seg: .rodata.str1.1: 0xe8L-0xebL
-Looking for relocations in f0 - 140
-Found relocations in binary: (110)..
+Adding data seg: .rodata.str1.1: 0xe8L-0xf2L
+Looking for relocations in f8 - 148
+Found relocations in binary: (118)..
 rtype : 4, 0, 0
-110 Found reloc to: 0 (size: 4)
+118 Found reloc to: 0 (size: 4)
 Testing 0 for externality
-Offset: 110, seg_offset: 0 => 0
-Reloc Base Address: 110
+Offset: 118, seg_offset: 0 => 0
+Reloc Base Address: 118
 Reloc size: 4
 Testing 0 for externality
 Code Ref: 0!
 rtype : 4, 0, 0
-12c Found reloc to: 0 (size: 4)
+134 Found reloc to: 0 (size: 4)
 Testing 0 for externality
-Offset: 12c, seg_offset: 0 => 0
-Reloc Base Address: 12c
+Offset: 134, seg_offset: 0 => 0
+Reloc Base Address: 134
 Reloc size: 4
 Testing 0 for externality
 Code Ref: 0!
-Adding data seg: .eh_frame: 0xf0L-0x140L
+Adding data seg: .eh_frame: 0xf8L-0x148L
 Recovering: main
 Processing export name: main at: 50
 At EP main:50
@@ -65,9 +65,9 @@ Processing insn at 76
 Processing insn at 79
 		Bytes: [72, 137, 69, 192]
 Processing insn at 7d
-		Bytes: [232, 190, 0, 0, 0]
-Checking code ref 140
-Testing 140 for externality
+		Bytes: [232, 198, 0, 0, 0]
+Checking code ref 148
+Testing 148 for externality
 EXTERNAL CALL: memcpy
 findRelocOffset setting imm reloc offset at 7d to 1
 Processing insn at 82
@@ -84,9 +84,9 @@ Processing insn at 8e
 findRelocOffset setting imm reloc offset at 8e to 2
 Adding reference because of data refs from 8e
 Testing e8 for externality
-		Data Ref: e8, size: 3
-Data Range: e8 <= e8 < eb
-Data Range: e8 - eb
+		Data Ref: e8, size: 10
+Data Range: e8 <= e8 < f2
+Data Range: e8 - f2
 		Setting IMM ref at 8e: to e8 type: DATA
 Processing insn at 98
 		Bytes: [137, 69, 204]
@@ -95,9 +95,9 @@ Processing insn at 9b
 Processing insn at 9e
 		Bytes: [176, 0]
 Processing insn at a0
-		Bytes: [232, 163, 0, 0, 0]
-Checking code ref 148
-Testing 148 for externality
+		Bytes: [232, 171, 0, 0, 0]
+Checking code ref 150
+Testing 150 for externality
 EXTERNAL CALL: printf
 findRelocOffset setting imm reloc offset at a0 to 1
 Processing insn at a5
