@@ -1,0 +1,15 @@
+Function: main: 4 pointers, 0 call sites
+  NoAlias:	i8* %arr, i8** %rcx
+  MayAlias:	i8* %arr, i8* %ptr1
+  NoAlias:	i8* %ptr1, i8** %rcx
+  NoAlias:	i8* %arr, i8* %ptr2
+  NoAlias:	i8* %ptr2, i8** %rcx
+  NoAlias:	i8* %ptr1, i8* %ptr2
+===== Alias Analysis Evaluator Report =====
+  6 Total Alias Queries Performed
+  5 no alias responses (83.3%)
+  1 may alias responses (16.6%)
+  0 partial alias responses (0.0%)
+  0 must alias responses (0.0%)
+  Alias Analysis Evaluator Pointer Alias Summary: 83%/16%/0%/0%
+  Alias Analysis Mod/Ref Evaluator Summary: no mod/ref!

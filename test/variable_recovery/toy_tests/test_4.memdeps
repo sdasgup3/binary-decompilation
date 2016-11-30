@@ -1,0 +1,17 @@
+Printing analysis 'Memory Dependence Analysis' for function 'main':
+Pass::print not implemented for pass: 'Memory Dependence Analysis'!
+Printing analysis 'Print MemDeps of function' for function 'main':
+    Def from:   %a = alloca i8, i64 32
+  store i8 10, i8* %a
+
+    Def from:   %X = alloca i8*
+  store i8* %a, i8** %X
+
+    Def from:   store i8* %a, i8** %X
+  %LX = load i8*, i8** %X
+
+    Clobber from:   store i8 10, i8* %a
+  %val = load i8, i8* %_new_addr_
+
+Printing analysis 'Global Value Numbering' for function 'main':
+Pass::print not implemented for pass: 'Global Value Numbering'!

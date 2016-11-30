@@ -1,0 +1,83 @@
+Function: main: 10 pointers, 0 call sites
+  NoAlias:	i8** %X, i8** %Y
+  NoAlias:	i8* %a, i8** %X
+  NoAlias:	i8* %a, i8** %Y
+  NoAlias:	i8* %b, i8** %X
+  NoAlias:	i8* %b, i8** %Y
+  NoAlias:	i8* %a, i8* %b
+  NoAlias:	i8* %c, i8** %X
+  NoAlias:	i8* %c, i8** %Y
+  NoAlias:	i8* %a, i8* %c
+  NoAlias:	i8* %b, i8* %c
+  NoAlias:	i8* %LX, i8** %X
+  NoAlias:	i8* %LX, i8** %Y
+Anders Query
+Anders Query
+  MayAlias:	i8* %LX, i8* %a
+Anders Query
+  NoAlias:	i8* %LX, i8* %b
+  NoAlias:	i8* %LX, i8* %c
+  NoAlias:	i8* %LY, i8** %X
+  NoAlias:	i8* %LY, i8** %Y
+Anders Query
+  NoAlias:	i8* %LY, i8* %a
+Anders Query
+Anders Query
+  MayAlias:	i8* %LY, i8* %b
+  NoAlias:	i8* %LY, i8* %c
+Anders Query
+  NoAlias:	i8* %LX, i8* %LY
+  NoAlias:	i8* %_new_addr_, i8** %X
+  NoAlias:	i8* %_new_addr_, i8** %Y
+Anders Query
+Anders Query
+Anders Query
+  MayAlias:	i8* %_new_addr_, i8* %a
+Anders Query
+  NoAlias:	i8* %_new_addr_, i8* %b
+  NoAlias:	i8* %_new_addr_, i8* %c
+  NoAlias:	i8* %LX, i8* %_new_addr_
+Anders Query
+  NoAlias:	i8* %LY, i8* %_new_addr_
+  NoAlias:	i8* %LX1, i8** %X
+  NoAlias:	i8* %LX1, i8** %Y
+Anders Query
+Anders Query
+  MayAlias:	i8* %LX1, i8* %a
+Anders Query
+  NoAlias:	i8* %LX1, i8* %b
+  NoAlias:	i8* %LX1, i8* %c
+Anders Query
+Anders Query
+  MayAlias:	i8* %LX, i8* %LX1
+Anders Query
+  NoAlias:	i8* %LX1, i8* %LY
+Anders Query
+Anders Query
+Anders Query
+  MayAlias:	i8* %LX1, i8* %_new_addr_
+  NoAlias:	i8* %LY2, i8** %X
+  NoAlias:	i8* %LY2, i8** %Y
+Anders Query
+  NoAlias:	i8* %LY2, i8* %a
+Anders Query
+Anders Query
+  MayAlias:	i8* %LY2, i8* %b
+  NoAlias:	i8* %LY2, i8* %c
+Anders Query
+  NoAlias:	i8* %LX, i8* %LY2
+Anders Query
+Anders Query
+  MayAlias:	i8* %LY, i8* %LY2
+Anders Query
+  NoAlias:	i8* %LY2, i8* %_new_addr_
+Anders Query
+  NoAlias:	i8* %LX1, i8* %LY2
+===== Alias Analysis Evaluator Report =====
+  45 Total Alias Queries Performed
+  37 no alias responses (82.2%)
+  8 may alias responses (17.7%)
+  0 partial alias responses (0.0%)
+  0 must alias responses (0.0%)
+  Alias Analysis Evaluator Pointer Alias Summary: 82%/17%/0%/0%
+  Alias Analysis Mod/Ref Evaluator Summary: no mod/ref!

@@ -1,0 +1,17 @@
+Printing analysis 'Memory Dependence Analysis' for function 'foo':
+Pass::print not implemented for pass: 'Memory Dependence Analysis'!
+Printing analysis 'Print MemDeps of function' for function 'foo':
+    Def from:   %x = alloca i32, align 4
+  store i32 0, i32* %x
+
+    Def from:   %xp = alloca i32*, align 8
+  store i32* %x, i32** %xp, align 8
+
+    Def from:   store i32* %x, i32** %xp, align 8
+  %1 = load i32*, i32** %xp, align 8
+
+    Clobber from:   store i32 0, i32* %x
+  %2 = load i32, i32* %1, align 4
+
+Printing analysis 'Global Value Numbering' for function 'foo':
+Pass::print not implemented for pass: 'Global Value Numbering'!

@@ -1,0 +1,95 @@
+Function: main: 11 pointers, 0 call sites
+  NoAlias:	i8** %X, i8** %Y
+  NoAlias:	i8* %a, i8** %X
+  NoAlias:	i8* %a, i8** %Y
+  NoAlias:	i8* %b, i8** %X
+  NoAlias:	i8* %b, i8** %Y
+  NoAlias:	i8* %a, i8* %b
+  NoAlias:	i8* %LX, i8** %X
+  NoAlias:	i8* %LX, i8** %Y
+Anders Query
+Anders Query
+  MayAlias:	i8* %LX, i8* %a
+  NoAlias:	i8* %LX, i8* %b
+  NoAlias:	i8* %LY, i8** %X
+  NoAlias:	i8* %LY, i8** %Y
+Anders Query
+  NoAlias:	i8* %LY, i8* %a
+  NoAlias:	i8* %LY, i8* %b
+Anders Query
+  NoAlias:	i8* %LX, i8* %LY
+  NoAlias:	i8* %_new_addr_, i8** %X
+  NoAlias:	i8* %_new_addr_, i8** %Y
+  NoAlias:	i8* %_new_addr_, i8* %a
+  NoAlias:	i8* %_new_addr_, i8* %b
+  NoAlias:	i8* %LX, i8* %_new_addr_
+Anders Query
+  NoAlias:	i8* %LY, i8* %_new_addr_
+  NoAlias:	i8* %LX1, i8** %X
+  NoAlias:	i8* %LX1, i8** %Y
+Anders Query
+Anders Query
+  MayAlias:	i8* %LX1, i8* %a
+  NoAlias:	i8* %LX1, i8* %b
+Anders Query
+Anders Query
+  MayAlias:	i8* %LX, i8* %LX1
+Anders Query
+  NoAlias:	i8* %LX1, i8* %LY
+Anders Query
+Anders Query
+Anders Query
+  MayAlias:	i8* %LX1, i8* %_new_addr_
+  NoAlias:	i8* %gep_LX1, i8** %X
+  NoAlias:	i8* %gep_LX1, i8** %Y
+  NoAlias:	i8* %a, i8* %gep_LX1
+  NoAlias:	i8* %b, i8* %gep_LX1
+  NoAlias:	i8* %LX, i8* %gep_LX1
+Anders Query
+  NoAlias:	i8* %LY, i8* %gep_LX1
+  NoAlias:	i8* %_new_addr_, i8* %gep_LX1
+Anders Query
+Anders Query
+Anders Query
+  MayAlias:	i8* %LX1, i8* %gep_LX1
+  NoAlias:	i8* %LY1, i8** %X
+  NoAlias:	i8* %LY1, i8** %Y
+Anders Query
+  NoAlias:	i8* %LY1, i8* %a
+  NoAlias:	i8* %LY1, i8* %b
+Anders Query
+  NoAlias:	i8* %LX, i8* %LY1
+Anders Query
+Anders Query
+  MayAlias:	i8* %LY, i8* %LY1
+Anders Query
+  NoAlias:	i8* %LY1, i8* %_new_addr_
+Anders Query
+  NoAlias:	i8* %LX1, i8* %LY1
+Anders Query
+  NoAlias:	i8* %LY1, i8* %gep_LX1
+  NoAlias:	i8* %gep_LY1, i8** %X
+  NoAlias:	i8* %gep_LY1, i8** %Y
+  NoAlias:	i8* %a, i8* %gep_LY1
+  NoAlias:	i8* %b, i8* %gep_LY1
+Anders Query
+  NoAlias:	i8* %LX, i8* %gep_LY1
+  NoAlias:	i8* %LY, i8* %gep_LY1
+Anders Query
+  NoAlias:	i8* %_new_addr_, i8* %gep_LY1
+Anders Query
+  NoAlias:	i8* %LX1, i8* %gep_LY1
+Anders Query
+  NoAlias:	i8* %gep_LX1, i8* %gep_LY1
+Anders Query
+Anders Query
+Anders Query
+  MayAlias:	i8* %LY1, i8* %gep_LY1
+===== Alias Analysis Evaluator Report =====
+  55 Total Alias Queries Performed
+  48 no alias responses (87.2%)
+  7 may alias responses (12.7%)
+  0 partial alias responses (0.0%)
+  0 must alias responses (0.0%)
+  Alias Analysis Evaluator Pointer Alias Summary: 87%/12%/0%/0%
+  Alias Analysis Mod/Ref Evaluator Summary: no mod/ref!

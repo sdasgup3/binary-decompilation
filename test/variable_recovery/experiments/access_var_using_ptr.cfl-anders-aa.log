@@ -1,0 +1,40 @@
+Function: main: 6 pointers, 0 call sites
+  NoAlias:	i8* %arr, i8** %ptr
+Anders Query
+Anders Query
+  MayAlias:	i8* %arr, i8* %loadptr1
+  NoAlias:	i8* %loadptr1, i8** %ptr
+  NoAlias:	i8* %arr, i8* %gep_4_loadptr1
+  NoAlias:	i8* %gep_4_loadptr1, i8** %ptr
+  NoAlias:	i8* %gep_4_loadptr1, i8* %loadptr1
+Anders Query
+Anders Query
+  MayAlias:	i8* %arr, i8* %loadptr2
+  NoAlias:	i8* %loadptr2, i8** %ptr
+Anders Query
+Anders Query
+  MayAlias:	i8* %loadptr1, i8* %loadptr2
+Anders Query
+Anders Query
+Anders Query
+  MayAlias:	i8* %gep_4_loadptr1, i8* %loadptr2
+  NoAlias:	i8* %arr, i8* %gep_8_loadptr2
+  NoAlias:	i8* %gep_8_loadptr2, i8** %ptr
+Anders Query
+Anders Query
+Anders Query
+  MayAlias:	i8* %gep_8_loadptr2, i8* %loadptr1
+Anders Query
+Anders Query
+Anders Query
+Anders Query
+  MayAlias:	i8* %gep_4_loadptr1, i8* %gep_8_loadptr2
+  NoAlias:	i8* %gep_8_loadptr2, i8* %loadptr2
+===== Alias Analysis Evaluator Report =====
+  15 Total Alias Queries Performed
+  9 no alias responses (60.0%)
+  6 may alias responses (40.0%)
+  0 partial alias responses (0.0%)
+  0 must alias responses (0.0%)
+  Alias Analysis Evaluator Pointer Alias Summary: 60%/40%/0%/0%
+  Alias Analysis Mod/Ref Evaluator Summary: no mod/ref!

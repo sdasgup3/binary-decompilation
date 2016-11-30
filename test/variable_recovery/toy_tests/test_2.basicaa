@@ -1,0 +1,19 @@
+Function: foo: 5 pointers, 0 call sites
+  NoAlias:	i32* %1, i32* %result
+  NoAlias:	i32* %1, i32* %x
+  NoAlias:	i32* %result, i32* %x
+  NoAlias:	i32* %1, i32** %xp
+  NoAlias:	i32* %result, i32** %xp
+  NoAlias:	i32* %x, i32** %xp
+  NoAlias:	i32* %1, i32* %5
+  NoAlias:	i32* %5, i32* %result
+  MayAlias:	i32* %5, i32* %x
+  NoAlias:	i32* %5, i32** %xp
+===== Alias Analysis Evaluator Report =====
+  10 Total Alias Queries Performed
+  9 no alias responses (90.0%)
+  1 may alias responses (10.0%)
+  0 partial alias responses (0.0%)
+  0 must alias responses (0.0%)
+  Alias Analysis Evaluator Pointer Alias Summary: 90%/10%/0%/0%
+  Alias Analysis Mod/Ref Evaluator Summary: no mod/ref!

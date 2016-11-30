@@ -1,0 +1,32 @@
+Printing analysis 'Memory Dependence Analysis' for function 'main':
+Pass::print not implemented for pass: 'Memory Dependence Analysis'!
+Printing analysis 'Print MemDeps of function' for function 'main':
+    Def from:   %X = alloca i8*
+  store i8* %a, i8** %X
+
+    Def from:   %Y = alloca i8*
+  store i8* %b, i8** %Y
+
+    Def from:   store i8* %a, i8** %X
+  %LX = load i8*, i8** %X
+
+    Def from:   store i8* %b, i8** %Y
+  %LY = load i8*, i8** %Y
+
+    NonFuncLocal
+  store i8 %_new_val_, i8* %_new_addr_
+
+    Def from:   %LX = load i8*, i8** %X
+  store i8* %_new_addr_, i8** %X
+
+    Def from:   %LY = load i8*, i8** %Y
+  store i8* %_new_addr_, i8** %Y
+
+    Def from:   store i8* %_new_addr_, i8** %X
+  %LX1 = load i8*, i8** %X
+
+    Def from:   store i8* %_new_addr_, i8** %Y
+  %LY2 = load i8*, i8** %Y
+
+Printing analysis 'Global Value Numbering' for function 'main':
+Pass::print not implemented for pass: 'Global Value Numbering'!

@@ -1,0 +1,359 @@
+Pass Arguments:  -targetlibinfo -tti -assumption-cache-tracker -domtree -basicaa -aa -aa-eval -verify
+Function: main: 13 pointers, 4 call sites
+Basic Query
+  NoAlias:	%struct.Point* %p, i32* %retval
+Basic Query
+  NoAlias:	%struct.Point** %pp, i32* %retval
+Basic Query
+  NoAlias:	%struct.Point* %p, %struct.Point** %pp
+Basic Query
+  NoAlias:	i32* %retval, i8* %0
+Basic Query
+  MustAlias:	%struct.Point* %p, i8* %0
+Basic Query
+  NoAlias:	%struct.Point** %pp, i8* %0
+Basic Query
+  NoAlias:	i32* %retval, i8* %1
+Basic Query
+  NoAlias:	%struct.Point* %p, i8* %1
+Basic Query
+  MustAlias:	%struct.Point** %pp, i8* %1
+Basic Query
+  NoAlias:	i8* %0, i8* %1
+Basic Query
+  NoAlias:	%struct.Point* %2, i32* %retval
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %2, %struct.Point* %p
+Basic Query
+  NoAlias:	%struct.Point* %2, %struct.Point** %pp
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %2, i8* %0
+Basic Query
+  NoAlias:	%struct.Point* %2, i8* %1
+Basic Query
+  NoAlias:	i32* %retval, i32* %x
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %p, i32* %x
+Basic Query
+  NoAlias:	%struct.Point** %pp, i32* %x
+Basic Query
+Basic Query
+  MayAlias:	i32* %x, i8* %0
+Basic Query
+  NoAlias:	i32* %x, i8* %1
+Basic Query
+  MustAlias:	%struct.Point* %2, i32* %x
+Basic Query
+  NoAlias:	%struct.Point* %3, i32* %retval
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %3, %struct.Point* %p
+Basic Query
+  NoAlias:	%struct.Point* %3, %struct.Point** %pp
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %3, i8* %0
+Basic Query
+  NoAlias:	%struct.Point* %3, i8* %1
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %2, %struct.Point* %3
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %3, i32* %x
+Basic Query
+  NoAlias:	i32* %retval, i32* %y
+Basic Query
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %p, i32* %y
+Basic Query
+  NoAlias:	%struct.Point** %pp, i32* %y
+Basic Query
+  NoAlias:	i32* %y, i8* %0
+Basic Query
+  NoAlias:	i32* %y, i8* %1
+Basic Query
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %2, i32* %y
+Basic Query
+Basic Query
+Basic Query
+  MayAlias:	i32* %x, i32* %y
+Basic Query
+  PartialAlias:	%struct.Point* %3, i32* %y
+Basic Query
+  NoAlias:	%struct.Point* %4, i32* %retval
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %4, %struct.Point* %p
+Basic Query
+  NoAlias:	%struct.Point* %4, %struct.Point** %pp
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %4, i8* %0
+Basic Query
+  NoAlias:	%struct.Point* %4, i8* %1
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %2, %struct.Point* %4
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %4, i32* %x
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %3, %struct.Point* %4
+Basic Query
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %4, i32* %y
+Basic Query
+  NoAlias:	i32* %retval, i32* %y1
+Basic Query
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %p, i32* %y1
+Basic Query
+  NoAlias:	%struct.Point** %pp, i32* %y1
+Basic Query
+  NoAlias:	i32* %y1, i8* %0
+Basic Query
+  NoAlias:	i32* %y1, i8* %1
+Basic Query
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %2, i32* %y1
+Basic Query
+Basic Query
+Basic Query
+  MayAlias:	i32* %x, i32* %y1
+Basic Query
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %3, i32* %y1
+Basic Query
+Basic Query
+Basic Query
+Basic Query
+  MayAlias:	i32* %y, i32* %y1
+Basic Query
+  PartialAlias:	%struct.Point* %4, i32* %y1
+Basic Query
+  NoAlias:	i32* %retval, i8* %6
+Basic Query
+  NoAlias:	%struct.Point* %p, i8* %6
+Basic Query
+  MustAlias:	%struct.Point** %pp, i8* %6
+Basic Query
+  NoAlias:	i8* %0, i8* %6
+Basic Query
+  MustAlias:	i8* %1, i8* %6
+Basic Query
+  NoAlias:	%struct.Point* %2, i8* %6
+Basic Query
+  NoAlias:	i32* %x, i8* %6
+Basic Query
+  NoAlias:	%struct.Point* %3, i8* %6
+Basic Query
+  NoAlias:	i32* %y, i8* %6
+Basic Query
+  NoAlias:	%struct.Point* %4, i8* %6
+Basic Query
+  NoAlias:	i32* %y1, i8* %6
+Basic Query
+  NoAlias:	i32* %retval, i8* %7
+Basic Query
+  MustAlias:	%struct.Point* %p, i8* %7
+Basic Query
+  NoAlias:	%struct.Point** %pp, i8* %7
+Basic Query
+  MustAlias:	i8* %0, i8* %7
+Basic Query
+  NoAlias:	i8* %1, i8* %7
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %2, i8* %7
+Basic Query
+Basic Query
+  MayAlias:	i32* %x, i8* %7
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %3, i8* %7
+Basic Query
+  NoAlias:	i32* %y, i8* %7
+Basic Query
+Basic Query
+  MayAlias:	%struct.Point* %4, i8* %7
+Basic Query
+  NoAlias:	i32* %y1, i8* %7
+Basic Query
+  NoAlias:	i8* %6, i8* %7
+Basic Query
+  NoModRef:  Ptr: i32* %retval	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+  Both ModRef:  Ptr: %struct.Point* %p	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+  NoModRef:  Ptr: %struct.Point** %pp	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+  Both ModRef:  Ptr: i8* %0	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+  NoModRef:  Ptr: i8* %1	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: %struct.Point* %2	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: i32* %x	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: %struct.Point* %3	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: i32* %y	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: %struct.Point* %4	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: i32* %y1	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+  NoModRef:  Ptr: i8* %6	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+  Both ModRef:  Ptr: i8* %7	<->  call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+  NoModRef:  Ptr: i32* %retval	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:  Ptr: %struct.Point* %p	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: %struct.Point** %pp	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:  Ptr: i8* %0	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: i8* %1	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:  Ptr: %struct.Point* %2	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:  Ptr: i32* %x	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:  Ptr: %struct.Point* %3	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:  Ptr: i32* %y	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:  Ptr: %struct.Point* %4	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:  Ptr: i32* %y1	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: i8* %6	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:  Ptr: i8* %7	<->  call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:  Ptr: i32* %retval	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+  NoModRef:  Ptr: %struct.Point* %p	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: %struct.Point** %pp	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+  NoModRef:  Ptr: i8* %0	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: i8* %1	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+  NoModRef:  Ptr: %struct.Point* %2	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+  NoModRef:  Ptr: i32* %x	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+  NoModRef:  Ptr: %struct.Point* %3	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+  NoModRef:  Ptr: i32* %y	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+  NoModRef:  Ptr: %struct.Point* %4	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+  NoModRef:  Ptr: i32* %y1	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: i8* %6	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+  NoModRef:  Ptr: i8* %7	<->  call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+  NoModRef:  Ptr: i32* %retval	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+  Both ModRef:  Ptr: %struct.Point* %p	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+  NoModRef:  Ptr: %struct.Point** %pp	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+  Both ModRef:  Ptr: i8* %0	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+  NoModRef:  Ptr: i8* %1	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: %struct.Point* %2	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: i32* %x	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: %struct.Point* %3	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: i32* %y	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: %struct.Point* %4	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+Basic Query
+Basic Query
+  Both ModRef:  Ptr: i32* %y1	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+  NoModRef:  Ptr: i8* %6	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+  Both ModRef:  Ptr: i8* %7	<->  call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+  NoModRef:   call void @llvm.lifetime.start(i64 8, i8* %0) #2 <->   call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:   call void @llvm.lifetime.start(i64 8, i8* %0) #2 <->   call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+  Both ModRef:   call void @llvm.lifetime.start(i64 8, i8* %0) #2 <->   call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+  NoModRef:   call void @llvm.lifetime.start(i64 8, i8* %1) #2 <->   call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+Basic Query
+  Both ModRef:   call void @llvm.lifetime.start(i64 8, i8* %1) #2 <->   call void @llvm.lifetime.end(i64 8, i8* %6) #2
+Basic Query
+  NoModRef:   call void @llvm.lifetime.start(i64 8, i8* %1) #2 <->   call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+  NoModRef:   call void @llvm.lifetime.end(i64 8, i8* %6) #2 <->   call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+Basic Query
+  Both ModRef:   call void @llvm.lifetime.end(i64 8, i8* %6) #2 <->   call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:   call void @llvm.lifetime.end(i64 8, i8* %6) #2 <->   call void @llvm.lifetime.end(i64 8, i8* %7) #2
+Basic Query
+  Both ModRef:   call void @llvm.lifetime.end(i64 8, i8* %7) #2 <->   call void @llvm.lifetime.start(i64 8, i8* %0) #2
+Basic Query
+  NoModRef:   call void @llvm.lifetime.end(i64 8, i8* %7) #2 <->   call void @llvm.lifetime.start(i64 8, i8* %1) #2
+Basic Query
+  NoModRef:   call void @llvm.lifetime.end(i64 8, i8* %7) #2 <->   call void @llvm.lifetime.end(i64 8, i8* %6) #2
+===== Alias Analysis Evaluator Report =====
+  78 Total Alias Queries Performed
+  43 no alias responses (55.1%)
+  26 may alias responses (33.3%)
+  2 partial alias responses (2.5%)
+  7 must alias responses (8.9%)
+  Alias Analysis Evaluator Pointer Alias Summary: 55%/33%/2%/8%
+  64 Total ModRef Queries Performed
+  36 no mod/ref responses (56.2%)
+  0 mod responses (0.0%)
+  0 ref responses (0.0%)
+  28 mod & ref responses (43.7%)
+  Alias Analysis Evaluator Mod/Ref Summary: 56%/0%/0%/43%
