@@ -1,0 +1,10 @@
+Debugging is enabled.Using Batch mode.Starting analysisLoading Standard Definitions file: map.txt
+Will lift 1 exports
+CFG Output File file: Output/test_23_2.clang.ida.cfg
+PROCESSING: test_23_2.clang.o
+Could not locate entry symbol: mainTraceback (most recent call last):
+  File "/home/dsand/Github/mcsema_new_reg_assign/build//mc-sema/bin_descend/get_cfg.py", line 2240, in <module>
+    recoverCfg(eps, outf, args.exports_are_apis)
+  File "/home/dsand/Github/mcsema_new_reg_assign/build//mc-sema/bin_descend/get_cfg.py", line 1823, in recoverCfg
+    raise Exception("Could not locate entry symbol: {0}".format(name))
+Exception: Could not locate entry symbol: main
