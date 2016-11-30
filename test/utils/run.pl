@@ -80,8 +80,8 @@ my $GCC_ARCH="";
 my $BIN_ARCH="";
 my $CFGBC_ARCH="";
 my $loadso="${ALLIN_HOME}/build/lib/LLVMstack_deconstructor.so";
-my $OPTSWITCH="-early-cse-memssa -ssh" ;
-#my $OPTSWITCH="-stack-decons -mem2reg -dce  -early-cse-memssa";
+#my $OPTSWITCH="-early-cse-memssa -ssh" ;
+my $OPTSWITCH="-stack-decons -mem2reg -dce  -early-cse-memssa";
 #my $OPTSWITCH="-stack-decons -debug-only=\"stack_deconstructor\"";
 
 
@@ -160,8 +160,9 @@ sub generate_linked_binary {
     #execute("${CC_35} -O3 ${GCC_ARCH} $inputbc $MCSEMA_HOME/../drivers/ELF_64_linux.S ${libnone}  -o $outputexe");
     execute("${CC} -O3 ${GCC_ARCH} $inputbc $MCSEMA_HOME/../drivers/ELF_64_linux.S ${libnone}  -o $outputexe");
   } else {
-    execute("${CC} ${GCC_ARCH}  -o ${outdir}${basename}.${suffix}.lifted.o -c ${outdir}${basename}.${suffix}.opt.ll");
-    execute("${CC}  -g ${GCC_ARCH} -I${incdir} -o ${outdir}${basename}.${suffix}.lifted.exe driver_64.c ${outdir}${basename}.${suffix}.lifted.o ${libnone}");
+    #execute("${CC} ${GCC_ARCH}  -o ${outdir}${basename}.${suffix}.lifted.o -c ${inputbc}");
+    #execute("${CC}  ${GCC_ARCH} -I${incdir} -o $outputexe  ${outdir}${basename}.${suffix}.lifted.o driver_64.c  ${libnone}");
+    execute("${CC}  ${GCC_ARCH} -I${incdir} -o $outputexe  ${inputbc} driver_64.c  ${libnone}");
   }
 }
 
@@ -231,8 +232,6 @@ sub run_custom_pass {
 
   if(0 == compare("${outdir}before.trans.out", "${outdir}after.trans.out")) {
     print("\t${basename}: Output Passed\n");
-    execute("rm -rf ./${outdir}${basename}.${suffix}.trans.lifted.exe");
-    execute("rm -rf ${outdir}${basename}.${suffix}.trans.opt.bc");
     execute("rm -rf ${outdir}after.trans.out");
   } else {
     print("\t${basename}: Output Failed\n");

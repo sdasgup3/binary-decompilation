@@ -168,20 +168,25 @@ entry:
   %_allin_new_bt_3 = bitcast i8* %_new_gep_1 to i64*
   %70 = bitcast i64* %_allin_new_bt_3 to i32*
   store i32 5, i32* %70, !mcsema_real_eip !3
-  %_new_gep_5 = getelementptr i8, i8* %_new_gep_1, i64 4
+  %_load_rsp_ptr_4 = load i8*, i8** %_RSP_ptr_
+  %_new_gep_5 = getelementptr i8, i8* %_load_rsp_ptr_4, i64 4
   %_allin_new_bt_6 = bitcast i8* %_new_gep_5 to i64*
   %71 = bitcast i64* %_allin_new_bt_6 to i32*
   store i32 6, i32* %71, !mcsema_real_eip !4
-  %_new_gep_8 = getelementptr i8, i8* %_new_gep_1, i64 8
+  %_load_rsp_ptr_7 = load i8*, i8** %_RSP_ptr_
+  %_new_gep_8 = getelementptr i8, i8* %_load_rsp_ptr_7, i64 8
   %_allin_new_bt_9 = bitcast i8* %_new_gep_8 to i64*
   %72 = bitcast i64* %_allin_new_bt_9 to i32*
   store i32 7, i32* %72, !mcsema_real_eip !5
-  %_new_gep_11 = getelementptr i8, i8* %_new_gep_1, i64 12
+  %_load_rsp_ptr_10 = load i8*, i8** %_RSP_ptr_
+  %_new_gep_11 = getelementptr i8, i8* %_load_rsp_ptr_10, i64 12
   %_allin_new_bt_12 = bitcast i8* %_new_gep_11 to i64*
   %73 = bitcast i64* %_allin_new_bt_12 to i32*
   store i32 8, i32* %73, !mcsema_real_eip !6
-  %74 = ptrtoint i64* %_allin_new_bt_3 to i64, !mcsema_real_eip !7
-  %_new_gep_16 = getelementptr i8, i8* %_new_gep_1, i64 -8
+  %_load_rsp_ptr_13 = load i8*, i8** %_RSP_ptr_
+  %_allin_new_bt_14 = bitcast i8* %_load_rsp_ptr_13 to i64*
+  %74 = ptrtoint i64* %_allin_new_bt_14 to i64, !mcsema_real_eip !7
+  %_new_gep_16 = getelementptr i8, i8* %_load_rsp_ptr_13, i64 -8
   %_allin_new_bt_17 = bitcast i8* %_new_gep_16 to i64*
   store i64 -4981261766360305936, i64* %_allin_new_bt_17, !mcsema_real_eip !8
   store volatile i8* %_new_gep_16, i8** %_RSP_ptr_

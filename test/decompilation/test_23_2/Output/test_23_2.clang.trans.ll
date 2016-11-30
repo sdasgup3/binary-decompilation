@@ -166,7 +166,8 @@ entry:
   %_allin_new_bt_2 = bitcast i8* %_new_gep_1 to i64*
   %69 = bitcast i64* %_allin_new_bt_2 to i32*
   store i32 0, i32* %69, !mcsema_real_eip !3
-  %_new_gep_4 = getelementptr i8, i8* %_new_gep_, i64 -5
+  %_load_rbp_ptr_3 = load i8*, i8** %_RBP_ptr_
+  %_new_gep_4 = getelementptr i8, i8* %_load_rbp_ptr_3, i64 -5
   %_allin_new_bt_5 = bitcast i8* %_new_gep_4 to i64*
   store i8 119, i8* %_new_gep_4, !mcsema_real_eip !4
   br label %block_0x40053b, !mcsema_real_eip !5

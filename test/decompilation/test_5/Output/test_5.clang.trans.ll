@@ -1,7 +1,7 @@
 ; ModuleID = 'Output/test_5.clang.trans.bc'
 source_filename = "Output/test_5.clang.bc"
 target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %struct.regs = type <{ i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i1, i1, i1, i1, i1, i1, i1, [8 x x86_fp80], i1, i1, i3, i1, i1, i1, i1, i1, i1, i1, i1, i1, i1, i1, i1, i2, i2, i1, i1, i1, i1, i1, i1, [8 x i8], i16, i64, i16, i64, i11, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i64, i64 }>
 
@@ -165,16 +165,19 @@ entry:
   %_new_gep_1 = getelementptr i8, i8* %_local_stack_end_ptr_, i64 -16
   %_allin_new_bt_2 = bitcast i8* %_new_gep_1 to i64*
   store i64 %5, i64* %_allin_new_bt_2, !mcsema_real_eip !3
-  %_new_gep_4 = getelementptr i8, i8* %_new_gep_, i64 -12
+  %_load_rbp_ptr_3 = load i8*, i8** %_RBP_ptr_
+  %_new_gep_4 = getelementptr i8, i8* %_load_rbp_ptr_3, i64 -12
   %_allin_new_bt_5 = bitcast i8* %_new_gep_4 to i64*
   %69 = trunc i64 %4 to i32, !mcsema_real_eip !4
   %70 = bitcast i64* %_allin_new_bt_5 to i32*
   store i32 %69, i32* %70, !mcsema_real_eip !4
-  %_new_gep_7 = getelementptr i8, i8* %_new_gep_, i64 -16
+  %_load_rbp_ptr_6 = load i8*, i8** %_RBP_ptr_
+  %_new_gep_7 = getelementptr i8, i8* %_load_rbp_ptr_6, i64 -16
   %_allin_new_bt_8 = bitcast i8* %_new_gep_7 to i64*
   %71 = bitcast i64* %_allin_new_bt_8 to i32*
   store i32 0, i32* %71, !mcsema_real_eip !5
-  %_new_gep_10 = getelementptr i8, i8* %_new_gep_, i64 -20
+  %_load_rbp_ptr_9 = load i8*, i8** %_RBP_ptr_
+  %_new_gep_10 = getelementptr i8, i8* %_load_rbp_ptr_9, i64 -20
   %_allin_new_bt_11 = bitcast i8* %_new_gep_10 to i64*
   %72 = bitcast i64* %_allin_new_bt_11 to i32*
   store i32 0, i32* %72, !mcsema_real_eip !6

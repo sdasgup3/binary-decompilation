@@ -1,7 +1,7 @@
 ; ModuleID = 'Output/test_22.clang.trans.bc'
 source_filename = "Output/test_22.clang.bc"
 target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %0 = type <{ [8 x i8] }>
 %struct.regs = type <{ i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i1, i1, i1, i1, i1, i1, i1, [8 x x86_fp80], i1, i1, i3, i1, i1, i1, i1, i1, i1, i1, i1, i1, i1, i1, i1, i2, i2, i1, i1, i1, i1, i1, i1, [8 x i8], i16, i64, i16, i64, i11, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i64, i64 }>
@@ -242,11 +242,12 @@ fpu_read_continue14:                              ; preds = %fpu_read_normal12, 
   %90 = bitcast i64* %_allin_new_bt_8 to x86_fp80*, !mcsema_real_eip !7
   store x86_fp80 %fpu_switch_phinode15, x86_fp80* %90, !mcsema_real_eip !7
   store i2 -1, i2* %87, !mcsema_real_eip !7
+  %91 = load x86_fp80, x86_fp80* %83, !mcsema_real_eip !8
   br i1 true, label %fpu_write17, label %fpu_exception18, !mcsema_real_eip !8
 
 fpu_write17:                                      ; preds = %fpu_exception18, %fpu_read_continue14
   store i2 0, i2* %87, !mcsema_real_eip !8
-  store x86_fp80 %fpu_switch_phinode, x86_fp80* %86, !mcsema_real_eip !8
+  store x86_fp80 %91, x86_fp80* %86, !mcsema_real_eip !8
   br i1 false, label %fpu_read_continue22, label %fpu_read_normal20
 
 fpu_exception18:                                  ; preds = %fpu_read_continue14
@@ -256,7 +257,7 @@ fpu_read_normal20:                                ; preds = %fpu_write17
   br label %fpu_read_continue22, !mcsema_real_eip !9
 
 fpu_read_continue22:                              ; preds = %fpu_read_normal20, %fpu_write17
-  %fpu_switch_phinode23 = phi x86_fp80 [ %fpu_switch_phinode, %fpu_read_normal20 ], [ 0xK00000000000000000000, %fpu_write17 ], !mcsema_real_eip !9
+  %fpu_switch_phinode23 = phi x86_fp80 [ %91, %fpu_read_normal20 ], [ 0xK00000000000000000000, %fpu_write17 ], !mcsema_real_eip !9
   br i1 false, label %fpu_read_continue26, label %fpu_read_normal24
 
 fpu_read_normal24:                                ; preds = %fpu_read_continue22
@@ -264,17 +265,17 @@ fpu_read_normal24:                                ; preds = %fpu_read_continue22
 
 fpu_read_continue26:                              ; preds = %fpu_read_normal24, %fpu_read_continue22
   %fpu_switch_phinode27 = phi x86_fp80 [ 0xK4000C90FDAA22168C000, %fpu_read_normal24 ], [ 0xK00000000000000000000, %fpu_read_continue22 ], !mcsema_real_eip !9
-  %91 = fmul x86_fp80 %fpu_switch_phinode23, %fpu_switch_phinode27, !mcsema_real_eip !9
+  %92 = fmul x86_fp80 %fpu_switch_phinode23, %fpu_switch_phinode27, !mcsema_real_eip !9
   br i1 false, label %fpu_write28, label %fpu_exception29, !mcsema_real_eip !9
 
 fpu_write28:                                      ; preds = %fpu_exception29, %fpu_read_continue26
   store i2 0, i2* %80, !mcsema_real_eip !9
-  store x86_fp80 %91, x86_fp80* %79, !mcsema_real_eip !9
+  store x86_fp80 %92, x86_fp80* %79, !mcsema_real_eip !9
   store i2 -1, i2* %87, !mcsema_real_eip !9
   %_load_rsp_ptr_12 = load i8*, i8** %_RSP_ptr_
   %_allin_new_bt_13 = bitcast i8* %_load_rsp_ptr_12 to i64*
-  %92 = load i64, i64* %_allin_new_bt_13, !mcsema_real_eip !10
-  %_new_int2ptr_ = inttoptr i64 %92 to i8*
+  %93 = load i64, i64* %_allin_new_bt_13, !mcsema_real_eip !10
+  %_new_int2ptr_ = inttoptr i64 %93 to i8*
   store volatile i8* %_new_int2ptr_, i8** %_RBP_ptr_
   %_new_gep_14 = getelementptr i8, i8* %_load_rsp_ptr_12, i64 16
   store volatile i8* %_new_gep_14, i8** %_RSP_ptr_
@@ -329,8 +330,8 @@ fpu_write28:                                      ; preds = %fpu_exception29, %f
   store i1 %45, i1* %FPU_ZM, align 1, !mcsema_real_eip !11
   store i1 %46, i1* %FPU_DM, align 1, !mcsema_real_eip !11
   store i1 %47, i1* %FPU_IM, align 1, !mcsema_real_eip !11
-  %93 = load i64, i64* %50, align 4
-  store i64 %93, i64* %49, align 4
+  %94 = load i64, i64* %50, align 4
+  store i64 %94, i64* %49, align 4
   store i16 %52, i16* %FPU_LASTIP_SEG, align 1, !mcsema_real_eip !11
   store i64 %53, i64* %FPU_LASTIP_OFF, align 1, !mcsema_real_eip !11
   store i16 %54, i16* %FPU_LASTDATA_SEG, align 1, !mcsema_real_eip !11

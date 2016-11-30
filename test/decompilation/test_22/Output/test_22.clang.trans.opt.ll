@@ -1,7 +1,7 @@
 ; ModuleID = 'Output/test_22.clang.trans.opt.bc'
 source_filename = "Output/test_22.clang.bc"
 target datalayout = "e-m:e-i64:64-f80:128-n8:16:32:64-S128"
-target triple = "x86_64-pc-linux-gnu"
+target triple = "x86_64-unknown-linux-gnu"
 
 %struct.regs = type <{ i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i64, i1, i1, i1, i1, i1, i1, i1, [8 x x86_fp80], i1, i1, i3, i1, i1, i1, i1, i1, i1, i1, i1, i1, i1, i1, i1, i2, i2, i1, i1, i1, i1, i1, i1, [8 x i8], i16, i64, i16, i64, i11, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i128, i64, i64 }>
 
@@ -173,7 +173,7 @@ driverBlockRaw:
   store volatile i64 %76, i64* %_RBP_ptr_.sroa.0.i, align 8
   %_new_gep_1.i = getelementptr [40 x i8], [40 x i8]* %_local_stack_start_ptr_1.i, i64 0, i64 48
   %77 = bitcast i8* %_new_gep_1.i to x86_fp80*
-  %78 = load x86_fp80, x86_fp80* %77, align 16, !mcsema_real_eip !3
+  %78 = load x86_fp80, x86_fp80* %77, align 16
   %79 = add i3 %30, -1
   %80 = zext i3 %79 to i64
   %81 = getelementptr inbounds [8 x x86_fp80], [8 x x86_fp80]* %STi_val.i, i64 0, i64 %80, !mcsema_real_eip !3

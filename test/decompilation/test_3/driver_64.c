@@ -17,7 +17,7 @@ int main(int argc, char *argv[]) {
 
   mcsema_main(&rState);
 
-  printf("%lu",rState.RAX );
+  printf("%lu##",rState.RAX );
 
   return 0;
 }
