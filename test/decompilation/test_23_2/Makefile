@@ -1,7 +1,7 @@
 PROG_PREFIX=test_23_2
 
 ENTRY_FUNC=main	
-ASM_FILE=ll
+ASM_FILE=bc
 FUNC_MAP=map.txt
 CMD_ARGS=
 STDIN_ARGS="ssssddddwwaawwddddssssddwwww"
