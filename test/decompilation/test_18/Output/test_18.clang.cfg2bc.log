@@ -1,0 +1,64 @@
+Looking up target...
+Reading module ...
+ TT x86-64 : x86_64-unknown-unknown 
+Deserializing functions...
+set_ref_reloc_type: Adding  ref: MEM, to: 80, ro: 0, rt: DATA
+set_ref_reloc_type: Adding  ref: MEM, to: 80, ro: 0, rt: DATA
+Deserializing data...
+Deserializing symbol at: 1c0, dta_0x70L, 8
+cur_pos: 70
+dse_base: 1c0
+new_cur_pos: 1c8
+Deserializing symbol at: 1d8, dta_0x74L, 8
+cur_pos: 1c8
+dse_base: 1d8
+new_cur_pos: 1e0
+Deserializing symbol at: 1f8, dta_0x78L, 8
+cur_pos: 1e0
+dse_base: 1f8
+new_cur_pos: 200
+Deserializing symbol at: 280, dta_0x70L, 8
+cur_pos: 200
+dse_base: 280
+new_cur_pos: 288
+Deserializing symbol at: 298, dta_0x74L, 8
+cur_pos: 288
+dse_base: 298
+new_cur_pos: 2a0
+Deserializing symbol at: 2b8, dta_0x78L, 8
+cur_pos: 2a0
+dse_base: 2b8
+new_cur_pos: 2c0
+Deserializing data...
+Deserializing symbol at: 3e8, sub_0x0L, 4
+cur_pos: 3c8
+dse_base: 3e8
+new_cur_pos: 3ec
+Creating module...
+Setting target...
+Done setting target
+Adding external funcs...
+Adding external data...
+Adding internal data...
+Adding Offset Tables...
+Adding entry points...
+Returning modue...
+Setting initial triples...
+Looking at entry points...
+Already have driver for: printdata
+Getting LLVM module...
+Converting to LLVM...
+Inserted function: sub_0
+inserting global data section named data_0x70
+inserting global data section named data_0x3c8
+dataSectionToTypesContents: Found symbol: dta_0x70L
+dataSectionToTypesContents: Found symbol: dta_0x74L
+dataSectionToTypesContents: Found symbol: dta_0x78L
+dataSectionToTypesContents: Found symbol: dta_0x70L
+dataSectionToTypesContents: Found symbol: dta_0x74L
+dataSectionToTypesContents: Found symbol: dta_0x78L
+dataSectionToTypesContents: Found symbol: sub_0x0L
+linuxGetInceptionFunction: Adding Callbacks to Module!
+Adding entry point: mcsema_main
+in : doPostAnalysis
+registering passes
