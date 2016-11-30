@@ -1,3 +1,17 @@
+### master branch 
+This branch is coupled with McSema master branch assumptions.
+```
+export MCSEMA_HOME=/home/sdasgup3/Github/mcsema_master/build/
+make REG_ASSIGN=
+```
+### new_reg_assign branch 
+This branch is coupled with McSema 'new_reg_assign' branch assumptions.
+```
+export MCSEMA_HOME=/home/sdasgup3/Github/mcsema_new_reg_assign/build/
+make 
+```
+
+
 ### Run Commands
 - make -s 
 - make -s clean
