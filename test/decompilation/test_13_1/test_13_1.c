@@ -7,5 +7,4 @@ void doWork() {
         checkFn();
     }
 
-    return a;
 }
