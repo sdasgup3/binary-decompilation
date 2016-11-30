@@ -31,29 +31,23 @@ Disassembly of section .text:
 0000000000000050 <main>:
   50:	55                   	push   %rbp
   51:	48 89 e5             	mov    %rsp,%rbp
-  54:	48 83 ec 50          	sub    $0x50,%rsp
+  54:	48 83 ec 40          	sub    $0x40,%rsp
   58:	be 0a 00 00 00       	mov    $0xa,%esi
   5d:	48 8d 45 d0          	lea    -0x30(%rbp),%rax
   61:	48 b9 00 00 00 00 00 	movabs $0x0,%rcx
   68:	00 00 00 
   6b:	ba 28 00 00 00       	mov    $0x28,%edx
-  70:	48 89 c7             	mov    %rax,%rdi
-  73:	89 75 c8             	mov    %esi,-0x38(%rbp)
-  76:	48 89 ce             	mov    %rcx,%rsi
-  79:	48 89 45 c0          	mov    %rax,-0x40(%rbp)
-  7d:	e8 00 00 00 00       	callq  82 <main+0x32>
-  82:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
-  86:	8b 75 c8             	mov    -0x38(%rbp),%esi
-  89:	e8 72 ff ff ff       	callq  0 <foo>
-  8e:	48 bf 00 00 00 00 00 	movabs $0x0,%rdi
-  95:	00 00 00 
-  98:	89 45 cc             	mov    %eax,-0x34(%rbp)
-  9b:	8b 75 cc             	mov    -0x34(%rbp),%esi
-  9e:	b0 00                	mov    $0x0,%al
-  a0:	e8 00 00 00 00       	callq  a5 <main+0x55>
-  a5:	31 f6                	xor    %esi,%esi
-  a7:	89 45 bc             	mov    %eax,-0x44(%rbp)
-  aa:	89 f0                	mov    %esi,%eax
-  ac:	48 83 c4 50          	add    $0x50,%rsp
-  b0:	5d                   	pop    %rbp
-  b1:	c3                   	retq   
+  70:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%rbp)
+  77:	48 89 c7             	mov    %rax,%rdi
+  7a:	89 75 c8             	mov    %esi,-0x38(%rbp)
+  7d:	48 89 ce             	mov    %rcx,%rsi
+  80:	48 89 45 c0          	mov    %rax,-0x40(%rbp)
+  84:	e8 00 00 00 00       	callq  89 <main+0x39>
+  89:	48 8b 7d c0          	mov    -0x40(%rbp),%rdi
+  8d:	8b 75 c8             	mov    -0x38(%rbp),%esi
+  90:	e8 6b ff ff ff       	callq  0 <foo>
+  95:	89 45 cc             	mov    %eax,-0x34(%rbp)
+  98:	8b 45 cc             	mov    -0x34(%rbp),%eax
+  9b:	48 83 c4 40          	add    $0x40,%rsp
+  9f:	5d                   	pop    %rbp
+  a0:	c3                   	retq   
