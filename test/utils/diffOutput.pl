@@ -24,7 +24,9 @@ my $fcmp = "";
 my $rlimit = "";
 my $alimit = "";
 my $timeit = "";
+my $maxout = "";
 my $current=getcwd();
+my $hashtool="";
 
 GetOptions (
             "help"            => \$help, 
@@ -40,6 +42,8 @@ GetOptions (
             "rlimit:s"            => \$rlimit, 
             "alimit:s"            => \$alimit, 
             "timeit:s"            => \$timeit, 
+            "maxout:s"            => \$maxout, 
+            "hashtool:s"            => \$hashtool, 
             ) or die("Error in command line arguments\n");
 if($help) {
   print ("run.pl   \n");
@@ -54,17 +58,21 @@ if("" ne $alimit) {
   $alimit = "-a $rlimit";
 } 
 
+$options =  "@ARGV";
+
 if( -e ${bin}) {
   execute("echo", 0);      
   execute("echo \"=========================================\"", 0);      
   execute("echo $current/Output/$case", 0);      
   execute("echo", 0);      
-  execute("${execsafely} -t \"${timeit}\" 500 ${stdin_filename} ${current}/${output} $current/${bin} ${options}",1);      
 
+  execute("${execsafely} -t \"${timeit}\" ${maxout} ${stdin_filename} ${current}/${output} $current/${bin} ${options}",1);  if("" ne ${hashtool}) {
+    execute("$hashtool ${current}/${output}",1);
+  }
   if(-e "${current}/${golden}") {
     execute("${fcmp} ${rlimit} ${alimit} $current/${golden} ${current}/${output} > ${current}/${diff} 2>&1", 1);      
     if(-s $diff) {
-      execute("echo Diff: $case", 0);      
+      execute("echo Diff: ${current}/Output/$case", 0);      
       execute("diff $current/${golden}  ${current}/${output} | head -n 50 ", 0);      
     }
   } else {
