@@ -1,0 +1,5 @@
+*.clang.bc
+*.clang.opt.bc
+*.clang.trans.bc
+*.clang.trans.opt.bc
+*.exe
