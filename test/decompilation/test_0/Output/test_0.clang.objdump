@@ -4,27 +4,37 @@ Output/test_0.clang.o:     file format elf64-x86-64
 
 Disassembly of section .text:
 
-0000000000000000 <main>:
+0000000000000000 <foo>:
    0:	55                   	push   %rbp
    1:	48 89 e5             	mov    %rsp,%rbp
-   4:	48 83 ec 20          	sub    $0x20,%rsp
-   8:	48 bf 00 00 00 00 00 	mov    $0x0,%rdi
-   f:	00 00 00 
-  12:	48 8d 45 f0          	lea    -0x10(%rbp),%rax
-  16:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%rbp)
-  1d:	48 89 45 e8          	mov    %rax,-0x18(%rbp)
-  21:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
-  25:	c7 00 01 00 00 00    	movl   $0x1,(%rax)
-  2b:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
-  2f:	c7 40 04 02 00 00 00 	movl   $0x2,0x4(%rax)
-  36:	48 8b 45 e8          	mov    -0x18(%rbp),%rax
-  3a:	8b 70 04             	mov    0x4(%rax),%esi
-  3d:	b0 00                	mov    $0x0,%al
-  3f:	e8 00 00 00 00       	callq  44 <main+0x44>
-  44:	48 8b 7d e8          	mov    -0x18(%rbp),%rdi
-  48:	8b 77 04             	mov    0x4(%rdi),%esi
-  4b:	89 45 e4             	mov    %eax,-0x1c(%rbp)
-  4e:	89 f0                	mov    %esi,%eax
-  50:	48 83 c4 20          	add    $0x20,%rsp
-  54:	5d                   	pop    %rbp
-  55:	c3                   	retq   
+   4:	89 7d ec             	mov    %edi,-0x14(%rbp)
+   7:	89 75 e8             	mov    %esi,-0x18(%rbp)
+   a:	48 8d 45 f0          	lea    -0x10(%rbp),%rax
+   e:	48 89 45 f8          	mov    %rax,-0x8(%rbp)
+  12:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+  16:	8b 55 ec             	mov    -0x14(%rbp),%edx
+  19:	89 10                	mov    %edx,(%rax)
+  1b:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+  1f:	8b 55 e8             	mov    -0x18(%rbp),%edx
+  22:	89 50 04             	mov    %edx,0x4(%rax)
+  25:	48 8b 45 f8          	mov    -0x8(%rbp),%rax
+  29:	48 8b 00             	mov    (%rax),%rax
+  2c:	5d                   	pop    %rbp
+  2d:	c3                   	retq   
+
+000000000000002e <main>:
+  2e:	55                   	push   %rbp
+  2f:	48 89 e5             	mov    %rsp,%rbp
+  32:	48 83 ec 10          	sub    $0x10,%rsp
+  36:	be 02 00 00 00       	mov    $0x2,%esi
+  3b:	bf 01 00 00 00       	mov    $0x1,%edi
+  40:	e8 00 00 00 00       	callq  45 <main+0x17>
+  45:	48 89 45 f0          	mov    %rax,-0x10(%rbp)
+  49:	8b 45 f4             	mov    -0xc(%rbp),%eax
+  4c:	89 c6                	mov    %eax,%esi
+  4e:	bf 00 00 00 00       	mov    $0x0,%edi
+  53:	b8 00 00 00 00       	mov    $0x0,%eax
+  58:	e8 00 00 00 00       	callq  5d <main+0x2f>
+  5d:	8b 45 f4             	mov    -0xc(%rbp),%eax
+  60:	c9                   	leaveq 
+  61:	c3                   	retq   

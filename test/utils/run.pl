@@ -40,7 +40,7 @@ my $entry="";
 my $incdir="";
 my $cfg="";
 my $extract_bc="";
-my $reg_assign="";
+my $master="";
 my $runpass="";
 my $stdin_args="";
 my $cmd_args="";
@@ -54,7 +54,7 @@ GetOptions (
             "skip_mcsema"   => \$skip_mcsema, 
             "cfg"           => \$cfg, 
             "extract_bc"    => \$extract_bc, 
-            "reg_assign"    => \$reg_assign, 
+            "master"    => \$master, 
             "runpass"      => \$runpass, 
             "testallexe"      => \$testallexe, 
             "compiler:s"    => \$compiler, 
@@ -72,7 +72,7 @@ GetOptions (
             ) or die("Error in command line arguments\n");
 
 if($help) {
-  print ("~/Github/binary-decompilation/test/utils/run.pl -home ~/Github/mcsema_new_reg_assign/build/ -file test_28.c -extract_bc -reg_assign -entry main -print -incdir ~/Github/binary-decompilation/test/utils/ \n");
+  print ("~/Github/binary-decompilation/test/utils/run.pl -home ~/Github/mcsema_new_reg_assign/build/ -file test_28.c -extract_bc -master -entry main -print -incdir ~/Github/binary-decompilation/test/utils/ \n");
   exit(1);
 }
 
@@ -141,7 +141,8 @@ sub generate_binary_from_source {
     execute("nasm -f elf64 -o ${outdir}${basename}.${suffix}.o $file ;");
   } 
   if("c" eq $ext) {
-    execute("${compiler}  -O0 ${CC_OPTIONS}  $file ${GCC_ARCH}  -c   -o ${outdir}${basename}.${suffix}.o");
+    #execute("${compiler}  -O0 ${CC_OPTIONS}  $file ${GCC_ARCH}  -c   -o ${outdir}${basename}.${suffix}.o");
+    execute("gcc  -O0 ${CC_OPTIONS}  $file ${GCC_ARCH}  -c   -o ${outdir}${basename}.${suffix}.o");
   } 
   if("cpp" eq $ext) {
     execute("${compiler}++ -O0 ${CC_OPTIONS}  $file ${GCC_ARCH}  -c   -o ${outdir}${basename}.${suffix}.o");
@@ -163,21 +164,23 @@ sub generate_linked_binary {
 
   execute("rm -rf ${outputexe}");
 
-  if("" ne $reg_assign) {
+  if("" eq $master) {
     execute("${CC} -O3 ${GCC_ARCH} -I${incdir} ${driver} $inputbc ${incdir}/ELF_64_linux.ll ${libnone}  -o $outputexe");
   } else {
-    execute("${CC} ${GCC_ARCH}  -o ${outdir}${basename}.${suffix}.lifted.o -c ${outdir}${basename}.${suffix}.opt.ll");
-    execute("${CC}  -g ${GCC_ARCH} -I${incdir} -o ${outdir}${basename}.${suffix}.lifted.exe driver_64.c ${outdir}${basename}.${suffix}.lifted.o ${libnone}");
+    execute("${home}/Install/llvm-3.8.release.install/bin/clang  ${GCC_ARCH}  -O3  $inputbc ${MCSEMA_HOME}/../lib/libmcsema_rt64.a  -o $outputexe");
   }
 }
 
 sub generate_cfg {
   print("\nGenerate cfg ($cfgext)\n");
 
-  execute("rm -rf ${outdir}${basename}.${suffix}.i64 ${outdir}${basename}.${suffix}${cfgext}.cfg ${outdir}${basename}.${suffix}.${cfgext}.log ${outdir}${basename}.${suffix}.${cfgext}.tool.log");
+  execute("rm -rf ${outdir}${basename}.${suffix}.i64 ${outdir}${basename}.${suffix}${cfgext}.cfg ${outdir}${basename}.${suffix}${cfgext}.log ${outdir}${basename}.${suffix}${cfgext}.tool.log");
 
-  #execute("IDA_PATH=${home}/ida-6.95 ${BIN_DESCEND_PATH}/bin_descend_wrapper.py -d ${BIN_ARCH} -func-map=${map} -entry-symbol=${entry} -i=${outdir}${basename}.${suffix}.o"); 
-  execute("idal64 -B \"-S${BIN_DESCEND_PATH}/get_cfg.py --std-defs ${map} --batch --entry-symbol ${entry} --output ${outdir}${basename}.${suffix}${cfgext}.cfg --debug --debug_output ${outdir}${basename}.${suffix}.ida.log \" -L${outdir}${basename}.${suffix}.ida.tool.log  ${outdir}${basename}.${suffix}.o "); 
+  if("" eq $master) {
+    execute("idal64 -B \"-S${BIN_DESCEND_PATH}/get_cfg.py --std-defs ${map} --batch --entry-symbol ${entry} --output ${outdir}${basename}.${suffix}${cfgext}.cfg --debug --debug_output ${outdir}${basename}.${suffix}.ida.log \" -L${outdir}${basename}.${suffix}.ida.tool.log  ${outdir}${basename}.${suffix}.o "); 
+  } else {
+    execute("$MCSEMA_HOME/../bin/mcsema-disass --disassembler ~/.nix-profile/bin/idal64 --arch amd64 --os linux --entrypoint ${entry} --binary  ${outdir}${basename}.${suffix}.o --output  ${outdir}${basename}.${suffix}${cfgext}.cfg --log_file ${outdir}${basename}.${suffix}.ida.log ");
+  }
 }
 
 ###  Generate BC from CFG
@@ -190,13 +193,13 @@ sub extract_bc_from_cfg {
   if(-e "${outdir}${basename}.${suffix}${cfgext}.cfg") {
     execute("rm -rf ${outdir}${basename}.${suffix}.bc ${outdir}${basename}.${suffix}.opt.bc ${outdir}${basename}.${suffix}.ll ${outdir}${basename}.${suffix}.opt.ll");
 
-    if("" ne "$reg_assign") {
+    if("" eq $master) {
       execute("${CFG_TO_BC_PATH}/cfg_to_bc ${CFGBC_ARCH}  -i ${outdir}${basename}.${suffix}${cfgext}.cfg  -o ${outdir}${basename}.${suffix}.bc  -entrypoint=${entry} 1> ${outdir}${basename}.${suffix}.cfg2bc.log 2>&1");
     } else {
-      execute("${CFG_TO_BC_PATH}/cfg_to_bc -ignore-unsupported ${CFGBC_ARCH}  -i ${outdir}${basename}.${suffix}${cfgext}.cfg  -o ${outdir}${basename}.${suffix}.bc  -driver=mcsema_main,${entry},raw,return,C 1> ${outdir}${basename}.${suffix}.cfg2bc.log 2>&1");
+      execute("$MCSEMA_HOME/../bin/../bin/mcsema-lift --arch amd64 --os linux --entrypoint ${entry} --cfg ${outdir}${basename}.${suffix}${cfgext}.cfg --output ${outdir}${basename}.${suffix}.bc  1> ${outdir}${basename}.${suffix}.cfg2bc.log 2>&1");
     }
 
-    execute("${OPT} -dce  -early-cse-memssa  ${outdir}${basename}.${suffix}.bc  -o=${outdir}${basename}.${suffix}.opt.bc"); 
+    execute("${OPT} -dce    ${outdir}${basename}.${suffix}.bc  -o=${outdir}${basename}.${suffix}.opt.bc"); 
     execute("${LLVMDIS}   ${outdir}${basename}.${suffix}.bc -o=${outdir}${basename}.${suffix}.ll");
     execute("${LLVMDIS}   ${outdir}${basename}.${suffix}.opt.bc -o=${outdir}${basename}.${suffix}.opt.ll");
   } else {

@@ -4,12 +4,17 @@ typedef struct {
   int x, y; 
 } Point; 
 
-int main() {
+Point foo(int a, int b) {
   Point p, *pp; 
   pp= &p; 
-  pp->x= 1; 
-  pp->y= 2; 
+  pp->x= a; 
+  pp->y= b; 
 
-  printf("%d\n", pp->y);
-  return pp->y; 
+  return *pp;
+}
+
+int main() {
+  Point pp = foo(1,2);
+  printf("%d\n", pp.y);
+  return pp.y; 
 }
