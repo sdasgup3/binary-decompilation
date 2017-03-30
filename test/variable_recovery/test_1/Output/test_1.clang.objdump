@@ -4,11 +4,37 @@ Output/test_1.clang.o:     file format elf64-x86-64
 
 Disassembly of section .text:
 
-0000000000000000 <main>:
+0000000000000000 <foo>:
    0:	55                   	push   %rbp
    1:	48 89 e5             	mov    %rsp,%rbp
-   4:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%rbp)
-   b:	c7 45 f8 01 00 00 00 	movl   $0x1,-0x8(%rbp)
-  12:	8b 45 f8             	mov    -0x8(%rbp),%eax
-  15:	5d                   	pop    %rbp
-  16:	c3                   	retq   
+   4:	89 7d ec             	mov    %edi,-0x14(%rbp)
+   7:	89 75 e8             	mov    %esi,-0x18(%rbp)
+   a:	8b 45 ec             	mov    -0x14(%rbp),%eax
+   d:	01 c0                	add    %eax,%eax
+   f:	89 45 fc             	mov    %eax,-0x4(%rbp)
+  12:	8b 45 fc             	mov    -0x4(%rbp),%eax
+  15:	83 c0 04             	add    $0x4,%eax
+  18:	0f af 45 e8          	imul   -0x18(%rbp),%eax
+  1c:	89 45 fc             	mov    %eax,-0x4(%rbp)
+  1f:	8b 45 fc             	mov    -0x4(%rbp),%eax
+  22:	5d                   	pop    %rbp
+  23:	c3                   	retq   
+
+0000000000000024 <main>:
+  24:	55                   	push   %rbp
+  25:	48 89 e5             	mov    %rsp,%rbp
+  28:	48 83 ec 20          	sub    $0x20,%rsp
+  2c:	89 7d ec             	mov    %edi,-0x14(%rbp)
+  2f:	48 89 75 e0          	mov    %rsi,-0x20(%rbp)
+  33:	be 25 00 00 00       	mov    $0x25,%esi
+  38:	bf 04 00 00 00       	mov    $0x4,%edi
+  3d:	e8 00 00 00 00       	callq  42 <main+0x1e>
+  42:	89 45 fc             	mov    %eax,-0x4(%rbp)
+  45:	8b 45 fc             	mov    -0x4(%rbp),%eax
+  48:	89 c6                	mov    %eax,%esi
+  4a:	bf 00 00 00 00       	mov    $0x0,%edi
+  4f:	b8 00 00 00 00       	mov    $0x0,%eax
+  54:	e8 00 00 00 00       	callq  59 <main+0x35>
+  59:	b8 00 00 00 00       	mov    $0x0,%eax
+  5e:	c9                   	leaveq 
+  5f:	c3                   	retq   

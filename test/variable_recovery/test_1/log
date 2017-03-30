@@ -1,12 +1,30 @@
-clang version 4.0.0 (http://llvm.org/git/clang.git 147b50f9a6934437647b4ba021697b9d83ec5644) (git@github.com:llvm-mirror/llvm.git 0d8c32f076b2366e7c9690044dc8f833d6ed0841)
-Target: x86_64-unknown-linux-gnu
-Thread model: posix
-InstalledDir: /home/sdasgup3/Install/llvm.release.install/bin
- "/home/sdasgup3/Install/llvm.release.install/bin/clang-4.0" "-cc1" "-triple" "x86_64-unknown-linux-gnu" "-emit-obj" "-mrelax-all" "-disable-free" "-main-file-name" "-" "-mrelocation-model" "static" "-mthread-model" "posix" "-mdisable-fp-elim" "-fmath-errno" "-masm-verbose" "-mconstructor-aliases" "-munwind-tables" "-target-cpu" "x86-64" "-dwarf-column-info" "-debugger-tuning=gdb" "-resource-dir" "/home/sdasgup3/Install/llvm.release.install/bin/../lib/clang/4.0.0" "-internal-isystem" "/usr/local/include" "-internal-isystem" "/home/sdasgup3/Install/llvm.release.install/bin/../lib/clang/4.0.0/include" "-internal-externc-isystem" "/include" "-internal-externc-isystem" "/usr/include" "-O0" "-fdebug-compilation-dir" "/home/sdasgup3/Github/binary-decompilation/test/variable_recovery/test_1" "-ferror-limit" "19" "-fmessage-length" "0" "-fobjc-runtime=gcc" "-fdiagnostics-show-option" "-o" "/tmp/--a11ba7.o" "-x" "c" "-"
- "/usr/bin/ld" "--hash-style=gnu" "--eh-frame-hdr" "-m" "elf_x86_64" "-dynamic-linker" "/lib64/ld-linux-x86-64.so.2" "-o" "/dev/null" "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/../../../../lib64/crt1.o" "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/../../../../lib64/crti.o" "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/crtbegin.o" "-L/usr/lib/gcc/x86_64-redhat-linux/4.4.7" "-L/usr/lib/gcc/x86_64-redhat-linux/4.4.7/../../../../lib64" "-L/lib/../lib64" "-L/usr/lib/../lib64" "-L/usr/lib/gcc/x86_64-redhat-linux/4.4.7/../../.." "-L/home/sdasgup3/Install/llvm.release.install/bin/../lib" "-L/lib" "-L/usr/lib" "/tmp/--a11ba7.o" "-lgcc" "--as-needed" "-lgcc_s" "--no-as-needed" "-lc" "-lgcc" "--as-needed" "-lgcc_s" "--no-as-needed" "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/crtend.o" "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/../../../../lib64/crtn.o"
-clang version 4.0.0 (http://llvm.org/git/clang.git 147b50f9a6934437647b4ba021697b9d83ec5644) (git@github.com:llvm-mirror/llvm.git 0d8c32f076b2366e7c9690044dc8f833d6ed0841)
-Target: x86_64-unknown-linux-gnu
-Thread model: posix
-InstalledDir: /home/sdasgup3/Install/llvm.release.install/bin
- "/home/sdasgup3/Install/llvm.release.install/bin/clang-4.0" "-cc1" "-triple" "x86_64-unknown-linux-gnu" "-emit-obj" "-disable-free" "-main-file-name" "-" "-mrelocation-model" "static" "-mthread-model" "posix" "-fmath-errno" "-masm-verbose" "-mconstructor-aliases" "-munwind-tables" "-target-cpu" "x86-64" "-momit-leaf-frame-pointer" "-dwarf-column-info" "-debugger-tuning=gdb" "-resource-dir" "/home/sdasgup3/Install/llvm.release.install/bin/../lib/clang/4.0.0" "-internal-isystem" "/usr/local/include" "-internal-isystem" "/home/sdasgup3/Install/llvm.release.install/bin/../lib/clang/4.0.0/include" "-internal-externc-isystem" "/include" "-internal-externc-isystem" "/usr/include" "-O1" "-fdebug-compilation-dir" "/home/sdasgup3/Github/binary-decompilation/test/variable_recovery/test_1" "-ferror-limit" "19" "-fmessage-length" "0" "-fobjc-runtime=gcc" "-fdiagnostics-show-option" "-o" "/tmp/--8090ff.o" "-x" "c" "-"
- "/usr/bin/ld" "--hash-style=gnu" "--eh-frame-hdr" "-m" "elf_x86_64" "-dynamic-linker" "/lib64/ld-linux-x86-64.so.2" "-o" "/dev/null" "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/../../../../lib64/crt1.o" "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/../../../../lib64/crti.o" "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/crtbegin.o" "-L/usr/lib/gcc/x86_64-redhat-linux/4.4.7" "-L/usr/lib/gcc/x86_64-redhat-linux/4.4.7/../../../../lib64" "-L/lib/../lib64" "-L/usr/lib/../lib64" "-L/usr/lib/gcc/x86_64-redhat-linux/4.4.7/../../.." "-L/home/sdasgup3/Install/llvm.release.install/bin/../lib" "-L/lib" "-L/usr/lib" "/tmp/--8090ff.o" "-lgcc" "--as-needed" "-lgcc_s" "--no-as-needed" "-lc" "-lgcc" "--as-needed" "-lgcc_s" "--no-as-needed" "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/crtend.o" "/usr/lib/gcc/x86_64-redhat-linux/4.4.7/../../../../lib64/crtn.o"
+
+
+Function: main
+	
+Stack var name: var_20
+47
+	
+Stack var name: var_4
+66
+69
+	
+Stack var name: var_14
+44
+
+
+Function: foo
+	
+Stack var name: var_18
+7
+24
+	
+Stack var name: var_4
+28
+15
+18
+31
+	
+Stack var name: var_14
+4
+10

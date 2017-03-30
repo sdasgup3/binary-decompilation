@@ -1,6 +1,16 @@
-int main() {
-  int x;
-  x= 1; 
+#include<stdio.h>
+int foo(int first, int second)
+{
+	int bar;
+	bar = first * 2;
+	bar = second * (bar + 4);
+	return bar;
+}
 
-  return x; 
+int main(int argc, char **argv)
+{
+	int m;
+	m = foo(4, 37);
+        printf("%d\n",m);
+	return 0;
 }

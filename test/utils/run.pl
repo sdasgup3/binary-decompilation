@@ -142,7 +142,7 @@ sub generate_binary_from_source {
   } 
   if("c" eq $ext) {
     #execute("${compiler}  -O0 ${CC_OPTIONS}  $file ${GCC_ARCH}  -c   -o ${outdir}${basename}.${suffix}.o");
-    execute("gcc  -O0 ${CC_OPTIONS}  $file ${GCC_ARCH}  -c   -o ${outdir}${basename}.${suffix}.o");
+    execute("gcc  -g -O0 ${CC_OPTIONS}  $file ${GCC_ARCH}  -c   -o ${outdir}${basename}.${suffix}.o");
   } 
   if("cpp" eq $ext) {
     execute("${compiler}++ -O0 ${CC_OPTIONS}  $file ${GCC_ARCH}  -c   -o ${outdir}${basename}.${suffix}.o");
@@ -167,7 +167,7 @@ sub generate_linked_binary {
   if("" eq $master) {
     execute("${CC} -O3 ${GCC_ARCH} -I${incdir} ${driver} $inputbc ${incdir}/ELF_64_linux.ll ${libnone}  -o $outputexe");
   } else {
-    execute("${home}/Install/llvm-3.8.release.install/bin/clang  ${GCC_ARCH}  -O3  $inputbc ${MCSEMA_HOME}/../lib/libmcsema_rt64.a  -o $outputexe");
+    execute("${home}/Install/llvm-3.8.release.install/bin/clang  ${GCC_ARCH}  -O3  $inputbc ${MCSEMA_HOME}/../lib/libmcsema_rt64.a  ${libnone}  -o $outputexe");
   }
 }
 
@@ -177,9 +177,9 @@ sub generate_cfg {
   execute("rm -rf ${outdir}${basename}.${suffix}.i64 ${outdir}${basename}.${suffix}${cfgext}.cfg ${outdir}${basename}.${suffix}${cfgext}.log ${outdir}${basename}.${suffix}${cfgext}.tool.log");
 
   if("" eq $master) {
-    execute("idal64 -B \"-S${BIN_DESCEND_PATH}/get_cfg.py --std-defs ${map} --batch --entry-symbol ${entry} --output ${outdir}${basename}.${suffix}${cfgext}.cfg --debug --debug_output ${outdir}${basename}.${suffix}.ida.log \" -L${outdir}${basename}.${suffix}.ida.tool.log  ${outdir}${basename}.${suffix}.o "); 
+    execute("idal64 -B \"-S${BIN_DESCEND_PATH}/get_cfg.py --std-defs ${map} --batch --entry-symbol ${entry} --output ${outdir}${basename}.${suffix}${cfgext}.cfg --debug --debug_output ${outdir}${basename}.${suffix}.ida.log  --stack-vars\" -L${outdir}${basename}.${suffix}.ida.tool.log  ${outdir}${basename}.${suffix}.o "); 
   } else {
-    execute("$MCSEMA_HOME/../bin/mcsema-disass --disassembler ~/.nix-profile/bin/idal64 --arch amd64 --os linux --entrypoint ${entry} --binary  ${outdir}${basename}.${suffix}.o --output  ${outdir}${basename}.${suffix}${cfgext}.cfg --log_file ${outdir}${basename}.${suffix}.ida.log ");
+    execute("$MCSEMA_HOME/../bin/mcsema-disass --disassembler ~/.nix-profile/bin/idal64 --arch amd64 --os linux --entrypoint ${entry} --binary  ${outdir}${basename}.${suffix}.o --output  ${outdir}${basename}.${suffix}${cfgext}.cfg --log_file ${outdir}${basename}.${suffix}.ida.log --stack-vars");
   }
 }
 

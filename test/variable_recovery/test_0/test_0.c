@@ -1,20 +1,16 @@
 #include<stdio.h>
 
-typedef struct { 
-  int x, y; 
-} Point; 
+void swap(int *a, int *b) {
+  if (a == b) return;
 
-Point foo(int a, int b) {
-  Point p, *pp; 
-  pp= &p; 
-  pp->x= a; 
-  pp->y= b; 
-
-  return *pp;
+  *a = *a ^ *b;
+  *b = *a ^ *b;
+  *a = *a ^ *b;
 }
 
 int main() {
-  Point pp = foo(1,2);
-  printf("%d\n", pp.y);
-  return pp.y; 
+  int one = 1 , two = 2;
+  swap(&one,&two);
+  printf("%d %d\n", one, two);
+  return 0; 
 }

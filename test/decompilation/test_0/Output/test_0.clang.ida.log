@@ -1,6 +1,10 @@
-Debugging is enabled.Using Batch mode.Starting analysisLoading Standard Definitions file: ../../utils/std_defs.txt
+Debugging is enabled.
+Loading Standard Definitions file: /home/sdasgup3/.local/lib/python2.7/site-packages/mcsema_disass-0.0.1-py2.7.egg/mcsema_disass/defs/linux.txt
+Using Batch mode.
+Starting analysis
+Attempting to recover stack variable information...
 Will lift 1 exports
-CFG Output File file: Output/test_0.clang.ida.cfg
+CFG Output File file: /home/sdasgup3/Github/binary-decompilation/test/decompilation/test_0/Output/test_0.clang.ida.cfg
 PROCESSING: test_0.clang.o
 Adding data seg: .rodata: 0x69L-0x6dL
 Adding data seg: .eh_frame: 0x70L-0xc8L
@@ -29,6 +33,7 @@ Adding data seg: .eh_frame: 0x70L-0xc8L
 Recovering: main
 Processing export name: main at: 2e
 At EP main:2e
+Recover Stack Var var_10
 BB: 2e
 Starting insn at: 2e
 Processing insn at 2e
@@ -77,6 +82,10 @@ Processing insn at 61
 		Bytes: [195]
 Ending insn at: 60
 Recovering: 0x0L
+Recover Stack Var var_18
+Recover Stack Var var_10
+Recover Stack Var var_14
+Recover Stack Var var_8
 BB: 0
 Starting insn at: 0
 Processing insn at 0
@@ -114,4 +123,4 @@ Processing insn at 2d
 Ending insn at: 2c
 Program will reference external: printf
 Recovered 2 functions.
-Saving to: Output/test_0.clang.ida.cfg
+Saving to: /home/sdasgup3/Github/binary-decompilation/test/decompilation/test_0/Output/test_0.clang.ida.cfg

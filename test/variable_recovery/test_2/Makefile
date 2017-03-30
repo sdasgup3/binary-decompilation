@@ -1,4 +1,4 @@
-PROG_PREFIX=test_1
+PROG_PREFIX=test_2
 
 ENTRY_FUNC=foo
 ASM_FILE=c
