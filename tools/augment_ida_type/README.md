@@ -21,11 +21,11 @@ IDA does a stack analysis which gives information like
   mov	[rbp+bar], eax
 
   ```
-  Replace the offset part of the instructions (accessing stack variable) with the varibale introduced above. E.g. the instruction `move eax [rsp + off]` is replaced by `move eax [rsp + var_off]`
+  Replace the offset part of the instructions (accessing stack variable) with the variable introduced above. E.g. the instruction `move eax [rsp + off]` is replaced by `move eax [rsp + var_off]`
 
 
 We can leverage his stack information from IDA and augment the types of the objects pointed to by those variables using the dwarf debug info.
 
 
-This tool read the compiled google protobuf file produced by (McSema + IDA) and augment the type of the variables using the dwarf inforamtion conveyed using another compiled protobuf file produced by he [tool](https://github.com/sdasgup3/dwarf-type-reader).
+This tool read the compiled google protobuf file produced by (McSema + IDA) and augment the type of the variables using the dwarf information conveyed using another compiled protobuf file produced by the [tool](https://github.com/sdasgup3/dwarf-type-reader).
 
