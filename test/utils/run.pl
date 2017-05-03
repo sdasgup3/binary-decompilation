@@ -9,6 +9,8 @@ use File::Basename;
 my $home =  $ENV{'HOME'};
 my $MCSEMA_HOME="";
 my $ALLIN_HOME="${home}/Github/binary-decompilation/";
+my $DWARF_TYPE_READER="${home}/Github/dwarf-type-reader/build/bin/dwarf-type-reader";
+my $AUGMENT_TYPE="${home}/Github/binary-decompilation/tools/augment_ida_type/augment_ida_types.py";
 my $CC="clang";
 my $CXX="clang++";
 my $OPT="opt";
@@ -17,19 +19,23 @@ my $LLVMAS="llvm-as";
 my $LLVMAS35="${home}/Install/llvm-3.5.0.release.install/bin/llvm-as";
 my $LLC="llc";
 my $outdir="Output/";
-my $CC_OPTIONS="";
+my $CC_OPTIONS=" -g ";
+my $CXX_OPTIONS=" -g -std=c++11 ";
 my $CC_35="${home}/Install/llvm-3.5.0.release.install/bin/clang-3.5";
-my $libnone=$ENV{'LIBNONE'};
+#my $libnone=$ENV{'LIBNONE'};
+my $libnone="";
 my $BC2ALLVM="bc2allvm";
 my $ALLTOGETHER="alltogether";
 my $ALLEY="alley";
+my $IDA=`which idal64`;
+chomp $IDA;
 #"-fomit-frame-pointer";
 #my $redirect = " &> ";
 
 
 # Customizable inputs
 my $help = "";
-my $compiler="clang";
+my $compiler="";
 my $suffix="clang";
 my $arch="64";
 my $file="";
@@ -92,6 +98,10 @@ my $OPTSWITCH="-constprop -stack-decons -dce  -early-cse-memssa" ;
 #my $OPTSWITCH="-stack-decons -debug-only=\"stack_deconstructor\"";
 
 
+if($map ne "" ) {
+  $map = "--std-defs " . $map. " "; 
+}
+
 
 
 if($arch eq "32") {
@@ -108,10 +118,18 @@ my $cfgext=".ida";
 
 my ($basename, $ext) = split_filename($file);
 
+my $include_regstate = "";
+if(${driver} ne "") {
+  $include_regstate = "-I${MCSEMA_HOME}/../mcsema/Arch/X86/Runtime/"; 
+}
+
 ### Drivers
 if("" ne $extract_bc) {
   extract_bc_from_cfg();
-  generate_linked_binary("${outdir}${basename}.${suffix}.opt.bc", "${outdir}${basename}.${suffix}.lifted.exe");
+  generate_linked_binary("${outdir}${basename}.${suffix}.bc", "${outdir}${basename}.${suffix}.lifted.exe");
+  if(-e "${outdir}${basename}.${suffix}.native") {
+    run_compare("${outdir}${basename}.${suffix}.lifted.exe", "${outdir}${basename}.${suffix}.native", "Native");
+  }
   cleanup();
   exit;
 }
@@ -129,6 +147,7 @@ if("" ne $testallexe) {
 if ("" ne $cfg) {
   generate_binary_from_source();
   generate_cfg();
+  update_cfg();
 } 
 
 exit;
@@ -139,13 +158,18 @@ sub generate_binary_from_source {
   execute("rm -rf ${outdir}${basename}.${suffix}.o ${outdir}${basename}.${suffix}.objdump");
   if("asm" eq $ext) {
     execute("nasm -f elf64 -o ${outdir}${basename}.${suffix}.o $file ;");
+    ## Create native binar for comparision
+    ##execute("${compiler}++ ${include_regstate} -O0 ${CXX_OPTIONS} ${CC_OPTIONS}  ${GCC_ARCH}  ${outdir}${basename}.${suffix}.o ${driver}  -o ${outdir}${basename}.${suffix}.native");
   } 
   if("c" eq $ext) {
-    #execute("${compiler}  -O0 ${CC_OPTIONS}  $file ${GCC_ARCH}  -c   -o ${outdir}${basename}.${suffix}.o");
-    execute("gcc  -g -O0 ${CC_OPTIONS}  $file ${GCC_ARCH}  -c   -o ${outdir}${basename}.${suffix}.o");
+    execute("${compiler}  -O0 ${CC_OPTIONS}  $file ${GCC_ARCH}  -c   -o ${outdir}${basename}.${suffix}.o");
+    ## Create native binar for comparision
+    execute("${compiler}++  ${include_regstate} -O0 ${CXX_OPTIONS} ${CC_OPTIONS}  ${GCC_ARCH}  ${outdir}${basename}.${suffix}.o ${driver}  -o ${outdir}${basename}.${suffix}.native");
   } 
   if("cpp" eq $ext) {
     execute("${compiler}++ -O0 ${CC_OPTIONS}  $file ${GCC_ARCH}  -c   -o ${outdir}${basename}.${suffix}.o");
+    ## Create native binar for comparision
+    execute("${compiler}++  -O0  ${include_regstate}  ${CXX_OPTIONS} ${CC_OPTIONS}  ${GCC_ARCH}  ${outdir}${basename}.${suffix}.o ${driver}  -o ${outdir}${basename}.${suffix}.native");
   } 
   if("o" eq $ext) {
     execute("cp  $file  ${outdir}${basename}.${suffix}.o");
@@ -167,7 +191,7 @@ sub generate_linked_binary {
   if("" eq $master) {
     execute("${CC} -O3 ${GCC_ARCH} -I${incdir} ${driver} $inputbc ${incdir}/ELF_64_linux.ll ${libnone}  -o $outputexe");
   } else {
-    execute("${home}/Install/llvm-3.8.release.install/bin/clang  ${GCC_ARCH}  -O3  $inputbc ${MCSEMA_HOME}/../lib/libmcsema_rt64.a  ${libnone}  -o $outputexe");
+    execute("${compiler}++  ${CXX_OPTIONS} ${GCC_ARCH}  -O3 ${include_regstate}  $inputbc ${driver} ${MCSEMA_HOME}/../lib/libmcsema_rt64.a  ${libnone}  -o $outputexe");
   }
 }
 
@@ -179,8 +203,17 @@ sub generate_cfg {
   if("" eq $master) {
     execute("idal64 -B \"-S${BIN_DESCEND_PATH}/get_cfg.py --std-defs ${map} --batch --entry-symbol ${entry} --output ${outdir}${basename}.${suffix}${cfgext}.cfg --debug --debug_output ${outdir}${basename}.${suffix}.ida.log  --stack-vars\" -L${outdir}${basename}.${suffix}.ida.tool.log  ${outdir}${basename}.${suffix}.o "); 
   } else {
-    execute("$MCSEMA_HOME/../bin/mcsema-disass --disassembler ~/.nix-profile/bin/idal64 --arch amd64 --os linux --entrypoint ${entry} --binary  ${outdir}${basename}.${suffix}.o --output  ${outdir}${basename}.${suffix}${cfgext}.cfg --log_file ${outdir}${basename}.${suffix}.ida.log --stack-vars");
+    execute("$MCSEMA_HOME/../bin/mcsema-disass --disassembler ${IDA} ${map} --arch amd64 --os linux --entrypoint ${entry} --binary  ${outdir}${basename}.${suffix}.o --output  ${outdir}${basename}.${suffix}${cfgext}.cfg --log_file ${outdir}${basename}.${suffix}.ida.log  --stack-vars");
   }
+}
+
+sub update_cfg {
+
+  print("\nGenerate debug Types\n");
+  execute("${DWARF_TYPE_READER} ${outdir}${basename}.${suffix}.o");
+  #execute("${DWARF_TYPE_READER} --debug ${outdir}${basename}.${suffix}.o");
+  execute("${AUGMENT_TYPE}  ${outdir}${basename}.${suffix}.o.debuginfo ${outdir}${basename}.${suffix}${cfgext}.cfg");
+
 }
 
 ###  Generate BC from CFG
@@ -199,14 +232,79 @@ sub extract_bc_from_cfg {
       execute("$MCSEMA_HOME/../bin/../bin/mcsema-lift --arch amd64 --os linux --entrypoint ${entry} --cfg ${outdir}${basename}.${suffix}${cfgext}.cfg --output ${outdir}${basename}.${suffix}.bc  1> ${outdir}${basename}.${suffix}.cfg2bc.log 2>&1");
     }
 
-    execute("${OPT} -dce    ${outdir}${basename}.${suffix}.bc  -o=${outdir}${basename}.${suffix}.opt.bc"); 
-    execute("${LLVMDIS}   ${outdir}${basename}.${suffix}.bc -o=${outdir}${basename}.${suffix}.ll");
-    execute("${LLVMDIS}   ${outdir}${basename}.${suffix}.opt.bc -o=${outdir}${basename}.${suffix}.opt.ll");
+    #execute("${OPT} -dce    ${outdir}${basename}.${suffix}.bc  -o=${outdir}${basename}.${suffix}.opt.bc"); 
+    #execute("${LLVMDIS}   ${outdir}${basename}.${suffix}.bc -o=${outdir}${basename}.${suffix}.ll");
+    #execute("${LLVMDIS}   ${outdir}${basename}.${suffix}.opt.bc -o=${outdir}${basename}.${suffix}.opt.ll");
   } else {
     print "CFG Missing : ${outdir}${basename}.${suffix}${cfgext}.cfg\n\n" ;
     exit(1);
   }
 }
+
+
+sub run_compare {
+  my $exe_1 = shift @_;
+  my $exe_2 = shift @_;
+  my $tag = shift @_;
+
+  print("\nRun & Compare\n");
+  execute("echo ${stdin_args} | $exe_1 ${cmd_args} 1>${outdir}after.trans.out 2>&1");
+  execute("echo ${stdin_args} | $exe_2 ${cmd_args} 1>${outdir}before.trans.out 2>&1");
+
+  if(0 == compare("${outdir}before.trans.out", "${outdir}after.trans.out")) {
+    print("\t${basename}: $tag Output Passed\n");
+    execute("rm -rf ${outdir}after.trans.out");
+  } else {
+    print("\t${basename}: $tag Output Failed\n");
+    execute("diff ${outdir}before.trans.out ${outdir}after.trans.out");
+  }
+}
+
+sub cleanup {
+  print("Cleanup\n");
+  return;
+  # Clean Up
+  execute("rm -rf  ${outdir}${basename}.${suffix}.lifted.o");  
+  execute("rm -rf  ${outdir}${basename}.${suffix}.o"); 
+  execute("rm -rf  ${outdir}${basename}.${suffix}.bc"); 
+  execute("rm -rf  ${outdir}${basename}.${suffix}.opt.bc");
+}
+
+# Utilities
+sub execute {
+  my $args = shift @_;
+  if("" ne $print) {
+    print "$args \n";
+  }
+  system("$args");
+}
+
+sub display {
+  my $args = shift @_;
+  print "\t$args \n";
+}
+
+sub split_filename {
+    my $arg = shift @_;
+
+    if("" eq $arg) {
+      return ("", "");
+    }
+    my @components = split (/\//, ${arg}); 
+    my $filename = $components[@components -1];
+    @components = split (/\./, ${filename}); 
+    my $file = $components[0];
+    my $ext = $components[1];
+    return ($file,$ext);
+}
+
+# Add all the variables we wanted to dump for inspect
+sub printall {
+  print "\n\n";
+  print "\n\n";
+}
+
+
 
 ### Run my passes
 sub run_custom_pass {
@@ -271,66 +369,4 @@ sub generate_test_allexe {
 
   ## Run and check output of allexe obtained from IR after analysis 
   run_compare("${ALLEY} --force-static  ${outdir}${basename}.${suffix}.trans.merged.allexe", "${outdir}${basename}.${suffix}.lifted.exe", "Allexe");
-}
-
-sub run_compare {
-  my $exe_1 = shift @_;
-  my $exe_2 = shift @_;
-  my $tag = shift @_;
-
-  print("\nRun & Compare\n");
-  execute("echo ${stdin_args} | $exe_1 ${cmd_args} 1>${outdir}after.trans.out 2>&1");
-  execute("echo ${stdin_args} | $exe_2 ${cmd_args} 1>${outdir}before.trans.out 2>&1");
-
-  if(0 == compare("${outdir}before.trans.out", "${outdir}after.trans.out")) {
-    print("\t${basename}: $tag Output Passed\n");
-    execute("rm -rf ${outdir}after.trans.out");
-  } else {
-    print("\t${basename}: $tag Output Failed\n");
-    execute("diff ${outdir}before.trans.out ${outdir}after.trans.out");
-  }
-}
-
-sub cleanup {
-  print("Cleanup\n");
-  return;
-  # Clean Up
-  execute("rm -rf  ${outdir}${basename}.${suffix}.lifted.o");  
-  execute("rm -rf  ${outdir}${basename}.${suffix}.o"); 
-  execute("rm -rf  ${outdir}${basename}.${suffix}.bc"); 
-  execute("rm -rf  ${outdir}${basename}.${suffix}.opt.bc");
-}
-
-# Utilities
-sub execute {
-  my $args = shift @_;
-  if("" ne $print) {
-    print "$args \n";
-  }
-  system("$args");
-}
-
-sub display {
-  my $args = shift @_;
-  print "\t$args \n";
-}
-
-sub split_filename {
-    my $arg = shift @_;
-
-    if("" eq $arg) {
-      return ("", "");
-    }
-    my @components = split (/\//, ${arg}); 
-    my $filename = $components[@components -1];
-    @components = split (/\./, ${filename}); 
-    my $file = $components[0];
-    my $ext = $components[1];
-    return ($file,$ext);
-}
-
-# Add all the variables we wanted to dump for inspect
-sub printall {
-  print "\n\n";
-  print "\n\n";
 }
