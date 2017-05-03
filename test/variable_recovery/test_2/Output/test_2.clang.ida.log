@@ -1,0 +1,83 @@
+Debugging is enabled.
+Loading Standard Definitions file: /home/sdasgup3/.local/lib/python2.7/site-packages/mcsema_disass-0.0.1-py2.7.egg/mcsema_disass/defs/linux.txt
+Loading Standard Definitions file: /home/sdasgup3/Github/binary-decompilation/test/utils/std_defs.txt
+Using Batch mode.
+Starting analysis
+Attempting to recover stack variable information...
+Will lift 1 exports
+CFG Output File file: /home/sdasgup3/Github/binary-decompilation/test/variable_recovery/test_2/Output/test_2.clang.ida.cfg
+PROCESSING: test_2.clang.o
+Adding data seg: .eh_frame: 0x98L-0xe8L
+Looking for relocations in 98 - e8
+Not scanning data sections of object file for pointer-alikes
+Adding data seg: .eh_frame: 0x98L-0xe8L
+Recovering: main
+Processing export name: main at: 40
+At EP main:40
+BB: 40
+Starting insn at: 40
+Processing insn at 40
+Processing insn at 41
+Processing insn at 44
+Processing insn at 48
+Processing insn at 4d
+Processing insn at 51
+Processing insn at 58
+Processing insn at 5b
+Processing insn at 5f
+Adding reference because of data refs from 5f
+WARNING: Data not in valid segment ff0000000000004f
+Processing insn at 66
+Adding reference because of data refs from 66
+WARNING: Data not in valid segment ff00000000000050
+Processing insn at 6d
+Adding reference because of data refs from 6d
+WARNING: Data not in valid segment ff00000000000052
+Processing insn at 73
+Adding reference because of data refs from 73
+WARNING: Data not in valid segment ff00000000000053
+Processing insn at 77
+Adding reference because of data refs from 77
+WARNING: Data not in valid segment ff00000000000053
+Processing insn at 7b
+Adding reference because of data refs from 7b
+WARNING: Data not in valid segment ff00000000000053
+Processing insn at 7f
+Processing insn at 81
+Processing insn at 84
+Checking code ref 0
+Testing 0 for externality
+INTERNAL CALL: foo
+Processing insn at 89
+Processing insn at 8b
+Processing insn at 8e
+Processing insn at 90
+Processing insn at 94
+Processing insn at 95
+Ending insn at: 94
+Recovering: 0x0L
+BB: 0
+Starting insn at: 0
+Processing insn at 0
+Processing insn at 1
+Processing insn at 4
+Processing insn at 7
+Processing insn at b
+Processing insn at e
+Processing insn at 11
+Processing insn at 14
+Processing insn at 18
+Processing insn at 1b
+Processing insn at 1e
+Processing insn at 21
+Processing insn at 24
+Processing insn at 28
+Processing insn at 2c
+Processing insn at 2e
+Processing insn at 32
+Processing insn at 34
+Processing insn at 37
+Processing insn at 38
+Ending insn at: 37
+Recovered 2 functions.
+Saving to: /home/sdasgup3/Github/binary-decompilation/test/variable_recovery/test_2/Output/test_2.clang.ida.cfg

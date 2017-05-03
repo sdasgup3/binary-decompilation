@@ -1,0 +1,38 @@
+
+Output/test_pointer_1.clang.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <foo>:
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	48 89 7d f8          	mov    %rdi,-0x8(%rbp)
+   8:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+   c:	48 89 55 e8          	mov    %rdx,-0x18(%rbp)
+  10:	48 8b 55 f8          	mov    -0x8(%rbp),%rdx
+  14:	c7 02 00 00 00 00    	movl   $0x0,(%rdx)
+  1a:	48 8b 55 f0          	mov    -0x10(%rbp),%rdx
+  1e:	c6 02 00             	movb   $0x0,(%rdx)
+  21:	48 8b 55 e8          	mov    -0x18(%rbp),%rdx
+  25:	c7 02 01 00 00 00    	movl   $0x1,(%rdx)
+  2b:	5d                   	pop    %rbp
+  2c:	c3                   	retq   
+  2d:	0f 1f 00             	nopl   (%rax)
+
+0000000000000030 <main>:
+  30:	55                   	push   %rbp
+  31:	48 89 e5             	mov    %rsp,%rbp
+  34:	48 83 ec 30          	sub    $0x30,%rsp
+  38:	48 8d 7d f8          	lea    -0x8(%rbp),%rdi
+  3c:	48 8d 75 f7          	lea    -0x9(%rbp),%rsi
+  40:	48 8d 55 d0          	lea    -0x30(%rbp),%rdx
+  44:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%rbp)
+  4b:	e8 b0 ff ff ff       	callq  0 <foo>
+  50:	8b 45 f8             	mov    -0x8(%rbp),%eax
+  53:	0f be 4d f7          	movsbl -0x9(%rbp),%ecx
+  57:	01 c8                	add    %ecx,%eax
+  59:	2b 45 d0             	sub    -0x30(%rbp),%eax
+  5c:	48 83 c4 30          	add    $0x30,%rsp
+  60:	5d                   	pop    %rbp
+  61:	c3                   	retq   

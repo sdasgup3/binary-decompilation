@@ -1,0 +1,127 @@
+Debugging is enabled.
+Loading Standard Definitions file: /home/sdasgup3/.local/lib/python2.7/site-packages/mcsema_disass-0.0.1-py2.7.egg/mcsema_disass/defs/linux.txt
+Loading Standard Definitions file: /home/sdasgup3/Github/binary-decompilation/test/utils/std_defs.txt
+Using Batch mode.
+Starting analysis
+Attempting to recover stack variable information...
+Will lift 1 exports
+CFG Output File file: /home/sdasgup3/Github/binary-decompilation/test/variable_recovery/test_0/Output/test_0.clang.ida.cfg
+PROCESSING: test_0.clang.o
+Adding data seg: .rodata.str1.1: 0xaeL-0xb5L
+Adding data seg: .eh_frame: 0xb8L-0x108L
+Looking for relocations in ae - b5
+Not scanning data sections of object file for pointer-alikes
+Adding data seg: .rodata.str1.1: 0xaeL-0xb5L
+Looking for relocations in b8 - 108
+Found relocations in binary: (d8)..
+rtype : 4, 0, 0
+d8 Found reloc to: 0 (size: 4)
+Testing 0 for externality
+Offset: d8, seg_offset: 0 => 0
+Reloc Base Address: d8
+Reloc size: 4
+Testing 0 for externality
+Code Ref: 0!
+rtype : 4, 0, 0
+f4 Found reloc to: 0 (size: 4)
+Testing 0 for externality
+Offset: f4, seg_offset: 0 => 0
+Reloc Base Address: f4
+Reloc size: 4
+Testing 0 for externality
+Code Ref: 0!
+Adding data seg: .eh_frame: 0xb8L-0x108L
+Recovering: main
+Processing export name: main at: 60
+At EP main:60
+BB: 60
+Starting insn at: 60
+Processing insn at 60
+Processing insn at 61
+Processing insn at 64
+Processing insn at 68
+Processing insn at 6c
+Processing insn at 70
+Processing insn at 77
+Processing insn at 7e
+Processing insn at 85
+Checking code ref 0
+Testing 0 for externality
+INTERNAL CALL: swap
+Processing insn at 8a
+findRelocOffset setting imm reloc offset at 8a to 2
+Adding reference because of data refs from 8a
+Testing ae for externality
+		Data Ref: ae, size: 7
+Data Range: ae <= ae < b5
+Data Range: ae - b5
+		Setting IMM ref at 8a: to ae type: DATA
+Processing insn at 94
+Processing insn at 97
+Processing insn at 9a
+Processing insn at 9c
+Checking code ref 108
+Testing 108 for externality
+EXTERNAL CALL: printf
+findRelocOffset setting imm reloc offset at 9c to 1
+Processing insn at a1
+Processing insn at a3
+Processing insn at a6
+Processing insn at a8
+Processing insn at ac
+Processing insn at ad
+Ending insn at: ac
+Recovering: 0x0L
+Testing 1a for externality
+Testing 1f for externality
+Testing 55 for externality
+BB: 55
+Starting insn at: 55
+Processing insn at 55
+Processing insn at 56
+Ending insn at: 55
+BB: 1f
+Successors: 55
+Starting insn at: 1f
+Processing insn at 1f
+Processing insn at 23
+Processing insn at 25
+Processing insn at 29
+Processing insn at 2b
+Processing insn at 2f
+Processing insn at 31
+Processing insn at 35
+Processing insn at 37
+Processing insn at 3b
+Processing insn at 3d
+Processing insn at 41
+Processing insn at 43
+Processing insn at 47
+Processing insn at 49
+Processing insn at 4d
+Processing insn at 4f
+Processing insn at 53
+Ending insn at: 53
+BB: 1a
+Successors: 55
+Starting insn at: 1a
+Processing insn at 1a
+Checking code ref 55
+Testing 55 for externality
+INTERNAL JMP: 55
+Ending insn at: 1a
+BB: 0
+Successors: 1a, 1f
+Starting insn at: 0
+Processing insn at 0
+Processing insn at 1
+Processing insn at 4
+Processing insn at 8
+Processing insn at c
+Processing insn at 10
+Processing insn at 14
+Checking code ref 1f
+Ending insn at: 14
+Program will reference external: printf
+Recovered 2 functions.
+Saving to: /home/sdasgup3/Github/binary-decompilation/test/variable_recovery/test_0/Output/test_0.clang.ida.cfg

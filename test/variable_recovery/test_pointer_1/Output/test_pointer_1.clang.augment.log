@@ -1,0 +1,366 @@
+DEBUG:root:Debug Types
+DEBUG:root:foo_0 first
+DEBUG:root:foo_0 second
+DEBUG:root:foo_0 third
+DEBUG:root:main_30 first
+DEBUG:root:main_30 second
+DEBUG:root:main_30 third
+DEBUG:root:
+Processing IDA Type main_30 third
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "third"
+  size: 32
+  ida_type: "FF_DATA | FUNC_ARG_REF | FF_STRU"
+  ref_eas {
+    inst_addr: 89
+  }
+}
+sp_offset: -48
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "third"
+  size: 32
+  ida_type: "FF_DATA | FUNC_ARG_REF | FF_STRU"
+  ref_eas {
+    inst_addr: 89
+  }
+  type {
+    size: 32
+    c_type: "struct biff"
+    kind: isStruct
+    member_list {
+      field_offset: 0
+      field_type {
+        size: 4
+        c_type: "signed"
+        kind: isScalar
+      }
+      field_name: "a"
+    }
+    member_list {
+      field_offset: 8
+      field_type {
+        size: 4294967295
+        c_type: "* struct biff"
+        kind: isPointer
+        element_type {
+          size: 32
+          c_type: "struct biff"
+          kind: isStruct
+        }
+      }
+      field_name: "b"
+    }
+    member_list {
+      field_offset: 16
+      field_type {
+        size: 4294967295
+        c_type: "* struct tiff"
+        kind: isPointer
+        element_type {
+          size: 8
+          c_type: "struct tiff"
+          kind: isStruct
+          member_list {
+            field_offset: 0
+            field_type {
+              size: 4294967295
+              c_type: "* signed_char"
+              kind: isPointer
+              element_type {
+                size: 1
+                c_type: "signed_char"
+                kind: isScalar
+              }
+            }
+            field_name: "c"
+          }
+        }
+      }
+      field_name: "c"
+    }
+    member_list {
+      field_offset: 24
+      field_type {
+        size: 3
+        c_type: "signed_char[3]"
+        kind: isArray
+        element_type {
+          size: 1
+          c_type: "signed_char"
+          kind: isScalar
+        }
+        count: 0
+      }
+      field_name: "e"
+    }
+  }
+}
+sp_offset: -48
+
+DEBUG:root:
+Processing IDA Type main_30 first
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "first"
+  size: 4
+  ida_type: "FF_DATA | FF_DWRD | FUNC_ARG_REF"
+  ref_eas {
+    inst_addr: 80
+  }
+}
+sp_offset: -8
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "first"
+  size: 4
+  ida_type: "FF_DATA | FF_DWRD | FUNC_ARG_REF"
+  ref_eas {
+    inst_addr: 80
+  }
+  type {
+    size: 4
+    c_type: "signed"
+    kind: isScalar
+  }
+}
+sp_offset: -8
+
+DEBUG:root:
+Processing IDA Type main_30 var_4
+DEBUG:root:
+Processing IDA Type main_30 second
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "second"
+  size: 1
+  ida_type: "FF_DATA | FUNC_ARG_REF | FF_BYTE"
+  ref_eas {
+    inst_addr: 83
+  }
+}
+sp_offset: -9
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "second"
+  size: 1
+  ida_type: "FF_DATA | FUNC_ARG_REF | FF_BYTE"
+  ref_eas {
+    inst_addr: 83
+  }
+  type {
+    size: 1
+    c_type: "signed_char"
+    kind: isScalar
+  }
+}
+sp_offset: -9
+
+DEBUG:root:
+Processing IDA Type foo_0 third
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "third"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+  ref_eas {
+    inst_addr: 12
+  }
+  ref_eas {
+    inst_addr: 33
+  }
+}
+sp_offset: -24
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "third"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+  ref_eas {
+    inst_addr: 12
+  }
+  ref_eas {
+    inst_addr: 33
+  }
+  type {
+    size: 4294967295
+    c_type: "* struct biff"
+    kind: isPointer
+    element_type {
+      size: 32
+      c_type: "struct biff"
+      kind: isStruct
+      member_list {
+        field_offset: 0
+        field_type {
+          size: 4
+          c_type: "signed"
+          kind: isScalar
+        }
+        field_name: "a"
+      }
+      member_list {
+        field_offset: 8
+        field_type {
+          size: 4294967295
+          c_type: "* struct biff"
+          kind: isPointer
+          element_type {
+            size: 32
+            c_type: "struct biff"
+            kind: isStruct
+          }
+        }
+        field_name: "b"
+      }
+      member_list {
+        field_offset: 16
+        field_type {
+          size: 4294967295
+          c_type: "* struct tiff"
+          kind: isPointer
+          element_type {
+            size: 8
+            c_type: "struct tiff"
+            kind: isStruct
+            member_list {
+              field_offset: 0
+              field_type {
+                size: 4294967295
+                c_type: "* signed_char"
+                kind: isPointer
+                element_type {
+                  size: 1
+                  c_type: "signed_char"
+                  kind: isScalar
+                }
+              }
+              field_name: "c"
+            }
+          }
+        }
+        field_name: "c"
+      }
+      member_list {
+        field_offset: 24
+        field_type {
+          size: 3
+          c_type: "signed_char[3]"
+          kind: isArray
+          element_type {
+            size: 1
+            c_type: "signed_char"
+            kind: isScalar
+          }
+          count: 0
+        }
+        field_name: "e"
+      }
+    }
+  }
+}
+sp_offset: -24
+
+DEBUG:root:
+Processing IDA Type foo_0 second
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "second"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+  ref_eas {
+    inst_addr: 8
+  }
+  ref_eas {
+    inst_addr: 26
+  }
+}
+sp_offset: -16
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "second"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+  ref_eas {
+    inst_addr: 8
+  }
+  ref_eas {
+    inst_addr: 26
+  }
+  type {
+    size: 4294967295
+    c_type: "* signed_char"
+    kind: isPointer
+    element_type {
+      size: 1
+      c_type: "signed_char"
+      kind: isScalar
+    }
+  }
+}
+sp_offset: -16
+
+DEBUG:root:
+Processing IDA Type foo_0 first
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "first"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+  ref_eas {
+    inst_addr: 4
+  }
+  ref_eas {
+    inst_addr: 16
+  }
+}
+sp_offset: -8
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "first"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+  ref_eas {
+    inst_addr: 4
+  }
+  ref_eas {
+    inst_addr: 16
+  }
+  type {
+    size: 4294967295
+    c_type: "* signed"
+    kind: isPointer
+    element_type {
+      size: 4
+      c_type: "signed"
+      kind: isScalar
+    }
+  }
+}
+sp_offset: -8
+

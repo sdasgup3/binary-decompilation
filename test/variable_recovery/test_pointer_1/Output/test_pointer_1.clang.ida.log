@@ -1,0 +1,58 @@
+Debugging is enabled.
+Loading Standard Definitions file: /home/sdasgup3/.local/lib/python2.7/site-packages/mcsema_disass-0.0.1-py2.7.egg/mcsema_disass/defs/linux.txt
+Loading Standard Definitions file: /home/sdasgup3/Github/binary-decompilation/test/utils/std_defs.txt
+Using Batch mode.
+Starting analysis
+Attempting to recover stack variable information...
+Will lift 1 exports
+CFG Output File file: /home/sdasgup3/Github/binary-decompilation/test/variable_recovery/test_pointer_1/Output/test_pointer_1.clang.ida.cfg
+PROCESSING: test_pointer_1.clang.o
+Adding data seg: .eh_frame: 0x68L-0xb8L
+Looking for relocations in 68 - b8
+Not scanning data sections of object file for pointer-alikes
+Adding data seg: .eh_frame: 0x68L-0xb8L
+Recovering: main
+Processing export name: main at: 30
+At EP main:30
+BB: 30
+Starting insn at: 30
+Processing insn at 30
+Processing insn at 31
+Processing insn at 34
+Processing insn at 38
+Processing insn at 3c
+Processing insn at 40
+Processing insn at 44
+Processing insn at 4b
+Checking code ref 0
+Testing 0 for externality
+INTERNAL CALL: foo
+Processing insn at 50
+Processing insn at 53
+Processing insn at 57
+Processing insn at 59
+Adding reference because of data refs from 59
+WARNING: Data not in valid segment ff0000000000004e
+Processing insn at 5c
+Processing insn at 60
+Processing insn at 61
+Ending insn at: 60
+Recovering: 0x0L
+BB: 0
+Starting insn at: 0
+Processing insn at 0
+Processing insn at 1
+Processing insn at 4
+Processing insn at 8
+Processing insn at c
+Processing insn at 10
+Processing insn at 14
+Processing insn at 1a
+Processing insn at 1e
+Processing insn at 21
+Processing insn at 25
+Processing insn at 2b
+Processing insn at 2c
+Ending insn at: 2b
+Recovered 2 functions.
+Saving to: /home/sdasgup3/Github/binary-decompilation/test/variable_recovery/test_pointer_1/Output/test_pointer_1.clang.ida.cfg

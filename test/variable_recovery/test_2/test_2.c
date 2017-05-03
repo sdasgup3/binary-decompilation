@@ -26,8 +26,7 @@ int main(int argc, char **argv)
 	baz.d = 15;
 	baz.e[0] = 'a';
 	baz.e[1] = 'b';
-	baz.e[2] = 'c';
-	baz.e[3] = '\0';
+	baz.e[2] = '\0';
 
 	m = foo(11, &baz);
 

@@ -1,0 +1,249 @@
+DEBUG:root:Debug Types
+DEBUG:root:foo_0 first
+DEBUG:root:foo_0 second
+DEBUG:root:foo_0 bar
+DEBUG:root:main_30 argc
+DEBUG:root:main_30 argv
+DEBUG:root:main_30 m
+DEBUG:root:
+Processing IDA Type main_30 var_18
+DEBUG:root:
+Processing IDA Type main_30 argv
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "argv"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+  ref_eas {
+    inst_addr: 76
+  }
+}
+sp_offset: -16
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "argv"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+  ref_eas {
+    inst_addr: 76
+  }
+  type {
+    size: 0
+    c_type: "* * signed_char"
+    kind: isPointer
+    element_type {
+      size: 0
+      c_type: "* signed_char"
+      kind: isPointer
+      element_type {
+        size: 1
+        c_type: "signed_char"
+        kind: isScalar
+      }
+    }
+  }
+}
+sp_offset: -16
+
+DEBUG:root:
+Processing IDA Type main_30 var_4
+DEBUG:root:
+Processing IDA Type main_30 m
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "m"
+  size: 4
+  ida_type: "FF_DATA | FF_DWRD | FUNC_ARG_VALUE"
+  ref_eas {
+    inst_addr: 99
+  }
+  ref_eas {
+    inst_addr: 102
+  }
+}
+sp_offset: -20
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "m"
+  size: 4
+  ida_type: "FF_DATA | FF_DWRD | FUNC_ARG_VALUE"
+  ref_eas {
+    inst_addr: 99
+  }
+  ref_eas {
+    inst_addr: 102
+  }
+  type {
+    size: 4
+    c_type: "signed"
+    kind: isScalar
+  }
+}
+sp_offset: -20
+
+DEBUG:root:
+Processing IDA Type main_30 argc
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "argc"
+  size: 4
+  ida_type: "FF_DATA | FF_DWRD"
+  ref_eas {
+    inst_addr: 73
+  }
+}
+sp_offset: -8
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "argc"
+  size: 4
+  ida_type: "FF_DATA | FF_DWRD"
+  ref_eas {
+    inst_addr: 73
+  }
+  type {
+    size: 4
+    c_type: "signed"
+    kind: isScalar
+  }
+}
+sp_offset: -8
+
+DEBUG:root:
+Processing IDA Type foo_0 second
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "second"
+  size: 4
+  ida_type: "FF_DATA | FF_DWRD"
+  ref_eas {
+    inst_addr: 7
+  }
+  ref_eas {
+    inst_addr: 19
+  }
+}
+sp_offset: -8
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "second"
+  size: 4
+  ida_type: "FF_DATA | FF_DWRD"
+  ref_eas {
+    inst_addr: 7
+  }
+  ref_eas {
+    inst_addr: 19
+  }
+  type {
+    size: 4
+    c_type: "signed"
+    kind: isScalar
+  }
+}
+sp_offset: -8
+
+DEBUG:root:
+Processing IDA Type foo_0 first
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "first"
+  size: 4
+  ida_type: "FF_DATA | FF_DWRD"
+  ref_eas {
+    inst_addr: 4
+  }
+  ref_eas {
+    inst_addr: 10
+  }
+}
+sp_offset: -4
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "first"
+  size: 4
+  ida_type: "FF_DATA | FF_DWRD"
+  ref_eas {
+    inst_addr: 4
+  }
+  ref_eas {
+    inst_addr: 10
+  }
+  type {
+    size: 4
+    c_type: "signed"
+    kind: isScalar
+  }
+}
+sp_offset: -4
+
+DEBUG:root:
+Processing IDA Type foo_0 bar
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "bar"
+  size: 4
+  ida_type: "LOCAL_COPY | FF_DATA | FF_DWRD"
+  ref_eas {
+    inst_addr: 16
+  }
+  ref_eas {
+    inst_addr: 31
+  }
+  ref_eas {
+    inst_addr: 34
+  }
+  ref_eas {
+    inst_addr: 22
+  }
+}
+sp_offset: -12
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "bar"
+  size: 4
+  ida_type: "LOCAL_COPY | FF_DATA | FF_DWRD"
+  ref_eas {
+    inst_addr: 16
+  }
+  ref_eas {
+    inst_addr: 31
+  }
+  ref_eas {
+    inst_addr: 34
+  }
+  ref_eas {
+    inst_addr: 22
+  }
+  type {
+    size: 4
+    c_type: "signed"
+    kind: isScalar
+  }
+}
+sp_offset: -12
+

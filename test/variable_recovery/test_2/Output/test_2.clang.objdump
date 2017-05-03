@@ -1,0 +1,53 @@
+
+Output/test_2.clang.o:     file format elf64-x86-64
+
+
+Disassembly of section .text:
+
+0000000000000000 <foo>:
+   0:	55                   	push   %rbp
+   1:	48 89 e5             	mov    %rsp,%rbp
+   4:	89 7d fc             	mov    %edi,-0x4(%rbp)
+   7:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+   b:	8b 7d fc             	mov    -0x4(%rbp),%edi
+   e:	c1 e7 01             	shl    $0x1,%edi
+  11:	89 7d ec             	mov    %edi,-0x14(%rbp)
+  14:	48 8b 75 f0          	mov    -0x10(%rbp),%rsi
+  18:	8b 7e 04             	mov    0x4(%rsi),%edi
+  1b:	03 7d ec             	add    -0x14(%rbp),%edi
+  1e:	89 7d ec             	mov    %edi,-0x14(%rbp)
+  21:	8b 7d ec             	mov    -0x14(%rbp),%edi
+  24:	48 8b 75 f0          	mov    -0x10(%rbp),%rsi
+  28:	0f bf 46 10          	movswl 0x10(%rsi),%eax
+  2c:	29 c7                	sub    %eax,%edi
+  2e:	48 8b 75 f0          	mov    -0x10(%rbp),%rsi
+  32:	89 3e                	mov    %edi,(%rsi)
+  34:	8b 45 ec             	mov    -0x14(%rbp),%eax
+  37:	5d                   	pop    %rbp
+  38:	c3                   	retq   
+  39:	0f 1f 80 00 00 00 00 	nopl   0x0(%rax)
+
+0000000000000040 <main>:
+  40:	55                   	push   %rbp
+  41:	48 89 e5             	mov    %rsp,%rbp
+  44:	48 83 ec 30          	sub    $0x30,%rsp
+  48:	b8 0b 00 00 00       	mov    $0xb,%eax
+  4d:	48 8d 4d d0          	lea    -0x30(%rbp),%rcx
+  51:	c7 45 fc 00 00 00 00 	movl   $0x0,-0x4(%rbp)
+  58:	89 7d f8             	mov    %edi,-0x8(%rbp)
+  5b:	48 89 75 f0          	mov    %rsi,-0x10(%rbp)
+  5f:	c7 45 d0 04 00 00 00 	movl   $0x4,-0x30(%rbp)
+  66:	c7 45 d4 fc ff ff ff 	movl   $0xfffffffc,-0x2c(%rbp)
+  6d:	66 c7 45 e0 0f 00    	movw   $0xf,-0x20(%rbp)
+  73:	c6 45 e2 61          	movb   $0x61,-0x1e(%rbp)
+  77:	c6 45 e3 62          	movb   $0x62,-0x1d(%rbp)
+  7b:	c6 45 e4 00          	movb   $0x0,-0x1c(%rbp)
+  7f:	89 c7                	mov    %eax,%edi
+  81:	48 89 ce             	mov    %rcx,%rsi
+  84:	e8 77 ff ff ff       	callq  0 <foo>
+  89:	31 ff                	xor    %edi,%edi
+  8b:	89 45 ec             	mov    %eax,-0x14(%rbp)
+  8e:	89 f8                	mov    %edi,%eax
+  90:	48 83 c4 30          	add    $0x30,%rsp
+  94:	5d                   	pop    %rbp
+  95:	c3                   	retq   

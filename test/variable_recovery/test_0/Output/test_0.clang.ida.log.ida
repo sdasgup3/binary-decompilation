@@ -1,0 +1,340 @@
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   262144    32 8192 allocating memory for b-tree...
+    65536     8 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   589824            total memory allocated
+
+Loading processor module /nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/procs/pc64.ilx64 for metapc...OK
+Autoanalysis subsystem has been initialized.
+Possible file format: ELF64 for x86-64 (Relocatable) (/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/loaders/elf64.llx64)
+Loading file '/tmp/tmpAuLUeH/test_0.clang.o' into database...
+Detected file format: ELF64 for x86-64 (Relocatable)
+  0. Creating a new segment  (0000000000000000-00000000000000AE) ... ... OK
+  1. Creating a new segment  (00000000000000AE-00000000000000B5) ... ... OK
+  2. Creating a new segment  (00000000000000B8-0000000000000108) ... ... OK
+Relocation to non-code/data/bss section. Skip? -> OK
+Assuming __cdecl calling convention by default
+Type library 'gnulnx_x64' loaded. Applying types...
+Types applied to 0 names.
+  3. Creating a new segment  (0000000000000108-0000000000000160) ... ... OK
+Adding relocations...
+Skipping relocation section .rela.debug_info because it refers to unloaded section #8
+Skipping relocation section .rela.debug_pubnames because it refers to unloaded section #12
+Skipping relocation section .rela.debug_pubtypes because it refers to unloaded section #14
+Skipping relocation section .rela.debug_line because it refers to unloaded section #20
+DWARF: File "/tmp/tmpAuLUeH/test_0.clang.o" contains DWARF information.
+DWARF: Functions: 2 symbols applied
+DWARF: Globals: 0 symbols applied
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/tmp/tmpAuLUeH/test_0.clang.o' has been successfully loaded into the database.
+Compiling file '/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/idc/ida.idc'...
+Executing function 'main'...
+Compiling file '/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/idc/onload.idc'...
+Executing function 'OnLoad'...
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+
+Global Vars:
+{'format': {'addrs': set([138L]),
+            'offset': 174L,
+            'reads': set([]),
+            'safe': True,
+            'type': 'dt_qword',
+            'width': -1,
+            'writes': set([])}}
+End Global Vars
+
+Stack Vars:
+swap {
+  -0x10L: {'name': 'b', 'writes': set([8L]), 'referent': set([]), 'reads': set([16L, 73L, 61L, 37L, 55L]), 'flags': set(['FF_1OFF', 'FF_DATA', 'FF_QWRD', 'FF_0OFF']), 'size': 8L}
+  -0x8L: {'name': 'a', 'writes': set([4L]), 'referent': set([]), 'reads': set([67L, 43L, 12L, 79L, 49L, 31L]), 'flags': set(['FF_1OFF', 'FF_DATA', 'FF_QWRD', 'FF_0OFF']), 'size': 8L}
+main {
+  -0x10L: {'name': 'var_10', 'writes': set([163L]), 'referent': set([]), 'reads': set([]), 'flags': set(['FF_DATA', 'FF_DWRD']), 'size': 4L}
+  -0xcL: {'name': 'two', 'writes': set([126L]), 'referent': set([]), 'reads': set([151L]), 'flags': set(['FUNC_ARG_VALUE', 'FF_DATA', 'FF_DWRD', 'FUNC_ARG_REF']), 'size': 4L}
+  -0x8L: {'name': 'one', 'writes': set([119L]), 'referent': set([]), 'reads': set([148L]), 'flags': set(['FUNC_ARG_VALUE', 'FF_DATA', 'FF_DWRD', 'FUNC_ARG_REF']), 'size': 4L}
+  -0x4L: {'name': 'var_4', 'writes': set([112L]), 'referent': set([]), 'reads': set([]), 'flags': set(['FF_DATA', 'FF_DWRD']), 'size': 4L}
+printf {
+}
+
+End Stack Vars
+Flushing buffers, please wait...ok
+Unloading IDP module /nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/procs/pc64.ilx64...
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   262144    32 8192 allocating memory for b-tree...
+    65536     8 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   589824            total memory allocated
+
+Loading processor module /nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/procs/pc64.ilx64 for metapc...OK
+Autoanalysis subsystem has been initialized.
+Possible file format: ELF64 for x86-64 (Relocatable) (/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/loaders/elf64.llx64)
+Loading file '/tmp/tmp6dWXus/test_0.clang.o' into database...
+Detected file format: ELF64 for x86-64 (Relocatable)
+  0. Creating a new segment  (0000000000000000-00000000000000AE) ... ... OK
+  1. Creating a new segment  (00000000000000AE-00000000000000B5) ... ... OK
+  2. Creating a new segment  (00000000000000B8-0000000000000108) ... ... OK
+Relocation to non-code/data/bss section. Skip? -> OK
+Assuming __cdecl calling convention by default
+Type library 'gnulnx_x64' loaded. Applying types...
+Types applied to 0 names.
+  3. Creating a new segment  (0000000000000108-0000000000000160) ... ... OK
+Adding relocations...
+Skipping relocation section .rela.debug_info because it refers to unloaded section #8
+Skipping relocation section .rela.debug_pubnames because it refers to unloaded section #12
+Skipping relocation section .rela.debug_pubtypes because it refers to unloaded section #14
+Skipping relocation section .rela.debug_line because it refers to unloaded section #20
+DWARF: File "/tmp/tmp6dWXus/test_0.clang.o" contains DWARF information.
+DWARF: Functions: 2 symbols applied
+DWARF: Globals: 0 symbols applied
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/tmp/tmp6dWXus/test_0.clang.o' has been successfully loaded into the database.
+Compiling file '/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/idc/ida.idc'...
+Executing function 'main'...
+Compiling file '/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/idc/onload.idc'...
+Executing function 'OnLoad'...
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+
+Global Vars:
+{'format': {'addrs': set([138L]),
+            'offset': 174L,
+            'reads': set([]),
+            'safe': True,
+            'type': 'dt_qword',
+            'width': -1,
+            'writes': set([])}}
+End Global Vars
+
+Stack Vars:
+swap {
+  -0x10L: {'name': 'b', 'writes': set([8L]), 'referent': set([]), 'reads': set([16L, 73L, 61L, 37L, 55L]), 'flags': set(['FF_1OFF', 'FF_DATA', 'FF_QWRD', 'FF_0OFF']), 'size': 8L}
+  -0x8L: {'name': 'a', 'writes': set([4L]), 'referent': set([]), 'reads': set([67L, 43L, 12L, 79L, 49L, 31L]), 'flags': set(['FF_1OFF', 'FF_DATA', 'FF_QWRD', 'FF_0OFF']), 'size': 8L}
+main {
+  -0x10L: {'name': 'var_10', 'writes': set([163L]), 'referent': set([]), 'reads': set([]), 'flags': set(['FF_DATA', 'FF_DWRD']), 'size': 4L}
+  -0xcL: {'name': 'two', 'writes': set([126L]), 'referent': set([]), 'reads': set([151L]), 'flags': set(['FUNC_ARG_VALUE', 'FF_DATA', 'FF_DWRD', 'FUNC_ARG_REF']), 'size': 4L}
+  -0x8L: {'name': 'one', 'writes': set([119L]), 'referent': set([]), 'reads': set([148L]), 'flags': set(['FUNC_ARG_VALUE', 'FF_DATA', 'FF_DWRD', 'FUNC_ARG_REF']), 'size': 4L}
+  -0x4L: {'name': 'var_4', 'writes': set([112L]), 'referent': set([]), 'reads': set([]), 'flags': set(['FF_DATA', 'FF_DWRD']), 'size': 4L}
+printf {
+}
+
+End Stack Vars
+Flushing buffers, please wait...ok
+Unloading IDP module /nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/procs/pc64.ilx64...
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   262144    32 8192 allocating memory for b-tree...
+    65536     8 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   589824            total memory allocated
+
+Loading processor module /nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/procs/pc64.ilx64 for metapc...OK
+Autoanalysis subsystem has been initialized.
+Possible file format: ELF64 for x86-64 (Relocatable) (/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/loaders/elf64.llx64)
+Loading file '/tmp/tmpGwA8ab/test_0.clang.o' into database...
+Detected file format: ELF64 for x86-64 (Relocatable)
+  0. Creating a new segment  (0000000000000000-00000000000000AE) ... ... OK
+  1. Creating a new segment  (00000000000000AE-00000000000000B5) ... ... OK
+  2. Creating a new segment  (00000000000000B8-0000000000000108) ... ... OK
+Relocation to non-code/data/bss section. Skip? -> OK
+Assuming __cdecl calling convention by default
+Type library 'gnulnx_x64' loaded. Applying types...
+Types applied to 0 names.
+  3. Creating a new segment  (0000000000000108-0000000000000160) ... ... OK
+Adding relocations...
+Skipping relocation section .rela.debug_info because it refers to unloaded section #8
+Skipping relocation section .rela.debug_pubnames because it refers to unloaded section #12
+Skipping relocation section .rela.debug_pubtypes because it refers to unloaded section #14
+Skipping relocation section .rela.debug_line because it refers to unloaded section #20
+DWARF: File "/tmp/tmpGwA8ab/test_0.clang.o" contains DWARF information.
+DWARF: Functions: 2 symbols applied
+DWARF: Globals: 0 symbols applied
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/tmp/tmpGwA8ab/test_0.clang.o' has been successfully loaded into the database.
+Compiling file '/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/idc/ida.idc'...
+Executing function 'main'...
+Compiling file '/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/idc/onload.idc'...
+Executing function 'OnLoad'...
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+
+Global Vars:
+{'format': {'addrs': set([138L]),
+            'offset': 174L,
+            'reads': set([]),
+            'safe': True,
+            'type': 'dt_qword',
+            'width': -1,
+            'writes': set([])}}
+End Global Vars
+
+Stack Vars:
+swap {
+  -0x10L: {'name': 'b', 'writes': set([8L]), 'referent': set([]), 'reads': set([16L, 73L, 61L, 37L, 55L]), 'flags': set(['FF_1OFF', 'FF_DATA', 'FF_QWRD', 'FF_0OFF']), 'size': 8L}
+  -0x8L: {'name': 'a', 'writes': set([4L]), 'referent': set([]), 'reads': set([67L, 43L, 12L, 79L, 49L, 31L]), 'flags': set(['FF_1OFF', 'FF_DATA', 'FF_QWRD', 'FF_0OFF']), 'size': 8L}
+main {
+  -0x10L: {'name': 'var_10', 'writes': set([163L]), 'referent': set([]), 'reads': set([]), 'flags': set(['FF_DATA', 'FF_DWRD']), 'size': 4L}
+  -0xcL: {'name': 'two', 'writes': set([126L]), 'referent': set([]), 'reads': set([151L]), 'flags': set(['FUNC_ARG_VALUE', 'FF_DATA', 'FF_DWRD', 'FUNC_ARG_REF']), 'size': 4L}
+  -0x8L: {'name': 'one', 'writes': set([119L]), 'referent': set([]), 'reads': set([148L]), 'flags': set(['FUNC_ARG_VALUE', 'FF_DATA', 'FF_DWRD', 'FUNC_ARG_REF']), 'size': 4L}
+  -0x4L: {'name': 'var_4', 'writes': set([112L]), 'referent': set([]), 'reads': set([]), 'flags': set(['FF_DATA', 'FF_DWRD']), 'size': 4L}
+printf {
+}
+
+End Stack Vars
+Flushing buffers, please wait...ok
+Unloading IDP module /nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/procs/pc64.ilx64...
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   262144    32 8192 allocating memory for b-tree...
+    65536     8 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   589824            total memory allocated
+
+Loading processor module /nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/procs/pc64.ilx64 for metapc...OK
+Autoanalysis subsystem has been initialized.
+Possible file format: ELF64 for x86-64 (Relocatable) (/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/loaders/elf64.llx64)
+Loading file '/tmp/tmptGDXUE/test_0.clang.o' into database...
+Detected file format: ELF64 for x86-64 (Relocatable)
+  0. Creating a new segment  (0000000000000000-00000000000000AE) ... ... OK
+  1. Creating a new segment  (00000000000000AE-00000000000000B5) ... ... OK
+  2. Creating a new segment  (00000000000000B8-0000000000000108) ... ... OK
+Relocation to non-code/data/bss section. Skip? -> OK
+Assuming __cdecl calling convention by default
+Type library 'gnulnx_x64' loaded. Applying types...
+Types applied to 0 names.
+  3. Creating a new segment  (0000000000000108-0000000000000160) ... ... OK
+Adding relocations...
+Skipping relocation section .rela.debug_info because it refers to unloaded section #8
+Skipping relocation section .rela.debug_pubnames because it refers to unloaded section #12
+Skipping relocation section .rela.debug_pubtypes because it refers to unloaded section #14
+Skipping relocation section .rela.debug_line because it refers to unloaded section #20
+DWARF: File "/tmp/tmptGDXUE/test_0.clang.o" contains DWARF information.
+DWARF: Functions: 2 symbols applied
+DWARF: Globals: 0 symbols applied
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/tmp/tmptGDXUE/test_0.clang.o' has been successfully loaded into the database.
+Compiling file '/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/idc/ida.idc'...
+Executing function 'main'...
+Compiling file '/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/idc/onload.idc'...
+Executing function 'OnLoad'...
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+
+Global Vars:
+{'format': {'addrs': set([138L]),
+            'offset': 174L,
+            'reads': set([]),
+            'safe': True,
+            'type': 'dt_qword',
+            'width': -1,
+            'writes': set([])}}
+End Global Vars
+
+Stack Vars:
+swap {
+  -0x10L: {'name': 'b', 'writes': set([8L]), 'referent': set([]), 'reads': set([16L, 73L, 61L, 37L, 55L]), 'flags': set(['FF_1OFF', 'FF_DATA', 'FF_QWRD', 'FF_0OFF']), 'size': 8L}
+  -0x8L: {'name': 'a', 'writes': set([4L]), 'referent': set([]), 'reads': set([67L, 43L, 12L, 79L, 49L, 31L]), 'flags': set(['FF_1OFF', 'FF_DATA', 'FF_QWRD', 'FF_0OFF']), 'size': 8L}
+main {
+  -0x10L: {'name': 'var_10', 'writes': set([163L]), 'referent': set([]), 'reads': set([]), 'flags': set(['FF_DATA', 'FF_DWRD']), 'size': 4L}
+  -0xcL: {'name': 'two', 'writes': set([126L]), 'referent': set([]), 'reads': set([151L]), 'flags': set(['FUNC_ARG_VALUE', 'FF_DATA', 'FF_DWRD', 'FUNC_ARG_REF']), 'size': 4L}
+  -0x8L: {'name': 'one', 'writes': set([119L]), 'referent': set([]), 'reads': set([148L]), 'flags': set(['FUNC_ARG_VALUE', 'FF_DATA', 'FF_DWRD', 'FUNC_ARG_REF']), 'size': 4L}
+  -0x4L: {'name': 'var_4', 'writes': set([112L]), 'referent': set([]), 'reads': set([]), 'flags': set(['FF_DATA', 'FF_DWRD']), 'size': 4L}
+printf {
+}
+
+End Stack Vars
+Flushing buffers, please wait...ok
+Unloading IDP module /nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/procs/pc64.ilx64...
+
+  bytes   pages size description
+--------- ----- ---- --------------------------------------------
+   262144    32 8192 allocating memory for b-tree...
+    65536     8 8192 allocating memory for virtual array...
+   262144    32 8192 allocating memory for name pointers...
+-----------------------------------------------------------------
+   589824            total memory allocated
+
+Loading processor module /nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/procs/pc64.ilx64 for metapc...OK
+Autoanalysis subsystem has been initialized.
+Possible file format: ELF64 for x86-64 (Relocatable) (/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/loaders/elf64.llx64)
+Loading file '/tmp/tmpohzLcH/test_0.clang.o' into database...
+Detected file format: ELF64 for x86-64 (Relocatable)
+  0. Creating a new segment  (0000000000000000-00000000000000AE) ... ... OK
+  1. Creating a new segment  (00000000000000AE-00000000000000B5) ... ... OK
+  2. Creating a new segment  (00000000000000B8-0000000000000108) ... ... OK
+Relocation to non-code/data/bss section. Skip? -> OK
+Assuming __cdecl calling convention by default
+Type library 'gnulnx_x64' loaded. Applying types...
+Types applied to 0 names.
+  3. Creating a new segment  (0000000000000108-0000000000000160) ... ... OK
+Adding relocations...
+Skipping relocation section .rela.debug_info because it refers to unloaded section #8
+Skipping relocation section .rela.debug_pubnames because it refers to unloaded section #12
+Skipping relocation section .rela.debug_pubtypes because it refers to unloaded section #14
+Skipping relocation section .rela.debug_line because it refers to unloaded section #20
+DWARF: File "/tmp/tmpohzLcH/test_0.clang.o" contains DWARF information.
+DWARF: Functions: 2 symbols applied
+DWARF: Globals: 0 symbols applied
+Marking typical code sequences...
+Flushing buffers, please wait...ok
+File '/tmp/tmpohzLcH/test_0.clang.o' has been successfully loaded into the database.
+Compiling file '/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/idc/ida.idc'...
+Executing function 'main'...
+Compiling file '/nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/idc/onload.idc'...
+Executing function 'OnLoad'...
+IDA is analysing the input file...
+You may start to explore the input file right now.
+Propagating type information...
+Function argument information has been propagated
+The initial autoanalysis has been finished.
+
+Global Vars:
+{'format': {'addrs': set([138L]),
+            'offset': 174L,
+            'reads': set([]),
+            'safe': True,
+            'type': 'dt_qword',
+            'width': -1,
+            'writes': set([])}}
+End Global Vars
+
+Stack Vars:
+swap {
+  -0x10L: {'name': 'b', 'writes': set([8L]), 'referent': set([]), 'reads': set([16L, 73L, 61L, 37L, 55L]), 'flags': set(['FF_1OFF', 'FF_DATA', 'FF_QWRD', 'FF_0OFF']), 'size': 8L}
+  -0x8L: {'name': 'a', 'writes': set([4L]), 'referent': set([]), 'reads': set([67L, 43L, 12L, 79L, 49L, 31L]), 'flags': set(['FF_1OFF', 'FF_DATA', 'FF_QWRD', 'FF_0OFF']), 'size': 8L}
+main {
+  -0x10L: {'name': 'var_10', 'writes': set([163L]), 'referent': set([]), 'reads': set([]), 'flags': set(['FF_DATA', 'FF_DWRD']), 'size': 4L}
+  -0xcL: {'name': 'two', 'writes': set([126L]), 'referent': set([]), 'reads': set([151L]), 'flags': set(['FUNC_ARG_VALUE', 'FF_DATA', 'FF_DWRD', 'FUNC_ARG_REF']), 'size': 4L}
+  -0x8L: {'name': 'one', 'writes': set([119L]), 'referent': set([]), 'reads': set([148L]), 'flags': set(['FUNC_ARG_VALUE', 'FF_DATA', 'FF_DWRD', 'FUNC_ARG_REF']), 'size': 4L}
+  -0x4L: {'name': 'var_4', 'writes': set([112L]), 'referent': set([]), 'reads': set([]), 'flags': set(['FF_DATA', 'FF_DWRD']), 'size': 4L}
+printf {
+}
+
+End Stack Vars
+Flushing buffers, please wait...ok
+Unloading IDP module /nix/store/7lhx6fpbi675xnbw73dp52bqmv628crc-ida-pro-uiuc/procs/pc64.ilx64...

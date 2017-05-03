@@ -1,0 +1,225 @@
+DEBUG:root:Debug Types
+DEBUG:root:swap_0 a
+DEBUG:root:swap_0 b
+DEBUG:root:main_60 one
+DEBUG:root:main_60 two
+DEBUG:root:
+Processing IDA Type main_60 var_10
+DEBUG:root:
+Processing IDA Type main_60 one
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "one"
+  size: 4
+  ida_type: "FUNC_ARG_VALUE | FF_DATA | FF_DWRD | FUNC_ARG_REF"
+  ref_eas {
+    inst_addr: 119
+  }
+  ref_eas {
+    inst_addr: 148
+  }
+}
+sp_offset: -8
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "one"
+  size: 4
+  ida_type: "FUNC_ARG_VALUE | FF_DATA | FF_DWRD | FUNC_ARG_REF"
+  ref_eas {
+    inst_addr: 119
+  }
+  ref_eas {
+    inst_addr: 148
+  }
+  type {
+    size: 4
+    c_type: "signed"
+    kind: isScalar
+  }
+}
+sp_offset: -8
+
+DEBUG:root:
+Processing IDA Type main_60 two
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "two"
+  size: 4
+  ida_type: "FUNC_ARG_VALUE | FF_DATA | FF_DWRD | FUNC_ARG_REF"
+  ref_eas {
+    inst_addr: 126
+  }
+  ref_eas {
+    inst_addr: 151
+  }
+}
+sp_offset: -12
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "two"
+  size: 4
+  ida_type: "FUNC_ARG_VALUE | FF_DATA | FF_DWRD | FUNC_ARG_REF"
+  ref_eas {
+    inst_addr: 126
+  }
+  ref_eas {
+    inst_addr: 151
+  }
+  type {
+    size: 4
+    c_type: "signed"
+    kind: isScalar
+  }
+}
+sp_offset: -12
+
+DEBUG:root:
+Processing IDA Type main_60 var_4
+DEBUG:root:
+Processing IDA Type swap_0 b
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "b"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+  ref_eas {
+    inst_addr: 8
+  }
+  ref_eas {
+    inst_addr: 16
+  }
+  ref_eas {
+    inst_addr: 73
+  }
+  ref_eas {
+    inst_addr: 61
+  }
+  ref_eas {
+    inst_addr: 37
+  }
+  ref_eas {
+    inst_addr: 55
+  }
+}
+sp_offset: -16
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "b"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+  ref_eas {
+    inst_addr: 8
+  }
+  ref_eas {
+    inst_addr: 16
+  }
+  ref_eas {
+    inst_addr: 73
+  }
+  ref_eas {
+    inst_addr: 61
+  }
+  ref_eas {
+    inst_addr: 37
+  }
+  ref_eas {
+    inst_addr: 55
+  }
+  type {
+    size: 0
+    c_type: "* signed"
+    kind: isPointer
+    element_type {
+      size: 4
+      c_type: "signed"
+      kind: isScalar
+    }
+  }
+}
+sp_offset: -16
+
+DEBUG:root:
+Processing IDA Type swap_0 a
+DEBUG:root:
+	IDA Var
+
+DEBUG:root:var {
+  name: "a"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+  ref_eas {
+    inst_addr: 4
+  }
+  ref_eas {
+    inst_addr: 67
+  }
+  ref_eas {
+    inst_addr: 43
+  }
+  ref_eas {
+    inst_addr: 12
+  }
+  ref_eas {
+    inst_addr: 79
+  }
+  ref_eas {
+    inst_addr: 49
+  }
+  ref_eas {
+    inst_addr: 31
+  }
+}
+sp_offset: -8
+
+DEBUG:root:	 Augmented to
+
+DEBUG:root:var {
+  name: "a"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+  ref_eas {
+    inst_addr: 4
+  }
+  ref_eas {
+    inst_addr: 67
+  }
+  ref_eas {
+    inst_addr: 43
+  }
+  ref_eas {
+    inst_addr: 12
+  }
+  ref_eas {
+    inst_addr: 79
+  }
+  ref_eas {
+    inst_addr: 49
+  }
+  ref_eas {
+    inst_addr: 31
+  }
+  type {
+    size: 0
+    c_type: "* signed"
+    kind: isPointer
+    element_type {
+      size: 4
+      c_type: "signed"
+      kind: isScalar
+    }
+  }
+}
+sp_offset: -8
+

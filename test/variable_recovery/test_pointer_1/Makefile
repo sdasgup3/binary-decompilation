@@ -1,4 +1,4 @@
-PROG_PREFIX=test_2
+PROG_PREFIX=test_pointer_1
 
 ENTRY_FUNC=main
 ASM_FILE=c

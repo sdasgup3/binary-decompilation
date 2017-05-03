@@ -1,117 +1,97 @@
-Debugging is enabled.Using Batch mode.Starting analysisLoading Standard Definitions file: ../../utils/std_defs.txt
+Debugging is enabled.
+Loading Standard Definitions file: /home/sdasgup3/.local/lib/python2.7/site-packages/mcsema_disass-0.0.1-py2.7.egg/mcsema_disass/defs/linux.txt
+Loading Standard Definitions file: /home/sdasgup3/Github/binary-decompilation/test/utils/std_defs.txt
+Using Batch mode.
+Starting analysis
+Attempting to recover stack variable information...
 Will lift 1 exports
-CFG Output File file: Output/test_1.clang.ida.cfg
+CFG Output File file: /home/sdasgup3/Github/binary-decompilation/test/variable_recovery/test_1/Output/test_1.clang.ida.cfg
 PROCESSING: test_1.clang.o
-Adding data seg: .rodata: 0x65L-0x69L
-Adding data seg: .eh_frame: 0x70L-0xc8L
-Looking for relocations in 65 - 69
+Adding data seg: .rodata.str1.1: 0x7dL-0x81L
+Adding data seg: .eh_frame: 0x88L-0xd8L
+Looking for relocations in 7d - 81
 Not scanning data sections of object file for pointer-alikes
-Adding data seg: .rodata: 0x65L-0x69L
-Looking for relocations in 70 - c8
-Found relocations in binary: (90)..
+Adding data seg: .rodata.str1.1: 0x7dL-0x81L
+Looking for relocations in 88 - d8
+Found relocations in binary: (a8)..
 rtype : 4, 0, 0
-90 Found reloc to: 0 (size: 4)
+a8 Found reloc to: 0 (size: 4)
 Testing 0 for externality
-Offset: 90, seg_offset: 0 => 0
-Reloc Base Address: 90
+Offset: a8, seg_offset: 0 => 0
+Reloc Base Address: a8
 Reloc size: 4
 Testing 0 for externality
 Code Ref: 0!
 rtype : 4, 0, 0
-b0 Found reloc to: 0 (size: 4)
+c4 Found reloc to: 0 (size: 4)
 Testing 0 for externality
-Offset: b0, seg_offset: 0 => 0
-Reloc Base Address: b0
+Offset: c4, seg_offset: 0 => 0
+Reloc Base Address: c4
 Reloc size: 4
 Testing 0 for externality
 Code Ref: 0!
-Adding data seg: .eh_frame: 0x70L-0xc8L
+Adding data seg: .eh_frame: 0x88L-0xd8L
 Recovering: main
-Processing export name: main at: 24
-At EP main:24
-BB: 24
-Starting insn at: 24
-Processing insn at 24
-		Bytes: [85]
-Processing insn at 25
-		Bytes: [72, 137, 229]
-Processing insn at 28
-		Bytes: [72, 131, 236, 32]
-Processing insn at 2c
-		Bytes: [137, 125, 236]
-Processing insn at 2f
-		Bytes: [72, 137, 117, 224]
-Processing insn at 33
-		Bytes: [190, 37, 0, 0, 0]
+Processing export name: main at: 30
+At EP main:30
+BB: 30
+Starting insn at: 30
+Processing insn at 30
+Processing insn at 31
+Processing insn at 34
 Processing insn at 38
-		Bytes: [191, 4, 0, 0, 0]
 Processing insn at 3d
-		Bytes: [232, 190, 255, 255, 255]
+Processing insn at 42
+Processing insn at 49
+Processing insn at 4c
+Processing insn at 50
+Processing insn at 52
+Processing insn at 54
 Checking code ref 0
 Testing 0 for externality
 INTERNAL CALL: foo
-Processing insn at 42
-		Bytes: [137, 69, 252]
-Processing insn at 45
-		Bytes: [139, 69, 252]
-Processing insn at 48
-		Bytes: [137, 198]
-Processing insn at 4a
-		Bytes: [191, 101, 0, 0, 0]
-findRelocOffset setting imm reloc offset at 4a to 1
-Adding reference because of data refs from 4a
-Testing 65 for externality
-		Data Ref: 65, size: 4
-Data Range: 65 <= 65 < 69
-Data Range: 65 - 69
-		Setting IMM ref at 4a: to 65 type: DATA
-Processing insn at 4f
-		Bytes: [184, 0, 0, 0, 0]
-Processing insn at 54
-		Bytes: [232, 111, 0, 0, 0]
-Checking code ref c8
-Testing c8 for externality
-EXTERNAL CALL: printf
-findRelocOffset setting imm reloc offset at 54 to 1
 Processing insn at 59
-		Bytes: [184, 0, 0, 0, 0]
-Processing insn at 5e
-		Bytes: [201]
-Processing insn at 5f
-		Bytes: [195]
-Ending insn at: 5e
+findRelocOffset setting imm reloc offset at 59 to 2
+Adding reference because of data refs from 59
+Testing 7d for externality
+		Data Ref: 7d, size: 4
+Data Range: 7d <= 7d < 81
+Data Range: 7d - 81
+		Setting IMM ref at 59: to 7d type: DATA
+Processing insn at 63
+Processing insn at 66
+Processing insn at 69
+Processing insn at 6b
+Checking code ref d8
+Testing d8 for externality
+EXTERNAL CALL: printf
+findRelocOffset setting imm reloc offset at 6b to 1
+Processing insn at 70
+Processing insn at 72
+Processing insn at 75
+Processing insn at 77
+Processing insn at 7b
+Processing insn at 7c
+Ending insn at: 7b
 Recovering: 0x0L
 BB: 0
 Starting insn at: 0
 Processing insn at 0
-		Bytes: [85]
 Processing insn at 1
-		Bytes: [72, 137, 229]
 Processing insn at 4
-		Bytes: [137, 125, 236]
 Processing insn at 7
-		Bytes: [137, 117, 232]
 Processing insn at a
-		Bytes: [139, 69, 236]
 Processing insn at d
-		Bytes: [1, 192]
-Processing insn at f
-		Bytes: [137, 69, 252]
-Processing insn at 12
-		Bytes: [139, 69, 252]
-Processing insn at 15
-		Bytes: [131, 192, 4]
-Processing insn at 18
-		Bytes: [15, 175, 69, 232]
+Processing insn at 10
+Processing insn at 13
+Processing insn at 16
+Processing insn at 19
 Processing insn at 1c
-		Bytes: [137, 69, 252]
 Processing insn at 1f
-		Bytes: [139, 69, 252]
 Processing insn at 22
-		Bytes: [93]
-Processing insn at 23
-		Bytes: [195]
-Ending insn at: 22
+Processing insn at 25
+Processing insn at 26
+Ending insn at: 25
 Program will reference external: printf
 Recovered 2 functions.
-Saving to: Output/test_1.clang.ida.cfg
+Saving to: /home/sdasgup3/Github/binary-decompilation/test/variable_recovery/test_1/Output/test_1.clang.ida.cfg
