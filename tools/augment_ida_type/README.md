@@ -1,3 +1,5 @@
+## Synopsis
+
 IDA does a stack analysis which gives information like 
 
  1. Identifying stack variables: For each stack access in the code like `move eax [rsp + OFF]`, IDA create a variable `var_OFF = qword	ptr - OFF h`. This stack analysis happens irrespected of the 
