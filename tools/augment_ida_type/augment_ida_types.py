@@ -13,13 +13,13 @@ import variable_type_pb2
 
 def populateType(destTy, srcTy):
   destTy.size = srcTy.size
-  destTy.c_type = srcTy.c_type
+  destTy.source_type = srcTy.source_type
   destTy.kind = srcTy.kind
 
-  if destTy.kind == CFG_pb2.Type.isArray:
+  if destTy.kind == CFG_pb2.VarType.isArray:
     destTy.count = srcTy.count
 
-  if destTy.kind == CFG_pb2.Type.isStruct:
+  if destTy.kind == CFG_pb2.VarType.isStruct:
     # For Struct Type, copy the field types as well
     # assert len(srcTy.member_list) > 0
     # The above assert may not be true for recursive pointer member of a struct 
@@ -30,7 +30,7 @@ def populateType(destTy, srcTy):
       populateType(destFieldTy.field_type, ml.field_type)
 
   # Both Array and Pointer Types have element Type
-  if destTy.kind == CFG_pb2.Type.isArray or destTy.kind == CFG_pb2.Type.isPointer:
+  if destTy.kind == CFG_pb2.VarType.isArray or destTy.kind == CFG_pb2.VarType.isPointer:
     assert srcTy.HasField("element_type")
     populateType(destTy.element_type, srcTy.element_type)
     
@@ -47,7 +47,7 @@ def augment(M, typeDict):
       if (key in typeDict) and (var_name in typeDict[key]):
         logging.debug( "\n\tIDA Var\n"  )
         logging.debug( v )
-        populateType(v.var.type, typeDict[key][var_name])
+        populateType(v.var.var_type, typeDict[key][var_name])
         logging.debug(  "\t Augmented to\n" )
         logging.debug( v )
 
@@ -64,7 +64,7 @@ def ParseDwarfTypeInfo(V):
 
     if key not in typeDict:
       typeDict[key] = {}  
-    typeDict[key][stack_variable.var.name] = stack_variable.var.type
+    typeDict[key][stack_variable.var.name] = stack_variable.var.var_type
   return typeDict
 
 if __name__ == "__main__":
