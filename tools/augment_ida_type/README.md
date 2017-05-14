@@ -24,3 +24,70 @@ The idea behind this tool is to add type information to the  IDA variables  usin
        
  - Output
     - A new google protobuf binary file with all the contents of (1), but the types of the stack and global variables augmented by the information in (2). 
+
+Example:
+For the stack variable `baz`
+```
+struct biff
+{
+	       int i;
+        struct biff *ptr;
+} ;
+
+int foo(struct biff **baz)
+{
+}
+```
+The Mcsema store the folloing info
+```
+var {
+  name: "baz"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+ }
+```
+
+which is now augmented to 
+
+```
+var {
+  name: "baz"
+  size: 8
+  ida_type: "FF_1OFF | FF_DATA | FF_QWRD | FF_0OFF"
+ }
+ 
+ type {
+    size: 8
+    c_type: "* struct biff"
+    kind: isPointer
+    element_type {
+      size: 8
+      c_type: "struct biff"
+      kind: isStruct
+      member_list {
+        field_offset: 0
+        field_type {
+          size: 4
+          c_type: "signed"
+          kind: isScalar
+        }
+        field_name: "i"
+      }
+      member_list {
+        field_offset: 4
+        field_type {
+          size: 8
+          c_type: "* struct biff"
+          kind: isPointer
+          element_type {
+            size: 8
+            c_type: "struct biff"
+            kind: isStruct
+	         }
+        }
+        field_name: "ptr"
+      }
+    }
+  }
+}
+```
