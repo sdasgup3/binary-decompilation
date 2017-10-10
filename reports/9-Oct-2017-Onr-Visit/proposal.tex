@@ -1,0 +1,128 @@
+%\documentclass[xcolor=dvipsnames]{beamer}
+\documentclass[mathserif,12pt,unknownkeysallowed]{beamer}
+
+\mode<presentation>
+{
+  \usetheme{UIUC}
+}
+
+\newcommand{\cmt}[1]{}
+\setbeamercovered{transparent=50}
+\newcommand{\LIR}{{\tt LLVM IR}}
+\newcommand{\MC}{{\tt Machine Code}}
+\newcommand{\CFG}{{\tt CFG}}
+\usepackage{listings}
+\usepackage{amsmath}
+\usepackage{etoolbox}
+\hypersetup{
+  colorlinks=true,
+  urlcolor=blue
+}
+
+\title[allvm]{allvm - Binary Decompilation}
+\author{Sandeep Dasgupta}
+\institute[UIUC]{University of Illinois Urbana Champaign}
+\date{\today}
+
+
+%if u want to show off the sections only
+\setcounter{tocdepth}{1}
+
+\lstset{language=[ANSI]C}
+\lstset{% general command to set parameter(s)
+  basicstyle=\footnotesize\tt, % print whole listing small
+    identifierstyle=, % nothing happens
+    commentstyle=\color{red}, % white comments
+    showstringspaces=false, % no special string spaces
+    lineskip=1pt,
+    captionpos=b,
+    frame=single,
+    breaklines=true
+      %\insertauthor[width={3cm},center,respectlinebreaks]
+}
+
+
+
+% If you want to come back to the subsection in outline everytime:
+%\AtBeginSubsection
+%{
+%  \begin{frame}<beamer>{Outline}
+%    \tableofcontents[currentsection,currentsubsection]
+%  \end{frame}
+%}
+
+\AtBeginSection[] {
+\ifnumcomp{\value{section}}{=}{5}{}
+  {
+  \begin{frame}[t]
+    \frametitle{Outline}
+      \tableofcontents[sectionstyle=show/shaded,hideothersubsections]
+  \end{frame}
+  }
+}
+
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cmt{
+Code that is only
+available in binary form is “lifted” to fully executable LLVM IR by an extension of McSema [40]. This tool
+is still experimental, and part of our proposed research is to extract richer information from this IR
+
+}
+
+\section*{Preliminary Work}
+\subsection*{Preliminary Work}
+\frame
+{
+  \frametitle{\subsecname}
+      \begin{itemize}
+        \item Improving the IR extracted by McSema.
+          \begin{itemize}
+            \item \href{https://github.com/sdasgup3/binary-decompilation/tree/stack_variable_recovery/tools/allin}{Stack frame deconstruction}
+            \item Stack Variable promotion
+            \item Type extraction
+            \begin{itemize}
+              \item Tools \href{https://github.com/sdasgup3/binary-decompilation/tree/stack_variable_recovery/tools/augment_ida_type}{Augment IDA Type} \& \href{https://github.com/sdasgup3/dwarf-type-reader}{Dwarf Type Reader}
+            \end{itemize}
+          \end{itemize}
+      \end{itemize}
+
+      \begin{itemize}
+        \item Improving McSema Applicability.
+          \begin{itemize}
+            \item \href{https://github.com/trailofbits/mcsema/commit/ff83ee93840d3ab48f6abaf1a64908bbb0c63163}{Vector instruction support}
+            \item \href{https://github.com/trailofbits/mcsema/commit/2ec9ee2342bc0721b73281f6aa758012f6afa035}{Translating unknown instructions into inline assembly}
+          \end{itemize}
+      \end{itemize}
+}
+
+
+\section*{Current Work}
+  \subsection*{Current Work}
+  \frame
+  {
+    \frametitle{\subsecname}
+    \begin{description}
+      \item [Problem:] Semantic translation from extracted CFG (from binary) to LLVM IR can be buggy \& difficult to extend.
+      \item [Approach:]
+        \begin{itemize}
+          \item Learn the semantics rules automatically using strata.
+          \item Use K framework to define the learned semantics.
+          \begin{itemize}
+            \item Help in validation the translation (decompilation) of binary to LLVM IR.\footnote{ Missing pieces like 1. Operational semantics  of LLVM IR in K \& 2. Language independent program equivalence checker, KEQ, are already in progress by other team.}
+          \end{itemize}
+        \end{itemize}
+    \end{description}
+
+  }
+
+
+
+
+\end{document}
