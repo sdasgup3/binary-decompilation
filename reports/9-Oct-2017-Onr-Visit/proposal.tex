@@ -70,10 +70,11 @@
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \cmt{
-Code that is only
-available in binary form is “lifted” to fully executable LLVM IR by an extension of McSema [40]. This tool
-is still experimental, and part of our proposed research is to extract richer information from this IR
+As we know that of of the feature of ALLVM is availibility of all the software in LLVM IR. The code that is only available in binary form need to be  “lifted” to fully executable LLVM IR and for that purpose we already have a tool called  allin, which is an extension of McSema. McSema is a open sourced tool which used IDA Pro to recover the CFG from the binary and then converts that to LVM IR. A part of our research is to extract richer information from this extracted IR.
+}
 
+\cmt{
+One of the limitations of the IR recovered by McSema is that it misses key high-level information like variables and types.  Moreover, McSema uses a large flat array to model the runtime process stack, which is shared by all the procedures. This inhibits many non-trivial optimizations on stack variables and accesses because of potential aliases between procedures.
 }
 
 \section*{Preliminary Work}
@@ -85,11 +86,11 @@ is still experimental, and part of our proposed research is to extract richer in
         \item Improving the IR extracted by McSema.
           \begin{itemize}
             \item \href{https://github.com/sdasgup3/binary-decompilation/tree/stack_variable_recovery/tools/allin}{Stack frame deconstruction}
-            \item Stack Variable promotion
+            \item Stack variable promotion
             \item Type extraction
-            \begin{itemize}
-              \item Tools \href{https://github.com/sdasgup3/binary-decompilation/tree/stack_variable_recovery/tools/augment_ida_type}{Augment IDA Type} \& \href{https://github.com/sdasgup3/dwarf-type-reader}{Dwarf Type Reader}
-            \end{itemize}
+            \begin{description}
+              \item [Tools Developed: ] \href{https://github.com/sdasgup3/binary-decompilation/tree/stack_variable_recovery/tools/augment_ida_type}{Augment IDA Type} \& \href{https://github.com/sdasgup3/dwarf-type-reader}{Dwarf Type Reader}
+            \end{description}
           \end{itemize}
       \end{itemize}
 
@@ -102,6 +103,9 @@ is still experimental, and part of our proposed research is to extract richer in
       \end{itemize}
 }
 
+\cmt{
+ we use a set of instructions whose semantics are known to synthesize the semantics of additional instructions whose semantics are unknown. As the set of formally described instructions increases, the synthesis vocabulary expands, making it possible to synthesize the semantics of increasingly complex instructions.
+}
 
 \section*{Current Work}
   \subsection*{Current Work}
@@ -112,10 +116,10 @@ is still experimental, and part of our proposed research is to extract richer in
       \item [Problem:] Semantic translation from extracted CFG (from binary) to LLVM IR can be buggy \& difficult to extend.
       \item [Approach:]
         \begin{itemize}
-          \item Learn the semantics rules automatically using strata.
+          \item Learn the semantics rules automatically using \href{https://dl.acm.org/citation.cfm?id=2908121}{Strata}.
           \item Use K framework to define the learned semantics.
           \begin{itemize}
-            \item Help in validation the translation (decompilation) of binary to LLVM IR.\footnote{ Missing pieces like 1. Operational semantics  of LLVM IR in K \& 2. Language independent program equivalence checker, KEQ, are already in progress by other team.}
+            \item Help in validating the translation (decompilation) of binary to LLVM IR.\footnote{ Missing pieces like a) Operational semantics  of LLVM IR in K \& b) Language independent program equivalence checker, KEQ, are already in progress by other members.}
           \end{itemize}
         \end{itemize}
     \end{description}
