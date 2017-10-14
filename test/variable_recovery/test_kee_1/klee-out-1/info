@@ -1,0 +1,21 @@
+/home/sdasgup3/Install/klee.install/bin/klee x.bc
+PID: 22539
+Started: 2017-05-08 01:36:30
+BEGIN searcher description
+<InterleavedSearcher> containing 2 searchers:
+RandomPathSearcher
+WeightedRandomSearcher::CoveringNew
+</InterleavedSearcher>
+END searcher description
+Finished: 2017-05-08 01:36:30
+Elapsed: 00:00:00
+KLEE: done: explored paths = 3
+KLEE: done: avg. constructs per query = 14
+KLEE: done: total queries = 3
+KLEE: done: valid queries = 0
+KLEE: done: invalid queries = 3
+KLEE: done: query cex = 3
+
+KLEE: done: total instructions = 31
+KLEE: done: completed paths = 3
+KLEE: done: generated tests = 3

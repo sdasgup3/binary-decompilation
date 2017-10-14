@@ -1,0 +1,21 @@
+/home/sdasgup3/Install/klee_3.8.build_dir/Release+Asserts/bin/klee test_klee_1.bc
+PID: 5435
+Started: 2017-05-08 03:16:40
+BEGIN searcher description
+<InterleavedSearcher> containing 2 searchers:
+RandomPathSearcher
+WeightedRandomSearcher::CoveringNew
+</InterleavedSearcher>
+END searcher description
+Finished: 2017-05-08 03:16:41
+Elapsed: 00:00:01
+KLEE: done: explored paths = 3
+KLEE: done: avg. constructs per query = 14
+KLEE: done: total queries = 3
+KLEE: done: valid queries = 0
+KLEE: done: invalid queries = 3
+KLEE: done: query cex = 3
+
+KLEE: done: total instructions = 31
+KLEE: done: completed paths = 3
+KLEE: done: generated tests = 3
