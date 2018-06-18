@@ -100,7 +100,7 @@ module TEST-SPEC
 
   // Loop Configuration
   rule
-    <k> fetch => exit_0 </k>
+    <k> fetch => _ </k>
       <functargets>  
         L2    |-> mi(64, 10)
         L3    |-> mi(64, 4)

@@ -24,7 +24,7 @@ module X86-CONFIGURATION
 	initRegisters($REGV:RegValPairList) ~> 
 	initEnvironment($ARGV:List) ~> 
         loadEntryPoint ~>
-	inforegisters ~> 
+	//inforegisters ~> 
 	fetch 
     </k>
 

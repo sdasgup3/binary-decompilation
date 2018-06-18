@@ -7,7 +7,8 @@ module X86-FETCH-EXECUTE
     Fetch the instructions from Code memory for exection & debugging.
   */
   rule
-    <k> fetch => execinstr(OpC OpR) ~> inforegisters ~> fetch ... </k>
+    //<k> fetch => execinstr(OpC OpR) ~> inforegisters ~> fetch ... </k>
+    <k> fetch => execinstr(OpC OpR) ~> fetch ... </k>
       <text>code(iloc(PC) |-> storedInstr(OpC OpR) _:Map) </text>
       <regstate>... "RIP" |-> ( PC => addMInt(PC,  mi(64, 1)))  ...</regstate>
 
@@ -33,9 +34,9 @@ module X86-FETCH-EXECUTE
         requires  iloc( {RSMap["RIP"]}:>MInt ) in_keys ( CMap )
   */
 
+  /*  
   rule
     <k> inforegisters => . ... </k>
-  /*  
       <text> code (CMap) </text>
       <regstate> RSMap </regstate>
         requires notBool iloc( {RSMap["RIP"]}:>MInt ) in_keys ( CMap )

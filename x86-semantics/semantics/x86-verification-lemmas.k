@@ -728,6 +728,12 @@ module PROG-VERIFICATION-LEMMAS
     andBool   uvalueMInt(MI) >=Int 0    
     andBool   uvalueMInt(MI) <Int (2 ^Int (E -Int S))    
 
+  rule extractMInt(MI:MInt, S:Int, E:Int) => mi(E -Int S, 0)
+    requires  E<Int bitwidthMInt(MI)
+    andBool   E >Int S
+    andBool   bitwidthMInt(MI) >Int (E -Int S)
+    andBool   uvalueMInt(MI) >=Int 0    
+    andBool   uvalueMInt(MI) <Int (2 ^Int (bitwidthMInt(MI) -Int E))    
 
   /*@
     L9: eqMInt semantics
