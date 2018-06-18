@@ -100,7 +100,7 @@ module TEST-SPEC
 
   // Other Configuration
   rule
-    <k> fetch => fetch </k>
+    <k> fetch => _ </k>
       <functargets>  
         L2    |-> mi(64, 10)
         L3    |-> mi(64, 4)

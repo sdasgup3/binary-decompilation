@@ -25,7 +25,7 @@ module X86-CONFIGURATION
 	initEnvironment(.List) ~> 
 	$PGM:Instructions ~> 
         loadEntryPoint ~>
-	inforegisters ~> 
+	//inforegisters ~> 
 	fetch 
     </k>
 

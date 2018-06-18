@@ -752,6 +752,17 @@ module PROG-VERIFICATION-LEMMAS
     andBool   uvalueMInt(MI) <Int (2 ^Int (bitwidthMInt(MI) -Int E))    
 
   /*@
+    L9: eqMInt semantics
+  rule eqMInt( MI1:MInt, MI2:MInt) => svalueMInt(MI1) ==Int svalueMInt(MI2)
+    requires bitwidthMInt(MI1) ==Int bitwidthMInt(MI2)
+  */
+
+  rule eqMInt( MI1:MInt, MI2:MInt) => svalueMInt(MI1) ==Int 0
+    requires  bitwidthMInt(MI1) ==Int bitwidthMInt(MI2) 
+    andBool   eqMInt(MI2, mi(bitwidthMInt(MI2), 0))
+
+
+  /*@
     L10: redundant ite
   */
   rule eqMInt
