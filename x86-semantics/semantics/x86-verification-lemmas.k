@@ -715,6 +715,7 @@ module PROG-VERIFICATION-LEMMAS
 
   rule svalueMInt(mi(M:Int, N:Int)) => N
     requires M ==Int 1
+    //andBool (N ==Int 0 orBool N ==Int 1)
 
   //rule svalueMInt(MI:MInt) => uvalueMInt(MI)
   //  requires bitwidthMInt(MI) ==Int 1
