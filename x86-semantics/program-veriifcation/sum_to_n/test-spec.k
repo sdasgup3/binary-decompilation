@@ -5,8 +5,8 @@ module TEST-SPEC
   rule
     <k> fetch => exit_0 </k>
       <functargets>  
-        L2    |-> mi(64, 10)
-        L3    |-> mi(64, 4)
+        String2X86Id("L2")    |-> mi(64, 10)
+        String2X86Id("L3")    |-> mi(64, 4)
         main  |-> mi(64, 0)
       </functargets> 
       <entrypoint> .K </entrypoint>
@@ -15,12 +15,12 @@ module TEST-SPEC
         "RIP" |-> (mi(64, 0) => mi(64, 18446744073709551615))
         "RSP" |-> (mi(64, 56) => mi(64, 64))
         "RBP" |-> (mi(64, 56))
-        "AF" |-> (_:MInt => _:MInt)
-        "CF" |-> (_:MInt => _:MInt)
-        "OF" |-> (_:MInt => _:MInt)
-        "PF" |-> (_:MInt => _:MInt)
-        "SF" |-> (_:MInt => _:MInt)
-        "ZF" |-> (_:MInt => _:MInt)
+        "AF" |-> (mi(1, _) => mi(1, _))
+        "CF" |-> (mi(1, _) => mi(1, _))
+        "OF" |-> (mi(1, _) => mi(1, _))
+        "PF" |-> (mi(1, _) => mi(1, _))
+        "SF" |-> (mi(1, _) => mi(1, _))
+        "ZF" |-> (mi(1, _) => mi(1, _))
            
          // Main Claim
         "RDI" |-> (mi(64, N:Int):MInt)
@@ -100,29 +100,28 @@ module TEST-SPEC
 
   // Other Configuration
   rule
-    <k> fetch => _ </k>
+    <k> fetch => fetch </k>
       <functargets>  
-        L2    |-> mi(64, 10)
-        L3    |-> mi(64, 4)
+        String2X86Id("L2")    |-> mi(64, 10)
+        String2X86Id("L3")    |-> mi(64, 4)
         main  |-> mi(64, 0)
       </functargets> 
       <entrypoint> .K </entrypoint>
       <nextLocPc>  _:MInt  </nextLocPc>
       <regstate>
-        "RIP" |-> (mi(64, 4) => mi(64,10))
+        "RIP" |-> (mi(64, 4) => mi(64,9))
         "RSP" |-> (mi(64, 56))
         "RBP" |-> (mi(64, 56))
-        "AF" |-> (_:MInt => _:MInt)
-        "CF" |-> (_:MInt => _:MInt)
-        "OF" |-> (_:MInt => _:MInt)
-        "PF" |-> (_:MInt => _:MInt)
-        "SF" |-> (_:MInt => _:MInt)
-        "ZF" |-> (_:MInt => _:MInt)
-
+        "AF" |-> (mi(1, _) => mi(1, _))
+        "CF" |-> (mi(1, _) => mi(1, _))
+        "OF" |-> (mi(1, _) => mi(1, _))
+        "PF" |-> (mi(1, _) => mi(1, _))
+        "SF" |-> (mi(1, _) => mi(1, _))
+        "ZF" |-> (mi(1, _) => mi(1, _))
            
          // Other Claim
         "RDI" |-> (mi(64, M:Int):MInt)
-        "RAX" |-> (_:MInt => _:MInt)
+        "RAX" |-> (mi(64, IRAX:Int):MInt => _)
       </regstate>
 
       <memstate>
@@ -194,11 +193,10 @@ module TEST-SPEC
         requires M >=Int 0 andBool M <Int 255
 
         andBool A >=Int 0 andBool A <Int 255
-        andBool B >=Int 0 andBool B <Int 255 
+        andBool B >=Int 0 andBool B <Int 255
 
-        andBool B +Int ((A *Int (A +Int 1)) /Int 2) >=Int 0  
-        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int 255
-
+	andBool IRAX >=Int 0 andBool IRAX <Int 255
+        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int 255     [trusted]
 
 endmodule
 
