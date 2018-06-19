@@ -722,17 +722,24 @@ module PROG-VERIFICATION-LEMMAS
 
   rule svalueMInt(mi(M:Int, N:Int)) => N
     requires M >Int 1
-      andBool
-        N >=Int -1 *Int (2 ^Int (M -Int 1))
-      andBool
-        N <Int (2 ^Int (M -Int 1))
+      andBool(
+        (N <Int 0 andBool  N >=Int -1 *Int (2 ^Int (M -Int 1)))
+      orBool
+        (N >=Int 0 andBool N <Int (2 ^Int (M -Int 1)))
+        )
 
   rule svalueMInt(mi(M:Int, N:Int)) => N
     requires M ==Int 1
 
+  /*@
+    L7: concat with 0
+    makes concatenateMInt ( 32'0 , mi ( 32 , V1 ) )
+    equiv to mi(64, V1)
+  */  
   rule concatenateMInt(MI1, MI2) => 
       mi(bitwidthMInt(MI1) +Int bitwidthMInt(MI2), uvalueMInt(MI2))
     requires eqMInt(MI1, mi(bitwidthMInt(MI1), 0))
+    //andBool #isConcrete(MI1)
 
   /*@
     L8: extract(MI) short width
@@ -794,27 +801,22 @@ module PROG-VERIFICATION-LEMMAS
               J <Int (2 ^Int (M -Int 1))
 
 
-  rule mi(M, I) ==K mi(M, J) => ((-1 *Int (2 ^Int M)) +Int I) ==Int ((-1 *Int (2 ^Int M)) +Int J)
-    requires  I >=Int 2 ^Int (M -Int 1)
-      andBool
-              I <Int 2 ^Int M
-      andBool
-              J >=Int 2 ^Int (M -Int 1)
-      andBool
-              J <Int 2 ^Int M
+  /*
+  rule extractMInt ( MI:MInt , M:Int , N:Int ) =>  
+    #ifMInt svalueMInt(MI) <Int 0 #then mi(N -Int M, 0) #else mi(N -Int M, 0) #fi
+      requires M ==Int 0 andBool N ==Int 1
+      */
 
+  //rule mi(M, I) ==K mi(N, J) => I ==K J
+  //  requires M ==Int N
 
-  rule MI:MInt ==K mi(M, J) => svalueMInt(MI) ==Int J
-    requires #isConcrete(MI)
+  rule MI1:MInt ==K MI2:MInt => svalueMInt(MI1) ==K svalueMInt(MI2)
+    requires bitwidthMInt(MI1) ==Int bitwidthMInt(MI2)
+      // andBool #isConcrete(MI1)
 
-  rule mi(M, J) ==K MI => J ==Int svalueMInt(MI)
-    requires #isConcrete(MI)
-
-  rule eqMInt( mi(M, I), MI2:MInt) => svalueMInt(MI2) ==Int I
-    requires  bitwidthMInt(MI2) ==Int M
-    andBool   #isConcrete(MI2)
-
-
+  //rule MI1:MInt ==K mi(M, I) => svalueMInt(MI1) ==K I
+  //  requires bitwidthMInt(MI1) ==Int M
+  //    andBool #isConcrete(MI1)
 endmodule
 
 module X86-VERIFICATION-LEMMAS

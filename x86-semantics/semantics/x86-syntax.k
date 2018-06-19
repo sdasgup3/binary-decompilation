@@ -83,6 +83,9 @@ module X86-SYNTAX
                 | "_start" [token] 
                 | "stdout" [token] 
 
+  syntax X86Id ::= String2X86Id (String) [function] //, hook(STRING.string2token)]
+  rule String2X86Id(S:String) => #parseToken("X86Id", S)
+
   syntax X86Ids ::= List{X86Id, ","} [klabel(X86Idlist)]
 
   syntax AssemblerDirective ::=  ".section" ".rodata"
