@@ -716,6 +716,9 @@ module PROG-VERIFICATION-LEMMAS
   rule svalueMInt(mi(M:Int, N:Int)) => N
     requires M ==Int 1
 
+  //rule svalueMInt(MI:MInt) => uvalueMInt(MI)
+  //  requires bitwidthMInt(MI) ==Int 1
+
   /*@
     L7: concat with 0
     makes concatenateMInt ( 32'0 , mi ( 32 , V1 ) )

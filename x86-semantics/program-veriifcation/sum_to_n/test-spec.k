@@ -94,7 +94,8 @@ module TEST-SPEC
         <argv> .K => _ </argv>
       </environment>
         requires N >=Int 0 andBool N <Int 255
-        andBool (N *Int (N +Int 1)) /Int 2 <Int 255
+        andBool (N *Int (N +Int 1)) /Int 2 >=Int 0  
+        andBool (N *Int (N +Int 1)) /Int 2 <Int 255  
 
 
   // Other Configuration
@@ -108,7 +109,7 @@ module TEST-SPEC
       <entrypoint> .K </entrypoint>
       <nextLocPc>  _:MInt  </nextLocPc>
       <regstate>
-        "RIP" |-> (mi(64, 4) => mi(64,9))
+        "RIP" |-> (mi(64, 4) => mi(64,10))
         "RSP" |-> (mi(64, 56))
         "RBP" |-> (mi(64, 56))
         "AF" |-> (mi(1, _) => mi(1, _))
@@ -195,7 +196,8 @@ module TEST-SPEC
         andBool B >=Int 0 andBool B <Int 255
 
 	andBool IRAX >=Int 0 andBool IRAX <Int 255
-        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int 255     [trusted]
+        andBool B +Int ((A *Int (A +Int 1)) /Int 2) >=Int 0  
+        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int 255  [trusted]
 
 endmodule
 
