@@ -646,6 +646,13 @@ module PROG-VERIFICATION-LEMMAS
         orBool
       eqMInt( extractMInt(MI1, E, bitwidthMInt(MI1)), mi(bitwidthMInt(MI1) -Int E, 0))
       )
+
+    rule 
+      extractMInt(mi(M, A +Int B), S, E) => addMInt(extractMInt(mi(M, A), S, E), extractMInt(mi(M, B), S, E))
+    requires  M ==Int E
+    andBool   E >Int S andBool  S >=Int 0
+    andBool   #isConcrete(A)
+
           
   /*@ 
     L1: addMInt semantics: Associativity
