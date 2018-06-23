@@ -240,7 +240,7 @@ module TEST-SPEC
 
 	andBool IRAX >=Int 0 andBool IRAX <Int 255
         andBool B +Int ((A *Int (A +Int 1)) /Int 2) >=Int 0  
-        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int 255  [trusted]
+        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int 255
         /*
         andBool  (LAF ==Int 0 orBool LAF ==Int 1)
         andBool  (LCF ==Int 0 orBool LCF ==Int 1)
