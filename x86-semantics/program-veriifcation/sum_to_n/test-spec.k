@@ -5,8 +5,8 @@ module TEST-SPEC
   rule
     <k> fetch => exit_0 </k>
       <functargets>  
-        String2X86Id("L2")    |-> mi(64, 10)
-        String2X86Id("L3")    |-> mi(64, 4)
+        L2    |-> mi(64, 10)
+        L3    |-> mi(64, 4)
         main  |-> mi(64, 0)
       </functargets> 
       <entrypoint> .K </entrypoint>
@@ -123,8 +123,8 @@ module TEST-SPEC
   rule
     <k> fetch => fetch </k>
       <functargets>  
-        String2X86Id("L2")    |-> mi(64, 10)
-        String2X86Id("L3")    |-> mi(64, 4)
+        L2    |-> mi(64, 10)
+        L3    |-> mi(64, 4)
         main  |-> mi(64, 0)
       </functargets> 
       <entrypoint> .K </entrypoint>
@@ -149,7 +149,7 @@ module TEST-SPEC
            
          // Other Claim
         "RDI" |-> (mi(64, M:Int):MInt)
-        "RAX" |-> (mi(64, IRAX:Int):MInt => _)
+        "RAX" |-> (mi(64, IRAX:Int):MInt => mi(64, _))
       </regstate>
 
       <memstate>
@@ -221,11 +221,14 @@ module TEST-SPEC
         requires M >=Int 0 andBool M <Int 255
 
         andBool A >=Int 0 andBool A <Int 255
-        andBool B >=Int 0 andBool B <Int 255
+        andBool B >=Int 0 andBool B <Int 255 
+        // andBool A +Int B <Int 255
+        // andBool A >=Int 0 andBool A <=Int M
+        // andBool B >=Int 0 andBool B <=Int (M *Int (M +Int 1)) /Int 2
 
 	andBool IRAX >=Int 0 andBool IRAX <Int 255
         andBool B +Int ((A *Int (A +Int 1)) /Int 2) >=Int 0  
-        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int 255 [trusted]
+        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int 255   [trusted]
         /*
         andBool  (LAF ==Int 0 orBool LAF ==Int 1)
         andBool  (LCF ==Int 0 orBool LCF ==Int 1)
