@@ -21,12 +21,18 @@ module TEST-SPEC
         // "PF" |-> (mi(1, MPF:Int) => mi(1, ?TMPF:Int))
         // "SF" |-> (mi(1, MSF:Int) => mi(1, ?TMSF:Int))
         // "ZF" |-> (mi(1, MZF:Int) => mi(1, ?TMZF:Int))
-        "AF" |-> (mi(1, _:Int) => mi(1, _:Int))
-        "CF" |-> (mi(1, _:Int) => mi(1, _:Int))
-        "OF" |-> (mi(1, _:Int) => mi(1, _:Int))
-        "PF" |-> (mi(1, _:Int) => mi(1, _:Int))
-        "SF" |-> (mi(1, _:Int) => mi(1, _:Int))
-        "ZF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        // "AF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        // "CF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        // "OF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        // "PF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        // "SF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        // "ZF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        "AF" |-> (_:MInt => _:MInt)
+        "CF" |-> (_:MInt => _:MInt)
+        "OF" |-> (_:MInt => _:MInt)
+        "PF" |-> (_:MInt => _:MInt)
+        "SF" |-> (_:MInt => _:MInt)
+        "ZF" |-> (_:MInt => _:MInt)
            
          // Main Claim
         "RDI" |-> (mi(64, N:Int):MInt)
@@ -139,12 +145,18 @@ module TEST-SPEC
         // "PF" |-> (mi(1, LPF:Int) => mi(1, ?TLPF:Int))
         // "SF" |-> (mi(1, LSF:Int) => mi(1, ?TLSF:Int))
         // "ZF" |-> (mi(1, LZF:Int) => mi(1, ?TLZF:Int))
-        "AF" |-> (mi(1, _:Int) => mi(1, _:Int))
-        "CF" |-> (mi(1, _:Int) => mi(1, _:Int))
-        "OF" |-> (mi(1, _:Int) => mi(1, _:Int))
-        "PF" |-> (mi(1, _:Int) => mi(1, _:Int))
-        "SF" |-> (mi(1, _:Int) => mi(1, _:Int))
-        "ZF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        // "AF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        // "CF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        // "OF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        // "PF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        // "SF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        // "ZF" |-> (mi(1, _:Int) => mi(1, _:Int))
+        "AF" |-> (_:MInt => _:MInt)
+        "CF" |-> (_:MInt => _:MInt)
+        "OF" |-> (_:MInt => _:MInt)
+        "PF" |-> (_:MInt => _:MInt)
+        "SF" |-> (_:MInt => _:MInt)
+        "ZF" |-> (_:MInt => _:MInt)
 
            
          // Other Claim
@@ -228,7 +240,7 @@ module TEST-SPEC
 
 	andBool IRAX >=Int 0 andBool IRAX <Int 255
         andBool B +Int ((A *Int (A +Int 1)) /Int 2) >=Int 0  
-        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int 255   [trusted]
+        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int 255  [trusted]
         /*
         andBool  (LAF ==Int 0 orBool LAF ==Int 1)
         andBool  (LCF ==Int 0 orBool LCF ==Int 1)

@@ -745,11 +745,6 @@ module PROG-VERIFICATION-LEMMAS
     andBool   uvalueMInt(MI) >=Int 0    
     andBool   uvalueMInt(MI) <Int (2 ^Int (bitwidthMInt(MI) -Int E))    
 
-  rule eqMInt( MI1:MInt, MI2:MInt) => svalueMInt(MI1) ==Int 0
-    requires  bitwidthMInt(MI1) ==Int bitwidthMInt(MI2) 
-    andBool   eqMInt(MI2, mi(bitwidthMInt(MI2), 0))
-
-
   /*@
     L10: redundant ite
   */
@@ -780,6 +775,13 @@ module PROG-VERIFICATION-LEMMAS
 
   rule mi(M, J) ==K MI => J ==Int svalueMInt(MI)
     requires #isConcrete(MI)
+
+  /*
+  rule eqMInt( MI1:MInt, MI2:MInt) => svalueMInt(MI1) ==Int 0
+    requires  bitwidthMInt(MI1) ==Int bitwidthMInt(MI2) 
+    andBool   eqMInt(MI2, mi(bitwidthMInt(MI2), 0))
+    */
+
 
 endmodule
 
