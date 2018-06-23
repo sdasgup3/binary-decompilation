@@ -776,11 +776,9 @@ module PROG-VERIFICATION-LEMMAS
   rule mi(M, J) ==K MI => J ==Int svalueMInt(MI)
     requires #isConcrete(MI)
 
-  /*
-  rule eqMInt( MI1:MInt, MI2:MInt) => svalueMInt(MI1) ==Int 0
-    requires  bitwidthMInt(MI1) ==Int bitwidthMInt(MI2) 
-    andBool   eqMInt(MI2, mi(bitwidthMInt(MI2), 0))
-    */
+  rule eqMInt( mi(M, I), MI2:MInt) => svalueMInt(MI2) ==Int I
+    requires  bitwidthMInt(MI2) ==Int M
+    andBool   #isConcrete(MI2)
 
 
 endmodule
