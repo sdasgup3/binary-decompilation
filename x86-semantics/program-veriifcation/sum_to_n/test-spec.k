@@ -102,8 +102,8 @@ module TEST-SPEC
       </memstate>
 
       <environment>
-        <argc> .K => _ </argc>
-        <argv> .K => _ </argv>
+        <argc> .K  </argc>
+        <argv> .K  </argv>
       </environment>
         requires N >=Int 0 andBool N <Int 255
         andBool (N *Int (N +Int 1)) /Int 2 >=Int 0  
@@ -227,8 +227,8 @@ module TEST-SPEC
       </memstate>
 
       <environment>
-        <argc> .K => _ </argc>
-        <argv> .K => _ </argv>
+        <argc> .K  </argc>
+        <argv> .K  </argv>
       </environment>
         requires M >=Int 0 andBool M <Int 255
 
