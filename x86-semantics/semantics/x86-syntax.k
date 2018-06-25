@@ -82,6 +82,9 @@ module X86-SYNTAX
   syntax X86Id ::= "main" [token]
                 | "_start" [token] 
                 | "stdout" [token] 
+                | "L2" [token] 
+                | "L3" [token] 
+                | "L4" [token] 
 
   syntax X86Id ::= String2X86Id (String) [function] //, hook(STRING.string2token)]
   rule String2X86Id(S:String) => #parseToken("X86Id", S)
