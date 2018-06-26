@@ -722,11 +722,10 @@ module PROG-VERIFICATION-LEMMAS
 
   rule svalueMInt(mi(M:Int, N:Int)) => N
     requires M >Int 1
-      andBool(
-        (N <Int 0 andBool  N >=Int -1 *Int (2 ^Int (M -Int 1)))
-      orBool
-        (N >=Int 0 andBool N <Int (2 ^Int (M -Int 1)))
-        )
+      andBool
+        N >=Int -1 *Int (2 ^Int (M -Int 1))
+      andBool
+        N <Int (2 ^Int (M -Int 1))
 
   rule svalueMInt(mi(M:Int, N:Int)) => N
     requires M ==Int 1
@@ -734,7 +733,6 @@ module PROG-VERIFICATION-LEMMAS
   rule concatenateMInt(MI1, MI2) => 
       mi(bitwidthMInt(MI1) +Int bitwidthMInt(MI2), uvalueMInt(MI2))
     requires eqMInt(MI1, mi(bitwidthMInt(MI1), 0))
-    //andBool #isConcrete(MI1)
 
   /*@
     L8: extract(MI) short width
@@ -772,11 +770,33 @@ module PROG-VERIFICATION-LEMMAS
   => notBool B
     requires eqMInt(MI3, MI2)
 
-  /*
-  rule MI1:MInt ==K MI2:MInt => svalueMInt(MI1) ==K svalueMInt(MI2)
-    requires bitwidthMInt(MI1) ==Int bitwidthMInt(MI2)
-    */
+  /*@
+    L11: mi semantics
+  */
   rule mi(M, I) ==K mi(M, J) => I ==Int J
+  /*
+    requires  (
+          (I <Int 0 andBool  I >=Int -1 *Int (2 ^Int (M -Int 1)))
+            orBool
+          (I >=Int 0 andBool I <Int (2 ^Int (M -Int 1)))
+        ) andBool (
+          (J <Int 0 andBool  J >=Int -1 *Int (2 ^Int (M -Int 1)))
+            orBool
+          (J >=Int 0 andBool J <Int (2 ^Int (M -Int 1)))
+        )
+
+
+  rule mi(M, I) ==K mi(M, J) => ((-1 *Int (2 ^Int M)) +Int I) ==Int ((-1 *Int (2 ^Int M)) +Int J)
+    requires (
+      I >=Int 2 ^Int (M -Int 1)
+        andBool
+      I >=Int 2 ^Int (M -Int 1)
+        andBool
+      J >=Int 2 ^Int (M -Int 1)
+        andBool
+      J >=Int 2 ^Int (M -Int 1)
+      )
+      */
 
   rule MI:MInt ==K mi(M, J) => svalueMInt(MI) ==Int J
     requires #isConcrete(MI)
