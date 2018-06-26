@@ -95,7 +95,7 @@ module TEST-SPEC
       </environment>
         requires N >=Int 0 andBool N <Int 255
         andBool (N *Int (N +Int 1)) /Int 2 >=Int 0  
-        andBool (N *Int (N +Int 1)) /Int 2 <Int 255  
+        andBool (N *Int (N +Int 1)) /Int 2 <Int 255 
 
 
   // Other Configuration
@@ -122,7 +122,7 @@ module TEST-SPEC
            
          // Other Claim
         "RDI" |-> (mi(64, M:Int):MInt)
-        "RAX" |-> (mi(64, IRAX:Int):MInt => mi(64, _))
+        "RAX" |-> (mi(64, _:Int):MInt => mi(64, _))
       </regstate>
 
       <memstate>
@@ -196,7 +196,6 @@ module TEST-SPEC
         andBool A >=Int 0 andBool A <Int 255
         andBool B >=Int 0 andBool B <Int 255 
 
-	andBool IRAX >=Int 0 andBool IRAX <Int 255
         andBool B +Int ((A *Int (A +Int 1)) /Int 2) >=Int 0  
         andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int 255
 
