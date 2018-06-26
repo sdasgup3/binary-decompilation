@@ -29,13 +29,13 @@ module TEST-SPEC
       <memstate>
         <text> 
           code ( 
-                iloc(mi(64, 0)) |-> storedInstr(movl -8(%ebp), %edx, .Operands)
-                iloc(mi(64, 1)) |-> storedInstr(movl -16(%ebp), %eax, .Operands)
+                iloc(mi(64, 0)) |-> storedInstr(movl -8(%rbp), %edx, .Operands)
+                iloc(mi(64, 1)) |-> storedInstr(movl -16(%rbp), %eax, .Operands)
                 iloc(mi(64, 2)) |-> storedInstr(addl %edx, %eax, .Operands)
                 iloc(mi(64, 3)) |-> storedInstr(movl $0, %edx, .Operands)
-                iloc(mi(64, 4)) |-> storedInstr(cmpl -8(%ebp), %eax, .Operands)
+                iloc(mi(64, 4)) |-> storedInstr(cmpl -8(%rbp), %eax, .Operands)
                 iloc(mi(64, 5)) |-> storedInstr(movl %edx, %eax, .Operands)
-                iloc(mi(64, 6)) |-> storedInstr(sbbl -4(%ebp), %eax, .Operands)
+                iloc(mi(64, 6)) |-> storedInstr(sbbl -4(%rbp), %eax, .Operands)
                 iloc(mi(64, 7)) |-> storedInstr(jnc L2, .Operands)
                 iloc(mi(64, 8)) |-> storedInstr(movl $1, %eax, .Operands)
                 iloc(mi(64, 9)) |-> storedInstr(jmp L3, .Operands)
