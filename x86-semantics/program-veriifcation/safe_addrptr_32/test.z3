@@ -4,7 +4,6 @@
 (push)  
 (assert
 (and   
-;(not 
 (=  ((_ extract 32 32) 
      (ite 
         
@@ -43,7 +42,6 @@
     )  
     #b1
 )
-;)
 
 (>= (+ (bv2int A) (bv2int B)) (^ 2 32))
 )  

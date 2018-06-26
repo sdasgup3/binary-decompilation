@@ -1,5 +1,4 @@
 main:
-  subl $32, %esp
   movl -8(%ebp), %edx
   movl -16(%ebp), %eax
   addl %edx, %eax
