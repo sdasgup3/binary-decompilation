@@ -122,7 +122,7 @@ module TEST-SPEC
            
          // Other Claim
         "RDI" |-> (mi(64, M:Int):MInt)
-        "RAX" |-> (mi(64, _:Int):MInt => mi(64, _))
+        "RAX" |-> (_:MInt => _:MInt)
       </regstate>
 
       <memstate>
