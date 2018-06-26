@@ -696,6 +696,14 @@ module PROG-VERIFICATION-LEMMAS
   /*@ 
     L5: uvalueMInt semantics
   */  
+
+  /*
+  rule uvalueMInt(mi(M:Int, A:Int +Int B:Int)) => A +Int B
+    requires A >=Int 0 andBool A <Int ((2 ^Int 32) -Int 1)
+    andBool  B >=Int 0 andBool B <Int ((2 ^Int 32) -Int 1)
+    andBool  A +Int B <Int ((2 ^Int 32) -Int 1)
+  */
+
   rule uvalueMInt(mi(M:Int, N:Int)) => N
     requires N >=Int 0 
     andBool  N <Int (2 ^Int M)
