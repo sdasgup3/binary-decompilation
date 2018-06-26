@@ -766,29 +766,24 @@ module PROG-VERIFICATION-LEMMAS
     L11: mi semantics
   */
   rule mi(M, I) ==K mi(M, J) => I ==Int J
-  /*
-    requires  (
-          (I <Int 0 andBool  I >=Int -1 *Int (2 ^Int (M -Int 1)))
-            orBool
-          (I >=Int 0 andBool I <Int (2 ^Int (M -Int 1)))
-        ) andBool (
-          (J <Int 0 andBool  J >=Int -1 *Int (2 ^Int (M -Int 1)))
-            orBool
-          (J >=Int 0 andBool J <Int (2 ^Int (M -Int 1)))
-        )
+    requires  I >=Int -1 *Int (2 ^Int (M -Int 1))
+      andBool
+              I <Int (2 ^Int (M -Int 1))
+      andBool 
+              J >=Int -1 *Int (2 ^Int (M -Int 1))
+      andBool 
+              J <Int (2 ^Int (M -Int 1))
 
 
   rule mi(M, I) ==K mi(M, J) => ((-1 *Int (2 ^Int M)) +Int I) ==Int ((-1 *Int (2 ^Int M)) +Int J)
-    requires (
-      I >=Int 2 ^Int (M -Int 1)
-        andBool
-      I >=Int 2 ^Int (M -Int 1)
-        andBool
-      J >=Int 2 ^Int (M -Int 1)
-        andBool
-      J >=Int 2 ^Int (M -Int 1)
-      )
-      */
+    requires  I >=Int 2 ^Int (M -Int 1)
+      andBool
+              I <Int 2 ^Int M
+      andBool
+              J >=Int 2 ^Int (M -Int 1)
+      andBool
+              J <Int 2 ^Int M
+
 
   rule MI:MInt ==K mi(M, J) => svalueMInt(MI) ==Int J
     requires #isConcrete(MI)
