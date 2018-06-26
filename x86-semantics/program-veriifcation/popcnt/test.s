@@ -3,9 +3,9 @@ popcnt(unsigned long):
   xorl %eax, %eax
 .L2:
   movl %edi, %ecx
-  shrq %rdi
+  shrq $1, %rdi
   andl $1, %ecx
   addl %ecx, %eax
   decl %edx
-  jne .L2
+  jne L2
   ret

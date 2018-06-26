@@ -1197,6 +1197,7 @@ module X86-SYNTAX
                   | "jne"
                   | "jns"
                   | "jnc"
+                  | "jnb"
                   | "jle"
                   | "jg"
                   | "jge"
