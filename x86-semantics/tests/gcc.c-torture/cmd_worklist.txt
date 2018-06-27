@@ -1,0 +1,6 @@
+gcc -I src/library ./src/20000112-1.c    -fno-diagnostics-show-caret -fdiagnostics-color=never    -O0  -w  -lm  -march=haswell -fno-asynchronous-unwind-tables -S -o ./bin/20000112-1-0.exe
+gcc -I src/library ./src/20000112-1.c    -fno-diagnostics-show-caret -fdiagnostics-color=never    -O1  -w  -lm  -march=haswell -fno-asynchronous-unwind-tables -S -o ./bin/20000112-1-1.exe
+gcc -I src/library ./src/20000112-1.c    -fno-diagnostics-show-caret -fdiagnostics-color=never    -O2  -w  -lm  -march=haswell -fno-asynchronous-unwind-tables -S -o ./bin/20000112-1-2.exe
+gcc -I src/library ./src/20000112-1.c    -fno-diagnostics-show-caret -fdiagnostics-color=never    -O3 -fomit-frame-pointer -funroll-loops -fpeel-loops -ftracer -finline-functions  -w  -lm  -march=haswell -fno-asynchronous-unwind-tables -S -o ./bin/20000112-1-3.exe
+gcc -I src/library ./src/20000112-1.c    -fno-diagnostics-show-caret -fdiagnostics-color=never    -O3 -g  -w  -lm  -march=haswell -fno-asynchronous-unwind-tables -S -o ./bin/20000112-1-4.exe
+gcc -I src/library ./src/20000112-1.c    -fno-diagnostics-show-caret -fdiagnostics-color=never    -Os  -w  -lm  -march=haswell -fno-asynchronous-unwind-tables -S -o ./bin/20000112-1-5.exe
