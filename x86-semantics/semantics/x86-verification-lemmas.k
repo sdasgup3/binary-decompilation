@@ -803,7 +803,15 @@ module PROG-VERIFICATION-LEMMAS
     requires  bitwidthMInt(MI2) ==Int M
     andBool   #isConcrete(MI2)
 
+  /*
+  rule lshrMInt(M:MInt, I:Int) => mi(bitwidthMInt(M), uvalueMInt(M) /Int 2)
+    requires I ==Int 1
 
+  rule V:Int /Int I /Int J => V /Int (I *Int J)
+
+  rule mi(W:Int, V:Int /Int N) => mi(W, 0)
+    requires (2 ^Int W) ==Int N
+    */
 endmodule
 
 module X86-VERIFICATION-LEMMAS
