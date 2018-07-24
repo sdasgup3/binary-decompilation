@@ -810,8 +810,16 @@ module PROG-VERIFICATION-LEMMAS
   rule V:Int /Int I /Int J => V /Int (I *Int J)
 
   rule mi(W:Int, V:Int /Int N) => mi(W, 0)
-    requires (2 ^Int W) ==Int N
+    //requires (2 ^Int W) ==Int N
+    requires W ==Int N
     */
+
+  rule lshrMInt(lshrMInt(M:MInt, I:Int), J:Int) => lshrMInt(M, I +Int J)
+    requires I <=Int bitwidthMInt(M) andBool J <=Int bitwidthMInt(M)
+
+  rule lshrMInt(M:MInt, I:Int) => mi(bitwidthMInt(M), 0)
+    requires I ==Int bitwidthMInt(M)
+
 endmodule
 
 module X86-VERIFICATION-LEMMAS
