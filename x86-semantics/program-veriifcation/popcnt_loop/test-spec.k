@@ -37,11 +37,21 @@ module TEST-SPEC
             iloc(mi(64,2)) |-> storedInstr(andl    $1, %edx, .Operands)
             iloc(mi(64,3)) |-> storedInstr(addl    %edx, %eax, .Operands)
             iloc(mi(64,4)) |-> storedInstr(shrq  $0x1,  %rdi, .Operands)
+
             iloc(mi(64,5)) |-> storedInstr(jne     L2, .Operands)
-            iloc(mi(64,5)) |-> storedInstr(ret .Operands)
+            iloc(mi(64,6)) |-> storedInstr(ret .Operands)
+            /*
+            iloc(mi(64,5)) |-> storedInstr(movl    %edi, %edx, .Operands)
+            iloc(mi(64,6)) |-> storedInstr(andl    $1, %edx, .Operands)
+            iloc(mi(64,7)) |-> storedInstr(addl    %edx, %eax, .Operands)
+            iloc(mi(64,8)) |-> storedInstr(shrq  $0x1,  %rdi, .Operands)
 
-    //rax == 0  + (X & 1) + (X >> 1 & 1) + (X >> 1 >> 1) & 1 + .....   
-
+            iloc(mi(64,9)) |-> storedInstr(movl    %edi, %edx, .Operands)
+            iloc(mi(64,10)) |-> storedInstr(andl    $1, %edx, .Operands)
+            iloc(mi(64,11)) |-> storedInstr(addl    %edx, %eax, .Operands)
+            iloc(mi(64,12)) |-> storedInstr(shrq  $0x1,  %rdi, .Operands)
+            iloc(mi(64,13)) |-> storedInstr(ret .Operands)
+            */
              )
         </text>
         <stack> 
