@@ -1,0 +1,316 @@
+\section{Introduction}
+\label{sec:Intro}
+
+%% Why X86 is important?
+% \ISA is undoubtedly the most widely used instruction set architecture on
+% servers and personal computers which have grown to a remarkable complexity over
+% the past few decades. 
+%% Why analysis on X86 is important?
+% Because of its wide-spread use, tools related to analysis and reasoning on the
+% binary code are pervasive in software engineering and security research
+% ~\cite{X}. Even there are situations where binary analysis seems more desirable than that
+% on the source code. Examples are Commercial Off-The-Shelf software,
+%   legacy code, or malware where the source code is not available. Even when
+%   the source code is available, we cannot trust it when the compiler
+%   generating the binary is not in the trusted computing base~\cite{Thompson}.
+%   Lastly, even a trusted compiler can produce code which is semantically
+%   different from the binary~\cite{WYSINWYE} and hence the desire to analyze the
+%   binary itself.
+
+The \ISA instruction set architecture (ISA) is one of the most complex and widely used ISAs on servers and desktops, 
+and ensuring the correctness of the \ISA binary code is important.
+%
+The ability to directly reason about the binary code is desirable, not only because it allows to analyze the binary even when the source code is not available (e.g., legacy code or malware), but also because it avoids the need to trust the correctness of compilers~\cite{Thompson,WYSINWYE}.
+
+% %
+% Indeed, there exist various binary analysis tools, including those for software emulation and virtualization~\cite{QEMU:USENIX05,Valgrind:ENTCS03,DynamoRIO:2004,Pin:2005},
+% malware analysis~\cite{BitBlaze:2008,BAP:CAV11,Egele:USENIX07,Yin:CCS07},
+% reverse engineering~\cite{McSema:Recon14,Angr,Radare2}
+% and sand-boxing~\cite{Kiriansky:2002:SEV,Erlingsson:2006,Yee:2009}.
+% %
+% These tools, however, are not designed to formally reason about the binary 
+
+% depend, either explicitly or implicitly, on
+% correct modeling of
+%  the semantics of x86-64 instructions. 
+
+A formal semantics of \ISA is required for formal reasoning about binary code, one of the strongest ways to ensure its correctness.
+%
+An \emph{executable} semantics is especially powerful because it allows direct testing to gain confidence in the definitions of the semantics, and also because it can allow additional tools based on symbolic execution, like deductive verification and symbolic test generation.
+%
+Completely formalizing the semantics of \ISA, however, is challenging especially due to the complexity and the sheer number of instructions that are informally specified in the 3,000-page standard~\cite{IntelManual}.
+
+\paragraph{Existing Semantics for \ISA:}
+%
+To date, to the best of our knowledge, despite several explicit attempts~\cite{Heule2016a,Goel:FMCAD14,Goel:ProCoS17,Goel:VTTE13:ACP:2958657.2958669} and other related systems~\cite{Leroy:2009,Remill,TSL:TOPLAS13,Hasabnis:ASPLOS16,Hasabnis:FSE16},
+no \emph{complete} formal semantics of \ISA exists that can be used for formal reasoning about X86 binary programs.
+%
+Heule~\etal \cite{Heule2016a} presented a formal semantics of \ISA, but it covers only a fragment ($\sim$\strataPerc{}) of all instructions; as the authors of \cite{Heule2016a} candidly admitted, their synthesis methodology proved insufficient to add the remaining instructions. 
+%
+Moreover, their semantics misses certain essential details (Section~\ref{sec:Approach} \& \ref{sec:Eval}).
+% and it has not been demonstrated how to use their semantics to formally reason about the functional correctness of the \ISA binary.\footnote{Although they provide a tool that can extract SMT formulae describing each instruction's behavior from their semantics, we found errors in their tool and thus the generated SMT formulae. Also, most of the SMT solvers are not designed to support rich reasoning principles.}
+% natively support all the reasoning principles of the full-fledged proof assistants.}
+% for the general purpose formal reasoning.}
+%
+% it is not clear how to lift their semantics to the full-fledged theorem prover to be able to reason about the full functional correctness of the \ISA binary.
+% Although it can provide the semantics in the form of the SMT formulae, the SMT solver 
+%
+Goel~\etal~\cite{Goel:FMCAD14,Goel:ProCoS17,Goel:VTTE13:ACP:2958657.2958669}, on the other hand, specified a formal semantics in the ACL proof assistant~\cite{ACL2:Kaufmann2000}, allowing to reason about functional correctness, but their semantics covers only a small fragment ($\sim$\goelPerc{}) of all user-level instructions.
+%\Comment{Section 2 says they had only 191 unique opcodes, which is only about 20\%, and even less if you include system instructions. Which is correct?}
+%
+There also have been several attempts~\cite{Angr1,BAP:CAV11,Radare2,Hasabnis:FSE16} to \emph{indirectly} describe the \ISA semantics, where they define an intermediate language (IL), specify the IL semantics, and translate \ISA to the IL.
+This indirect semantics, however, may not be general enough to be used for different types of formal analyses, since the IL might be designed with specific purposes in mind, not to mention that the translation may miss certain important details of the instruction behaviors.
+%
+Refer to Section~\ref{sec:RW} for a more detailed comparison to existing semantics.
+
+
+\paragraph{Our Approach:}
+%
+We present the most complete and thoroughly tested formal semantics of user-level \ISA to date.
+We employed the \K framework~\cite{k-primer-2013-v32} as our formalism medium to leverage its capability of deriving various correct-by-construction formal analysis tools directly from the language semantics.
+We took Heule~\etal~\cite{Heule2016a}'s semantics as our starting point to avoid duplicating the formalization effort. % made by the formal semantics research community.
+We made several corrections or improvements to this semantics, to improve both soundness and efficiency.
+We systematically translated this semantics into \K, and cross-checked the translated semantics against the original using an SMT solver.
+% cross-checked it by comparing the SMT formulae generated by each formalism, increasing our convince of the faithfulness of the translation.
+We faithfully specified the semantics of the remaining instructions to obtain the complete semantics. %($\sim$40\%), obtaining the complete semantics.
+Like closely related previous work~\cite{Goel:FMCAD14,Heule2016a}, we omit the relaxed memory model of X86-64 and thus the concurrency-related operations.
+Modelling concurrency is a complex but relatively orthogonal problem in the presence of small-step operational semantics, as shown in prior work~\cite{Sarkar:POPL09,Owens:x86-TSO}.
+We leave it for future work.
+
+
+\paragraph{Contributions:}
+%
+We describe our primary contributions:
+
+%DSAND: Include Intel counts
+\begin{itemize}
+\item
+\emph{Completeness.}
+We present the most complete formal semantics of \ISA to date.
+Specifically, our semantics formalizes all the user-level instructions of the \ISA Haswell ISA, except deprecated ones,
+the AES cryptography extensions, and the concurrency-specific instructions, that is,
+\currentIS{} instructions covering \currentIntel{} mnemonics~\cite{IntelManual} (Section~\ref{sec:IC}).
+\item
+\emph{Faithfulness.}
+Being executable, our semantics has been thoroughly tested against 7,000+ test cases using the co-simulation method (Section~\ref{sec:Eval}).
+We found errors in both the \ISA standard document and other existing semantics including the baseline semantics (Section~\ref{sec:Eval}).
+\item
+\emph{Generality.}
+We demonstrate that our semantics can be used for various formal analyses, such as symbolic execution, deductive program verification, and program equivalence checking (Section~\ref{sec:Appl}).
+The \K framework also enables to represent our semantics as SMT theories,
+% that can be handled by various SMT solvers,
+which allows others to easily reuse our semantics for their own purposes.
+\end{itemize}
+%
+% \paragraph{Artifacts}
+Our formal semantics is publicly available at~\cite{Suppl}.
+
+
+% In this paper, we present the most complete and thoroughly tested formal semantics of \ISA to date.
+% Specifically, our semantics faithfully formalizes all the user-level instructions (\currentIS{} in total) of the \ISA Haswell ISA~\cite{IntelManual}.
+% Our semantics is specified in the K framework~\cite{k-primer-2013-v32} that allows us to execute our semantics, and derive various correct-by-construction formal analysis tools directly from the semantics.
+% Being executable, our semantics has been thoroughly tested against 7,000+ test cases using the co-simulation method (Section~\ref{sec:Eval}).
+% We also demonstrate that our semantics can be used for various formal analyses, such as symbolic execution, deductive program verification, and program equivalence checking (Section~\ref{sec:Appl}).
+% The K framework also allows us to represent our semantics in the SMT theories as well,
+% % that can be handled by various SMT solvers,
+% which allows others to easily reuse our semantics for their own purposes.
+
+
+
+
+\subsection{Challenges in Formalizing \ISA}
+
+% In addition to the sheer number of instructions to be specified,
+% % and the ambiguity of the informal standard document to consult,
+% the following aspects make it challenging to completely specify the formal semantics of \ISA.
+
+\paragraph{Size and Complexity:}
+%
+The \ISA ISA has a vast number of instructions, partly because of a large number of complex instructions and partly because it keeps all the legacy and deprecated instructions for the sake of backwards compatibility.
+It consists of \totalIntel{} mnemonics, and each mnemonic admits several variants, depending on the types (i.e., register, memory, or constant) and the size (i.e., the bit-width) of operands.
+
+\paragraph{Inconsistent Instruction Variants:}
+%
+Some variants have quite divergent behaviors more than the difference of their type and size. For example, \instr{movsd}, one of the 128-bit SSE instructions, has very different behaviors depending on whether the type of the source operand is register or memory; it clears the higher 64 bits of the target register only when the source type is memory.
+Indeed, we revealed bugs in other semantics due to their incorrect generalization of the variants' behavior.
+
+\paragraph{Ambiguous Documentation:}
+%
+The \ISA reference manual informally explains the instruction behaviors, leaving certain details unspecified or ambiguous, which required us to consult with an actual processor implementation to clarify such details.
+%
+Completely formalizing the vast number of instructions with carefully identifying all the corner cases from the informal document, thus, is highly non-trivial.
+% is a huge effort that may not seem to be feasible.
+% , simply because of the sheer number of instructions to be formalized.
+
+
+
+% \ISA has the special register \reg{rflags} that stores the current state of the processor.
+
+
+
+\paragraph{Undefined Behaviors:}
+%
+The \ISA standard also admits undefined behaviors that are implementation-dependent.
+Many instructions (\undefIntel{}\footnote{\label{note1}These numbers are obtained by parsing the official manual ``Volume 2: Instruction Set Reference'' and cross checked with projects~\cite{Stoke2013, Felix} investing similar efforts.} out of \totalIntel{}) have undefined behaviors: their output values of the destination register or the \reg{rflags} register are undefined in certain cases.
+% behaviors, for which each processor can choose any behavior.
+% For example, the bit-scan-forward instruction \instr{bsf} that computes the bit index of the least significant set bit in the source operand is not defined when the source operand's value is 0.
+That is, the processor is free to choose any behavior in the undefined case.
+% (i.e., no bit 1 appears), however, its output is implementation-dependent.
+% More than \undefPerc{}\% of all instructions admit undefined behaviors!
+%
+
+Many existing semantics, however, simply ``define'' the undefined behaviors by
+% consulting with an actual processor implementation.
+following a specific behavior taken by a processor implementation.
+This approach is problematic because they do not capture all possible behaviors of different processor implementations.
+Indeed, we found discrepancies between existing semantics in specifying the undefined behaviors, where different semantics are valid only for different groups of processors.
+That is, such semantics are not adequate to formally reason about universal properties (e.g., portability) of a program that need to be satisfied for all standard-conforming processors.
+%
+For example, the parity flag \reg{pf} is undefined in the logical-and-not instruction \instr{andn}, where the processor implementation is allowed to either update the flag value (to 0 or 1), or keep the previous value.
+We found, e.g., that Remill~\cite{Remill} updates the flag with 0, whereas Radare~\cite{Radare2} keeps it unmodified.
+% We found that Strata~\cite{Heule2016a} updates the flag based on the result of the \instr{andn} operation, whereas a binary analysis tool Radare~\cite{Radare2}, for example, keeps it unmodified.
+%
+Identifying and faithfully specifying all of the undefined behaviors, thus, are desirable but challenging.
+
+In our semantics, we faithfully modeled the undefined value as a unique symbol (called \s{undef}) whose value is nondeterministically decided within the proper range.
+These nondeterministic values are enough to capture and formally reason about all possible behaviors of the instructions for different processors (and even any future, standard-conforming processor).
+% Regarding the instruction-level testing (Section~\ref{sec:Eval}), we consider the \s{undef} symbol to be matched with any concrete value provided by the hardware, so that we can test the instructions modulo the undefined behaviors.
+
+
+
+
+% \paragraph{Undefined, Implementation-Dependent Behaviors}
+
+% According to the \ISA standard, 
+
+% We found that other semantics do not faithfully model the undefined behaviors, simply following a specific behavior taken by a processor implementation.
+%
+
+
+
+
+
+
+
+
+
+% many of the existing semantics do not faithfully specify the implementation-dependent semantics, and divergent behaviors across the different semantics.
+
+% Naively specifying the implementation-dependent behaviors by following the behaviors of an existing processor is problematic, because it cannot capture all possible behaviors of different processors.\footnote{Even if all of the existing processors agree on a certain behavior, it may not be the case in the future processors.}
+% That is, a program verified w.r.t. such a naive semantics may have different behaviors in another processor (in the future).
+% Identifying and faithfully specifying all of the implementation-dependent behaviors are challenging.
+% Indeed, we found that many of the existing semantics do not faithfully specify the implementation-dependent semantics, and divergent behaviors across the different semantics. % , which may not be sound for different processors.
+
+% A naive approach of specifying the implementation-dependent behaviors would be to follow the behaviors of an existing processor.
+% This approach has the benefits of having the co-simulation based testing straightforward.
+% However, the naively defined semantics cannot capture all possible behaviors of different processors.\footnote{Even if all of the existing processors agree on a certain behavior, it may not be the case in the future processors.}
+% That is, a program verified w.r.t. such a naive semantics may have different behaviors in another processor (in the future).
+
+
+% In effect, these
+% approaches restricts the value of the flag to a concrete value and hence a
+% semantics model based on these approaches prevent exploration of paths feasible
+% in some processor implementation.  Therefore, it is desirable to identify these
+% cases where a register or a flag could be undefined and to encode this
+% information in the model in such a way so as to assist exploration of all
+% resulting execution paths.
+
+
+
+
+
+
+%  However, such a modeling is difficult to obtain given the fact that the ISA is
+%  overly complex and the only published description of the \ISA ISA is the Intel
+%  manual~\cite{IntelManual} with over 3000 pages written in an ad-hoc combination of
+%  English and pseudo-code. Also Intel does not appear to have a formal model (not even internally) that fully defines CPU behavior (~\cite{Amit:SOSP15}, Section 4.1). This informal nature of the reference specification
+%  imposes a challenge in ensuring correctness of the developed formal 
+%  semantics.
+%  Most of the existing binary analysis tools mitigate the challenge by manually modeling  the specification of the semantics in their analysis IR which are then validated against the actual hardware to attain faithfulness of the model.
+
+% %% What are we offering?
+% Our goal is to formally model the semantics of all the user-level \ISA Haswell ISA, which is used widely for server and desktop machines nowadays. This work will not only help in formal reasoning on binary programs but also serve as a comparison reference for the existing binary analysis projects. In this paper we mention the challenges we faced and the lessons we learned while doing so. 
+
+% \subsection{Why Yet Another \ISA Semantics}
+% A formal semantics of a language is foundational to any formal reasoning about programs written in that language and serves as a trust base on which the faithfulness of downstream analyses and reasoning tools depends. Following are some of the desirable properties of a formal model:
+% \begin{itemize}
+%     \item \textbf{Completeness: }To make the model applicable to real world programs.
+%     \item \textbf{Executable: }To compare the model against a reference implementation, which in turn enhances the faithfulness of the model.     
+%     \item \textbf{Applicable for program reasoning \& verification: }To reason about arbitrary high-level properties on the program using a general reasoning infrastructure such as theorem prover.
+%     \item \textbf{Same artifact being used for both execution and formal reasoning: } To make the trust base smaller by having a single artifact used for both execution and formal reasoning. This also adds to the faithfulness of the model. Also having separate formalizations incur the overhead of maintaining both.
+%     \revisit{an example to show the relevance of this point}
+% \end{itemize}
+
+% %\revisit{Can we say McSema has formal spec? as I am not sure if McSema llvm based spec is to be called formal}
+% Several research groups have implemented, with considerable effort, their own
+%  instruction semantics specification for the \ISA instruction set. Notables are \Strata~\cite{Heule2016a} and Goel et. al.~\cite{Goel:FMCAD14, Goel:ProCoS17, Goel:VTTE13:ACP:2958657.2958669} which are considered state of the art in defining the formal semantics. 
+%  \Strata provides fairly complete support of instruction semantics but we found that the semantics specifications are not ready to be used directly for a solid foundation of formal reasoning. Indeed, we found several issues and inconsistencies in their semantics (more details in section~\ref{sec:Eval}).  Also, it is not clear how to connect the \Strata semantics to a full-fledged theorem prover in order to reason about the full functional correctness of the \ISA binary programs. On the other hand, the Goel et. al. semantics is far from being complete w.r.t user-level instruction coverage ($25.54\%$). As shown in Table~\ref{table:RW}, no existing semantics meet all the desired properties mentioned above (details about the comparison are mentioned in section~\ref{sec:RW}). Hence we developed a formal \ISA semantics
+% in order to have a single, clean-slate semantics that can be used not
+% only as a reference model for \ISA ISA, but also to develop formal
+% analysis tools for it.
+
+
+
+
+
+
+% \subsection{Our Appraoch}\label{sec:M} 
+% %% What is the methodology
+% Because of the huge volume of the user-level instructions available in Intel
+% Manual, we avoided modeling the entire set from scratch and decided to reuse
+% the effort and research already invested by other projects. Towards that goal,
+%     we chose to borrow the instruction semantics from project
+%     \Strata~\cite{Heule2016a}, which supports \strataPerc{} of the total user-level
+%     instructions. We modeled the semantics of remaining \currentManualPerc{} instructions by
+%     carefully consulting the Intel manual and put significant effort in
+%     validating the semantics (as detailed in section~\ref{sec:Eval}). More details about this
+%     aspect of our approach is presented in section~\ref{sec:harvestsema}. The
+%     choice of \Strata is based on the fact that 1. It has fairly complete
+%     instruction support, and 2. The semantic specifications are better suited,
+%     to be used as a starting point  towards defining formal semantics, than
+%     other specifications used in related projects having larger instruction
+%     support (refer to section~\ref{sec:RW} for more details). 
+
+% As detailed in section~\ref{sec:x86sema}, we employed \K~\cite{k-primer-2013-v32} to define the formal semantics of \ISA
+% ISA. Given that semantics, \K provides, at no additional cost,  an execution
+% engine, which yields an interpreter for the defined language, as well as a
+% sound and relatively complete deductive verification system based on symbolic
+% execution, which can be used to reason about \ISA programs.  \cmt{With that our
+%   x86 model serves both as an executable instruction-set simulator and a formal
+%     specification that is used to proof high-level properties about machine
+%     code.} The choice of \K is based on the additional fact that it is highly
+%     specialized in defining language semantics (as demonstrated by the full
+%         formal semantics of production languages like C and
+%         LLVM~\cite{Ellison,KC, KLLVM}) and  has high level of automation and
+%     expressive power\Qd{should I add "than other contemporary language
+%       formalization framework". Also  let me know if there is a better way to
+%         put the last sentence}.  
+
+
+ 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% 
+% \subsection{Contribution}
+% Our contributions can be listed as follows:
+% \begin{itemize}
+%     \item Developed a complete formal semantics of the \ISA user-level ISA. 
+%     \item Thoroughly tested the instructions semantics using
+%     \begin{itemize}
+%         \item Instruction level testing
+%         \item Program level testing
+%     \end{itemize}
+%     While doing so, we identify several important errors in pre-existing formalizations including Intel Manuals. Moreover, our specification of the x86 ISA is regularly validated to increase faithfulness of the semantics and the trust in the applicability of the results of formal analysis.
+%     \item Applied the semantics to formal reasoning on \ISA programs.
+%     \begin{itemize}
+%         \item Verified functional correctness of toy \Qd{I think non-trivial is a better choice than toy} programs, like \emph{sum-to-n}.
+%         \item Generated test cases using symbolic execution, for detecting security vulnerability.
+%         \item Checked equivalences between \ISA programs across different optimizations.
+%         \item Verified the translation of binary lifters targeting LLVM IR~\cite{McSema:Recon14, FCD}.
+%         \revisit{Need to reorder the sequence  once we have the x86 -> llvm validator in place} 
+%     \end{itemize}
+% \end{itemize}
+
+% \subsection{Outline}
+% Next, we present our formal, executable model of the x86 ISA from an
+% engineering standpoint and describe our design decisions and challenges in
+% extending Strata in detail.

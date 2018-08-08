@@ -1,0 +1,51 @@
+\begin{figure}[t]
+% \centering
+% \begin{tabular}{l@{\hskip 0.25in}|@{}l}
+\begin{lstlisting}[language=C++, basicstyle=\scriptsize,keywordstyle=\color{blue}]
+  int s = 0; int n = N;
+  while (n > 0) { s = s + n; n = n - 1; }
+  return s;
+\end{lstlisting}
+\vspace{-10pt}
+\begin{center}
+{\small (a) C source code}
+\end{center}
+% & 
+\begin{lstlisting}[
+language=Bash,
+keywordstyle=\color{blue},
+morekeywords={movl,cmpl,jle,addl,decl,jmp,ret},
+commentstyle=\color{gray},
+basicstyle=\scriptsize,
+numberstyle=\tiny\color{codegray},
+breaklines=true,
+breakatwhitespace=false,
+% numbers=left,
+stepnumber=1
+]
+  movl %edi, -20 (%rbp)   # %edi holds N
+  movl $0, -4 (%rbp)      # s = 0
+  movl -20(%rbp), %eax
+  movl %eax, -8(%rbp)     # n = N
+  L3: # loop header  
+    cmpl $0, -8(%rbp)     # check n <= 0
+    jle L2  # if n <= 0, then jump to end, else continue
+    movl -8(%rbp), %eax   # n > 0 at this point
+    addl %eax, -4(%rbp)   # s = s + n
+    decl -8(%rbp)         # n = n - 1
+    jmp L3                # jump back to loop header
+  L2:
+    movl -4(%rbp), %eax   # n <= 0 at this point
+    ret
+\end{lstlisting}
+\vspace{-15pt}
+\begin{center}
+{\small (b) \ISA assembly code}
+\end{center}
+% \multicolumn{1}{c|}{(a)} & \multicolumn{1}{c}{(b)} \\ 
+% \multicolumn{1}{c|}{\footnotesize C version} & \multicolumn{1}{c}{\footnotesize \ISA assembly version} \\ \hline
+% \end{tabular}
+\caption{\s{sum-to-n} program}
+\label{fig:sum2n}
+\end{figure}
+

@@ -1,0 +1,25 @@
+\begin{figure}[t]
+\scriptsize
+%
+$
+\begin{array}{@{}l@{}}
+\mbox{\scshape rule try} \\
+\kall{k}{\reduce{{}\terminal{try}{\variable[Stmt]{S}}\terminal{catch}({\variable[Var]{X}})\;{\variable[Stmt]{S'}}}{\variable[Stmt]{S}\kra{}\terminal{endtry}}\kra\variable[K]{K}}
+\mathrel{}\kall{ctrl}{\kall{excStack}{\reduce{\cdot}{{}({\variable[Var]{X}},{\variable[Stmt]{S'}},{\variable[K]{K}},{\variable[Bag]{C}})}\mathrel{}\AnyVar[List]}
+\mathrel{}\variable[Bag]{C}}
+\\[0.45cm]
+\mbox{\scshape rule throw} \\
+\kall{k}{\reduce{{}\terminal{throw}{\variable[K]{V_e}}\kra\AnyVar[K]}{{}{\terminal{let}\variable[K]{X}}={\variable[K]{V_e}}\terminal{in}{\variable[K]{S'}}\kra\variable[K]{K}}}
+\mathrel{}\kall{ctrl}{\kall{excStack}{\reduce{{}({\variable[K]{X}},{\variable[K]{S'}},{\variable[K]{K}},{\variable[Bag]{C}})}{\cdot}\mathrel{}\AnyVar[List]}
+\mathrel{}\reduce{\AnyVar[Bag]}{\variable[Bag]{C}}}
+\\[0.45cm]
+\mbox{\scshape rule end-try} \\
+\kprefix{k}{\reduce{\variable[CompletionType]{V_S}\kra{}\terminal{endtry}}{\variable[CompletionType]{V_S}}}
+\mathrel{}\kall{ctrl}{\kall{excStack}{\reduce{{}({\AnyVar[K]},{\AnyVar[K]},{\AnyVar[K]},{\AnyVar[Bag]})}{\cdot}\mathrel{}\AnyVar[List]}
+\mathrel{}\AnyVar[Bag]}
+\end{array}
+$
+%
+\caption{Exception semantics}
+\label{fig:exception}
+\end{figure}

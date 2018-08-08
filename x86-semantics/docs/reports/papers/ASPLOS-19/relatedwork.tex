@@ -1,0 +1,157 @@
+\section{Related Work}\label{sec:RW}
+
+% \Qt{Suggestion: I do not think we should include coverage numbers of projects that do not support direct semantics. And here are the reasons:
+%     1. Projects like angr or mcsema do have support  of x87 or mmx which we do not have. That way if we include 
+%     x87/mmx in the total instructions count we cannot say that we are 100\%.
+%     2. Now if we exclude x87/mmx instructions and give the percentage (and that way we can say we are 100\%), but  that may confuse people. 
+% 
+%     We can include Strata and Goel's work in the table (or write in text ) and *can* include the percentages because neither of them support X87/mmx. For the others we can argue that they are not direct. Also we may 
+%     add that bap, remill and radare2 are not complete. I can later will in what exact instruction they are missing  
+%  }
+% 
+% \Qd{\revisit{I think we should ommit exact percentage numbers all together in the table. We should replace that column with a simple yes/no checkmark whether the semantics is complete. Also remove all together projects that do not give semantics directly to x86 but to some IL.}}
+
+There have been many projects that host a formal semantics of \ISA either as
+their main contribution or as part of their infrastructure.
+Table~\ref{table:RW} summarizes such previous work and compares it to our formal
+semantics. We do the comparison in three directions that reflect the
+primary contributions of our work: the completeness of the definition in terms
+of supported user-level instructions, the faithfulness of the definition in
+terms of whether it is executable and hence can be evaluated with real code
+execution, and the generality of the definition in terms of its applicability to
+formal reasoning analyses. Next, we discuss in more detail each of the
+related works.
+
+
+\begin{table}
+\scalebox{0.7}{
+%\setlength{\arrayrulewidth}{.15em} 
+\begin{tabular}{l||ccc}
+\hline
+\\ [-10pt]
+\multicolumn{1}{l||}{\begin{tabular}[]{@{}c@{}}Project \\ Name\end{tabular}} & 
+\multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Complete Support of \\ \ISA User-Level \\ Instructions (in scope) \end{tabular}} &
+\multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Executable \\ Semantics\end{tabular}} &
+\multicolumn{1}{c}{\begin{tabular}[c]{@{}c@{}}Support for \\ Full-Fledged \\ Formal Reasoning\end{tabular}} \\
+\hline 
+\\ [-10pt]
+Strata~\cite{Heule2016a}          & \xmark & \rating{50} & \xmark      \\
+Goel et. al.~\cite{Goel:FMCAD14}  & \xmark & \cmark      & \cmark      \\
+CompCert~\cite{Leroy:2009}        & \xmark & \xmark      & \cmark      \\
+Remill~\cite{Remill}              & \xmark & \cmark      & \xmark      \\
+TSL~\cite{TSL:TOPLAS13}           & \xmark & \xmark      & \rating{50} \\
+\hline
+\textbf{Our Semantics}            & \cmark & \cmark      & \cmark      \\
+\hline
+\end{tabular}}
+\begin{center} 
+{\small
+    \cmark : Yes
+    \quad
+    \xmark : No % due to incorrect semantics
+    \quad
+    \rating{50} : Partially True
+    \hfill
+    %\quad
+    %\emph{NJ}: Node.js 0.10.29
+}
+\end{center}
+    \caption{Projects hosting semantics of the \ISA ISA.}
+    \label{table:RW}
+\end{table}
+
+\Strata~\cite{Heule2016a} uses program synthesis to generate the instruction
+semantics, as SMT bit-vector formulas, by learning their input/output behavior
+through execution on an actual processor. \Strata's semantics definition for
+\ISA is incomplete as it does not include semantics of about 40\% of the
+user-level instructions in scope that
+could not be learned automatically by the algorithm for various reasons. Even then,
+the result that the formal semantics of 60\% of the target \ISA ISA can be learned automatically
+is impressive, and we leverage this result in our work as described in
+section~\ref{sec:harvestsema}.
+The specifications are executable only for non floating-point (FP) instructions.
+The FP operations are represented in the SMT formulas of the definition as
+uninterpreted functions. Finally the specifications are given as SMT formulas
+but have not been demonstrated to be usable in a formal analysis setting out-of-the-box.
+
+Goel \etal~\cite{Goel:FMCAD14} use the ACL2 theorem-proving
+system~\cite{ACL2:Kaufmann2000} to model the \ISA ISA and has support for
+\goelPerc{} of all user level instructions~\cite{GoelList}. They have specifications of a selection
+of user-level instructions, some system-level instructions, paging, and
+segmentation. This list is far from a complete semantic definition of \ISA,
+however it is still the state-of-the-art in terms of formal analysis applied
+directly to \ISA code. It is also an executable definition as demonstrated in
+its use for simulations. In our work we do not leverage this definition, since
+we found a more complete definition such as \Strata to be a better starting
+point towards completeness.
+
+The CompCert verified compiler~\cite{Leroy:2009} includes semantics
+definitions for all intermediate and target languages used within the compiler,
+including a definition for X86 assembly. The definition is specified in
+the language of the Coq~\cite{Coq} proof assistant, and has been used in a formal
+setting for proving the correctness of the CompCert's compilation step to assembly,
+as well as outside CompCert, e.g., in proofs relating to the certified concurrent
+OS kernel CeriKOS~\cite{Gu:2016}. However, this definition focuses on the
+32-bit X86 instruction set, which is a small subset of the \ISA instruction 
+set.
+Moreover, it is part of the trust base for CompCert and it is not clear
+whether or how it has been tested against an actual processor, whereas
+\Strata and ours have been tested extensively.
+
+Remill~\cite{McSema:Recon14} is a static binary translator from \ISA to LLVM
+IR~\cite{LLVM:CGO04}. The translator contains specifications for \ISA instructions
+in the form of equivalent LLVM IR programs to assist the translation. This
+specification is neither complete nor formal and cannot be easily used
+in formal analysis.
+
+TSL~\cite{TSL:TOPLAS13} is a system that can auto-generate tools for
+various machine code analyses given a semantics definition of the machine
+language written in the TSL language. Such a semantics
+definition of the integer subset of the $32$-bit x86 instruction set is given
+as part of this project. It is used for the generation of
+various tools, including a machine code synthesizer~\cite{Srinivasan2015}.
+This definition is not executable and to the best of our knowledge cannot be
+used for formal specification proofs, i.e., to prove whether a given x86
+program meets its specification.
+
+Our semantics, similar to all the works mentioned above, use a sequential
+consistency memory model and omit a more appropriate weak memory model
+that would be better suited for most of today's multiprocessors.
+Works on
+weaker memory models for \ISA such as
+Owens et al.~\cite{Owens:2009} and Sarkar et al.~\cite{Sarkar:2009} can be
+incorporated into ours to provide a more realistic memory model.
+
+Finally, there are various binary analysis projects that target \ISA binaries
+and lift them to a higher-level representation more suitable for the
+specific analysis. These include Valgrind~\cite{Valgrind:ENTCS03} and
+Angr~\cite{Angr} that use the VEX IR, the QEMU~\cite{QEMU:USENIX05} emulator
+that uses the TCG IR, the software fault isolation tool
+RockSalt~\cite{Roclsalt:PLDI12} that uses its own RTL DSL, the disassembler and
+binary analyzer Radare2~\cite{Radare2} that uses the ESIL IR~\cite{ESIL},
+and the binary analysis
+tool BAP~\cite{BAP:CAV11} that also uses its own intermediate language.
+In all these
+cases the IR that is being analyzed is rigorously defined, but we refrain from
+considering these as formal specifications of \ISA because the
+actually specified language has abstracted away various features of \ISA.
+For example, both VEX IR and RockSalt use different simplified register
+semantics: VEX IR omits many implicit bit truncations
+and/or extensions that are part of many \ISA instruction semantics 
+(i.e., these have to be emulated separately by the program), while
+RockSalt's DSL uses an infinite register file instead of the finite
+\ISA register file.
+
+Hasabnis \etal~\cite{Hasabnis:ASPLOS16, Hasabnis:FSE16} also implement
+lifting of \ISA to an architecture-independent intermediate language (IL).
+In contrast with the other works above,
+they use machine learning~\cite{Hasabnis:ASPLOS16} and symbolic
+execution~\cite{Hasabnis:FSE16} techniques to automatically learn mappings
+from \ISA instructions to IL snippets. They learn these mappings by extracting
+knowledge from the hard-coded translation logic found in compilers such as GCC.
+The extracted mappings cover more than 99\% of \ISA instructions. However,
+similar to the rest of binary analysis works,
+the resulting IL cannot stand as a formal \ISA definition because it
+abstracts away important \ISA semantic details, e.g.,
+the effect of the various instructions on CPU flags.
+

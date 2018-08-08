@@ -1,0 +1,530 @@
+<!DOCTYPE html>
+<!--[if IEMobile 7]><html class="iem7" lang="en" dir="ltr"><![endif]-->
+<!--[if (lte IE 6)&(!IEMobile)]><html class="ie6 ie6-7 ie6-8" lang="en" dir="ltr"><![endif]-->
+<!--[if (IE 7)&(!IEMobile)]><html class="ie7 ie6-7 ie6-8" lang="en" dir="ltr"><![endif]-->
+<!--[if (IE 8)&(!IEMobile)]><html class="ie8 ie6-8" lang="en" dir="ltr"><![endif]-->
+<!--[if (gte IE 9)|(gt IEMobile 7)]><!--><html class="ie9up ie9" lang="en" dir="ltr"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:dc="http://purl.org/dc/terms/"
+  xmlns:foaf="http://xmlns.com/foaf/0.1/"
+  xmlns:og="http://ogp.me/ns#"
+  xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+  xmlns:sioc="http://rdfs.org/sioc/ns#"
+  xmlns:sioct="http://rdfs.org/sioc/types#"
+  xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema#"><!--<![endif]-->
+
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=Edge;chrome=1" />
+<meta charset="utf-8" />
+<link rel="canonical" href="https://software.intel.com/en-us/forums/intel-isa-extensions/topic/773342" />
+<link rel="shortcut icon" href="https://software.intel.com/sites/all/themes/isn3/favicon.ico" type="image/vnd.microsoft.icon" />
+<script  type="application/ld+json">{"@context":"http:\/\/schema.org","mainEntityofPage":"https:\/\/software.intel.com","publisher":{"@type":"Organization","logo":{"@type":"ImageObject","url":"https:\/\/software.intel.com\/sites\/default\/files\/managed\/01\/a1\/intel_blue.png","name":"thumbnail","width":"86","height":"60"},"name":"Intel"},"@type":"Question","learningResourceType":"forum","headline":"Possible errors in instruction semantics","name":"Possible errors in instruction semantics","datePublished":"2018-04-04 17:48:27","url":"https:\/\/software.intel.com\/forums\/intel-isa-extensions\/topic\/773342","image":"https:\/\/software.intel.com\/sites\/default\/files\/managed\/cb\/9f\/GoogleSearch-icon.jpg","inLanguage":"en","audience":"","genre":"20798,Server","keywords":"37011,Intel ISA Extensions,20857,Intel\u00ae Advanced Vector Extensions (Intel\u00ae AVX),20861,Intel\u00ae Streaming SIMD Extensions,20866,Optimization,20867,Parallel Computing,35851,Vectorization"}</script>
+<script type="text/javascript">
+//configure analytics
+var wa_ssg_data=
+{"wa_ssg_type_macro":"forum","wa_ssg_title":"Possible errors in instruction semantics","wa_ssg_nid":"773342","wa_ssg_local_code":"en_US","wa_ssg_audience":"","wa_ssg_zone":"20798,Server","wa_ssg_forums":"37011,Intel ISA Extensions","wa_ssg_technology":"20857,Intel\u00ae Advanced Vector Extensions (Intel\u00ae AVX),20861,Intel\u00ae Streaming SIMD Extensions","wa_ssg_topic":"20866,Optimization,20867,Parallel Computing,35851,Vectorization"}</script>
+<script>dataLayer = [{"timestamp":1533588882,"entityType":"node","entityBundle":"forum","entityId":"773342","entityLabel":"Possible errors in instruction semantics","entityLanguage":"en","entityTnid":"0","entityVid":"4172546","entityUid":"1771609","entityCreated":"1522889307","entityStatus":"1","entityUuid":"b8ad757b-fc8b-4115-a72c-696447044023","userUuid":"192b3516-0d5e-4e6f-bdc7-df9538ea1665","userInit":"1","drupalLanguage":"en","userUid":0,"systemId":"1","systemName":"idzDrupal"}];</script>
+<meta name="description" content="Dear Team, I would like to report on some disparity  between some instruction specification as documented in the Intel 64 and IA-32 Architectures Software Developer&#039;s Manual, Vol 2 and the actual execution behaviour. " />
+<meta name="generator" content="Drupal 7 (http://drupal.org)" />
+<link rel="shortlink" href="https://software.intel.com/en-us/node/773342" />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="MobileOptimized" content="width">
+<meta name="HandheldFriendly" content="true">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta http-equiv="cleartype" content="on">
+<title>Possible errors in instruction semantics</title>
+<link type="text/css" rel="stylesheet" href="https://software.intel.com/sites/default/files/css/css_xE-rWrJf-fncB6ztZfd2huxqgxu4WO-qwma6Xer30m4.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://software.intel.com/sites/default/files/css/css_mxbvRAV0_YoXwGCXbsQzCkegc1pXHICzfd8PPQD9YE4.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://software.intel.com/sites/default/files/css/css_vcHLDsqYqx7ryhd7KSTFc3kG771WxrPaz2f2qBTL39g.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://software.intel.com/sites/default/files/css/css_SqY3FuUhDPOPjPdhZC-pgUzRei7Zngbmwudd2vrkirM.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://software.intel.com/sites/default/files/css/css_jUk61oTYvK2Y8iVVWu1s7wpKe7AnGBXDJINm9EYmSac.css" media="all" />
+<link type="text/css" rel="stylesheet" href="https://software.intel.com/sites/default/files/css/css_5_EBsvYf_U3gqgv1Idal1sImw7zcXB1kaIR6NOugp8o.css" media="print" />
+<link type="text/css" rel="stylesheet" href="https://software.intel.com/sites/default/files/css/css_jkFzVp5cF2O86UXy7prFkCskSTShDkAjFozeJVJOgfs.css" media="all" />
+
+<!--[if IE]>
+<link type="text/css" rel="stylesheet" href="https://software.intel.com/sites/all/themes/isn3/css/ie/ie.less.css?pcufq5" media="all" />
+<![endif]-->
+
+<!--[if lte IE 8]>
+<link type="text/css" rel="stylesheet" href="https://software.intel.com/sites/all/themes/isn3/css/ie/ie-lte-8.less.css?pcufq5" media="all" />
+<![endif]-->
+
+<!--[if lte IE 9]>
+<link type="text/css" rel="stylesheet" href="https://software.intel.com/sites/all/themes/isn3/css/ie/ie-lte-9.less.css?pcufq5" media="all" />
+<![endif]-->
+
+<!--[if IE 8]>
+<link type="text/css" rel="stylesheet" href="https://software.intel.com/sites/all/themes/isn3/css/ie/ie-8.less.css?pcufq5" media="all" />
+<![endif]-->
+
+<!--[if IE 9]>
+<link type="text/css" rel="stylesheet" href="https://software.intel.com/sites/all/themes/isn3/css/ie/ie-9.less.css?pcufq5" media="all" />
+<![endif]-->
+<script src="https://software.intel.com/sites/default/files/js/js_vDrW3Ry_4gtSYaLsh77lWhWjIC6ml2QNkcfvfP5CVFs.js"></script>
+<script src="https://software.intel.com/sites/default/files/js/js_7GuRPblJq4GqNN3zCdam6SU6Y16t61-iK68YjR8jxmA.js"></script>
+<script src="https://software.intel.com/sites/default/files/js/js_CEcULLFTMV4q0ihR85UUYyqfCZWaAFqowXd3xr1wvYI.js"></script>
+<script src="https://sadmin.brightcove.com/js/BrightcoveExperiences.js"></script>
+<script src="https://software.intel.com/sites/default/files/js/js_lJU6ZyZxWzRTEqVKqIq8RN-_Hj_GqjWp2uiCuXtKRis.js"></script>
+<script>var _gaq = _gaq || [];_gaq.push(["_setAccount", "UA-17890616-1"]);var pluginUrl = 
+ '//www.google-analytics.com/plugins/ga/inpage_linkid.js';
+_gaq.push(['_require', 'inpage_linkid', pluginUrl]);
+_gaq.push(["_setDomainName", ".intel.com"]);
+_gaq.push(["_setAllowLinker", true]);_gaq.push(['_setCustomVar', 1, "locale-code", "en", 3]);_gaq.push(['_setCustomVar', 2, "content", "Forum topic||Server|", 3]);_gaq.push(['_setCustomVar', 3, "content-aud", "||Optimization, Parallel Computing, Vectorization|Intel ISA Extensions", 3]);_gaq.push(['_setCustomVar', 4, "content-meta", "Intel\u00ae Advanced Vector Extensions (Intel\u00ae AVX), Intel\u00ae Streaming SIMD Extens", 3]);_gaq.push(['_setCustomVar', 5, "member", "192b3516-0d5e-4e6f-bdc7-df9538ea1665|||", 3]);_gaq.push(['_setCustomVar', 6, "idz-node", "773342", 3]);_gaq.push(['_setCustomVar', 7, "idz-uuid", "192b3516-0d5e-4e6f-bdc7-df9538ea1665", 3]);_gaq.push(['_setCustomVar', 8, "export-who", "|0|profile_id||", 3]);_gaq.push(['_setCustomVar', 9, "export-what", "||1|node|773342|", 3]);_gaq.push(['_setCustomVar', 10, "export-when", "|1533588881|", 3]);_gaq.push(["_trackPageview"]);(function() {var ga = document.createElement("script");ga.type = "text/javascript";ga.async = true;ga.src = ("https:" == document.location.protocol ? "https://ssl" : "http://www") + ".google-analytics.com/ga.js";var s = document.getElementsByTagName("script")[0];s.parentNode.insertBefore(ga, s);})();</script>
+<script src="https://software.intel.com/sites/default/files/js/js_UmleyXlY4eQsLmH4ZXDDKg_NgsUjAAvB9xRgtC0r_s0.js"></script>
+<script src="https://software.intel.com/sites/default/files/js/js_Pf1vDioTcUT5NheHYW34tBhSXkPvL0NfyufbcSkCDeo.js"></script>
+<script>jQuery.extend(Drupal.settings, {"basePath":"\/","pathPrefix":"en-us\/","ajaxPageState":{"theme":"isn3","theme_token":"dkVipSAGC4HScMZr0XYHjnpBxg5E8NjzAqsQ9NBBqbQ","js":{"sites\/all\/themes\/zero\/js\/jquery.equalheights.min.js":1,"sites\/all\/modules\/custom\/idz_panelizer_widgets\/js\/collapse-list.min.js":1,"sites\/all\/modules\/custom\/bds\/resize-twitch.js":1,"sites\/all\/themes\/idzen\/js\/google-track.min.js":1,"sites\/all\/themes\/idzen\/js\/gss_search.js":1,"sites\/all\/themes\/isn3\/js\/widgets\/jcarousel_fix.min.js":1,"sites\/all\/themes\/isn3\/js\/plupload.min.js":1,"sites\/all\/themes\/idzen\/js\/rateus.js":1,"sites\/all\/themes\/idzen\/js\/breakpoints.min.js":1,"sites\/all\/themes\/idzen\/js\/utils\/redraw-siblings.min.js":1,"sites\/all\/themes\/idzen\/js\/brightcove-https-experience.min.js":1,"sites\/all\/themes\/idzen\/js\/responsive\/nav-menu-widget.min.js":1,"sites\/all\/themes\/idzen\/js\/responsive\/mobile-icon-button-widget.min.js":1,"sites\/all\/themes\/idzen\/js\/responsive\/language-selector.min.js":1,"sites\/all\/themes\/idzen\/js\/responsive\/look-for-intel-widget.min.js":1,"sites\/all\/themes\/idzen\/js\/responsive\/user-login-widget.min.js":1,"sites\/all\/themes\/idzen\/js\/responsive\/header-nav-menu-widget.min.js":1,"sites\/all\/themes\/zen\/js\/respond.js":1,"sites\/all\/modules\/custom\/idz_search\/js\/idz_search_block.min.js":1,"misc\/jquery.js":1,"misc\/jquery.once.js":1,"misc\/drupal.js":1,"misc\/ui\/jquery.ui.core.min.js":1,"misc\/ui\/jquery.ui.widget.min.js":1,"misc\/ui\/jquery.ui.position.min.js":1,"misc\/ui\/jquery.ui.autocomplete.min.js":1,"misc\/jquery.cookie.js":1,"sites\/all\/modules\/contrib\/dhtml_menu\/dhtml_menu.js":1,"sites\/all\/modules\/contrib\/gss\/scripts\/autocomplete.js":1,"sites\/all\/modules\/custom\/intel_belt_rewards\/intel_belt_rewards.js":1,"sites\/all\/modules\/custom\/social_block\/social-block.min.js":1,"https:\/\/sadmin.brightcove.com\/js\/BrightcoveExperiences.js":1,"sites\/all\/modules\/contrib\/quote\/quote.js":1,"sites\/all\/modules\/contrib\/google_analytics\/googleanalytics.js":1,"0":1,"sites\/all\/themes\/idzen\/js\/vendors\/jquery\/jquery-1.10.2.min.js":1,"sites\/all\/themes\/idz_admin\/js\/chosen.jquery.min.js":1,"sites\/all\/themes\/idz_admin\/js\/custom-chosen.min.js":1,"sites\/all\/themes\/idzen\/js\/jquery-noconflict.min.js":1,"sites\/all\/themes\/isn3\/js\/best_reply_flag_hider.min.js":1,"sites\/all\/themes\/isn3\/js\/flag_altered.min.js":1,"sites\/all\/modules\/contrib\/field_group\/field_group.js":1,"sites\/all\/themes\/isn3\/js\/best_reply_link.min.js":1,"sites\/all\/modules\/contrib\/datalayer\/js\/getCanonical.js":1,"sites\/all\/themes\/isn3\/js\/header.min.js":1,"sites\/all\/themes\/isn3\/js\/tabs.min.js":1,"sites\/all\/themes\/isn3\/js\/collapsible.min.js":1,"sites\/all\/themes\/isn3\/js\/tooltip.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shCore.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushBash.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushCpp.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushCSharp.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushCss.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushFortran.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushJava.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushJScript.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushPerl.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushPhp.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushPlain.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushPython.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushR.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushRuby.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushSql.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/scripts\/shBrushXml.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/intel-filter.min.js":1,"sites\/all\/themes\/isn3\/..\/zen\/js\/respond.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/vendors\/jquery\/jquery-1.10.2.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/plugins\/jquery.breakpoint.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/jquery-noconflict.min.js":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/idzen-init.min.js":1},"css":{"modules\/system\/system.base.css":1,"modules\/system\/system.menus.css":1,"modules\/system\/system.messages.css":1,"modules\/system\/system.theme.css":1,"misc\/ui\/jquery.ui.core.css":1,"misc\/ui\/jquery.ui.theme.css":1,"misc\/ui\/jquery.ui.autocomplete.css":1,"sites\/all\/modules\/custom\/bds\/bds.css":1,"modules\/book\/book.css":1,"sites\/all\/modules\/contrib\/calendar\/css\/calendar_multiday.css":1,"modules\/comment\/comment.css":1,"sites\/all\/modules\/contrib\/date\/date_api\/date.css":1,"sites\/all\/modules\/contrib\/date\/date_popup\/themes\/datepicker.1.7.css":1,"sites\/all\/modules\/contrib\/dhtml_menu\/dhtml_menu.css":1,"modules\/field\/theme\/field.css":1,"modules\/node\/node.css":1,"sites\/all\/modules\/custom\/node_attachments_block\/node-attachments-block.less.css":1,"modules\/search\/search.css":1,"sites\/all\/modules\/custom\/social_block\/social-block.less.css":1,"modules\/user\/user.css":1,"modules\/forum\/forum.css":1,"sites\/all\/modules\/contrib\/views\/css\/views.css":1,"sites\/all\/modules\/contrib\/ctools\/css\/ctools.css":1,"sites\/all\/modules\/contrib\/panels\/css\/panels.css":1,"sites\/all\/modules\/contrib\/quote\/quote.css":1,"sites\/all\/modules\/custom\/idz_panelizer_widgets\/css\/collapse-list.css":1,"modules\/contextual\/contextual.css":1,"modules\/locale\/locale.css":1,"sites\/all\/themes\/idz_admin\/css\/custom-chosen.less.css":1,"sites\/all\/themes\/idz_admin\/css\/chosen.min.css":1,"sites\/all\/modules\/custom\/intel_advanced_forum_style\/styles\/idz\/advanced-forum.idz.images.css":1,"sites\/all\/modules\/custom\/intel_advanced_forum_style\/styles\/idz\/advanced-forum.idz.structure.css":1,"sites\/all\/themes\/adaptivetheme\/adaptivetheme\/css\/at.base.css":1,"sites\/all\/themes\/adaptivetheme\/adaptivetheme\/css\/at.layout.css":1,"sites\/all\/themes\/adaptivetheme\/adaptivetheme\/css\/at.messages.css":1,"sites\/all\/themes\/isn3\/css\/html-elements.css":1,"sites\/all\/themes\/isn3\/css\/forms.css":1,"sites\/all\/themes\/isn3\/css\/tables.css":1,"sites\/all\/themes\/isn3\/css\/fields.css":1,"sites\/all\/themes\/isn3\/css\/page.less.css":1,"sites\/all\/themes\/isn3\/css\/articles.css":1,"sites\/all\/themes\/isn3\/css\/comments.less.css":1,"sites\/all\/themes\/isn3\/css\/blocks.less.css":1,"sites\/all\/themes\/isn3\/css\/forum-page.less.css":1,"sites\/all\/themes\/isn3\/css\/views.less.css":1,"sites\/all\/themes\/isn3\/css\/bootstrap-idz.less.css":1,"sites\/all\/themes\/isn3\/css\/search.less.css":1,"sites\/all\/themes\/isn3\/css\/tooltip.css":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/styles\/shCore.css":1,"sites\/all\/themes\/isn3\/..\/idzen\/js\/syntaxhighlighter\/styles\/shThemeIntel.css":1,"sites\/all\/themes\/isn3\/..\/idzen\/css\/export.css":1,"sites\/all\/themes\/isn3\/..\/idzen\/css\/components\/images.css":1,"sites\/all\/themes\/isn3\/css\/print.css":1,"sites\/all\/themes\/isn3\/css\/isn3.responsive.style.less.css":1,"sites\/all\/themes\/isn3\/css\/isn3.responsive.gpanels.css":1,"sites\/all\/themes\/isn3\/css\/ie\/ie.less.css":1,"sites\/all\/themes\/isn3\/css\/ie\/ie-lte-8.less.css":1,"sites\/all\/themes\/isn3\/css\/ie\/ie-lte-9.less.css":1,"sites\/all\/themes\/isn3\/css\/ie\/ie-8.less.css":1,"sites\/all\/themes\/isn3\/css\/ie\/ie-9.less.css":1}},"dhtmlMenu":{"nav":"bullet","animation":{"effects":{"height":"height","opacity":"opacity","width":0},"speed":"500"},"effects":{"siblings":"close-same-tree","children":"none","remember":""},"filter":{"type":"blacklist","list":{"main-menu":"main-menu","management":"management","menu-advisor":"menu-advisor","menu-advisor-second-menu":"menu-advisor-second-menu","menu-all-development-areas":"menu-all-development-areas","menu-android-resources":"menu-android-resources","menu-auto-driving-second-footer":"menu-auto-driving-second-footer","menu-automated-driving":"menu-automated-driving","menu-catc-2018":"menu-catc-2018","menu-computer-vision-sdk":"menu-computer-vision-sdk","menu-computer-vision-sdk-footer":"menu-computer-vision-sdk-footer","menu-data-center":"menu-data-center","menu-data-center-second-footer":"menu-data-center-second-footer","menu-dev-api-second-footer":"menu-dev-api-second-footer","menu-developer-zone-index":"menu-developer-zone-index","menu-dx-second-footer":"menu-dx-second-footer","menu-game-dev":"menu-game-dev","menu-game-dev-second-footer":"menu-game-dev-second-footer","menu-gpa":"menu-gpa","menu-gpa-second-footer":"menu-gpa-second-footer","menu-harp-menu":"menu-harp-menu","menu-home":"menu-home","menu-home-second-footer":"menu-home-second-footer","menu-hpc-containers-from-intel":"menu-hpc-containers-from-intel","menu-html5-second-footer-menu":"menu-html5-second-footer-menu","menu-inde":"menu-inde","menu-intel-aero":"menu-intel-aero","menu-intel-aero-second-footer":"menu-intel-aero-second-footer","menu-intel-dist-for-pyth":"menu-intel-dist-for-pyth","menu-intel-go-automotive-sdk":"menu-intel-go-automotive-sdk","menu-intel-go-automotive-sdk-sec":"menu-intel-go-automotive-sdk-sec","menu-intel-media-sdk":"menu-intel-media-sdk","menu-intel-mkl":"menu-intel-mkl","menu-intel-mkl-second-footer":"menu-intel-mkl-second-footer","menu-intel-realsense-sdk-for-win":"menu-intel-realsense-sdk-for-win","menu-intel-realsense-technology":"menu-intel-realsense-technology","menu-intel-secure-device-onboard":"menu-intel-secure-device-onboard","menu-intel-security-dev-api":"menu-intel-security-dev-api","menu-intel-system-studio":"menu-intel-system-studio","menu-intel-true-vr-sdk":"menu-intel-true-vr-sdk","menu-intel-xdk":"menu-intel-xdk","menu-iot":"menu-iot","menu-iot-main-menu":"menu-iot-main-menu","menu-iot-second-footer":"menu-iot-second-footer","menu-ipsxe":"menu-ipsxe","menu-ipsxe-second-footer":"menu-ipsxe-second-footer","menu-iss-second-footer":"menu-iss-second-footer","menu-machine-learning":"menu-machine-learning","menu-machine-learning-second-foo":"menu-machine-learning-second-foo","menu-media-sdk-second-footer":"menu-media-sdk-second-footer","menu-meet-the-developers":"menu-meet-the-developers","menu-modern-code":"menu-modern-code","menu-modern-code-second-footer":"menu-modern-code-second-footer","menu-networking":"menu-networking","menu-networking-second-footer":"menu-networking-second-footer","menu-openvino-toolkit":"menu-openvino-toolkit","menu-openvino-toolkit-second-foo":"menu-openvino-toolkit-second-foo","menu-persistent-memory":"menu-persistent-memory","menu-persistent-memory-second-fo":"menu-persistent-memory-second-fo","menu-python-second-footer":"menu-python-second-footer","menu-realsense-sdk-footer-disc":"menu-realsense-sdk-footer-disc","menu-realsense-tech-second-foot":"menu-realsense-tech-second-foot","menu-saffron-second-footer":"menu-saffron-second-footer","menu-sbe":"menu-sbe","menu-second-footer-for-intel-tru":"menu-second-footer-for-intel-tru","menu-test-ai-menu":"menu-test-ai-menu","menu-test-second-footer":"menu-test-second-footer","menu-time-coordinated-computing":"menu-time-coordinated-computing","menu-ux-main-menu":"menu-ux-main-menu","menu-virtual-reality":"menu-virtual-reality","menu-virtual-reality-second-foot":"menu-virtual-reality-second-foot","menu-vpa":"menu-vpa","menu-windows":"menu-windows","menu-windows-second-footer":"menu-windows-second-footer","navigation":"navigation","shortcut-set-1":"shortcut-set-1","user-menu":"user-menu","book-toc-401277":0,"book-toc-430100":0,"book-toc-430130":0,"book-toc-430162":0,"book-toc-430192":0,"book-toc-438058":0,"book-toc-468328":0,"book-toc-471718":0,"book-toc-471794":0,"book-toc-471828":0,"book-toc-471868":0,"book-toc-471898":0,"book-toc-471930":0,"book-toc-471960":0,"book-toc-471994":0,"book-toc-472026":0,"book-toc-473525":0,"book-toc-473527":0,"book-toc-473607":0,"book-toc-473611":0,"book-toc-474337":0,"book-toc-474339":0,"book-toc-487631":0,"book-toc-488036":0,"book-toc-492826":0,"book-toc-498033":0,"book-toc-498423":0,"book-toc-498595":0,"book-toc-498812":0,"book-toc-499114":0,"book-toc-499820":0,"book-toc-501015":0,"book-toc-501640":0,"book-toc-501977":0,"book-toc-501979":0,"book-toc-501980":0,"book-toc-501994":0,"book-toc-502751":0,"book-toc-503882":0,"book-toc-505525":0,"book-toc-506039":0,"book-toc-507032":0,"book-toc-507536":0,"book-toc-512418":0,"book-toc-514749":0,"book-toc-515758":0,"book-toc-517597":0,"book-toc-517758":0,"book-toc-519946":0,"book-toc-520075":0,"book-toc-520076":0,"book-toc-520268":0,"book-toc-520269":0,"book-toc-520277":0,"book-toc-520666":0,"book-toc-520667":0,"book-toc-520699":0,"book-toc-522347":0,"book-toc-524566":0,"book-toc-528316":0,"book-toc-528318":0,"book-toc-528490":0,"book-toc-528650":0,"book-toc-528760":0,"book-toc-528852":0,"book-toc-529109":0,"book-toc-529110":0,"book-toc-529130":0,"book-toc-529730":0,"book-toc-529753":0,"book-toc-529755":0,"book-toc-530757":0,"book-toc-530758":0,"book-toc-531234":0,"book-toc-531605":0,"book-toc-531606":0,"book-toc-531607":0,"book-toc-532310":0,"book-toc-533929":0,"book-toc-534019":0,"book-toc-534443":0,"book-toc-534451":0,"book-toc-534454":0,"book-toc-534455":0,"book-toc-534755":0,"book-toc-535200":0,"book-toc-535292":0,"book-toc-535512":0,"book-toc-535564":0,"book-toc-538742":0,"book-toc-539278":0,"book-toc-539279":0,"book-toc-539988":0,"book-toc-540373":0,"book-toc-540374":0,"book-toc-540375":0,"book-toc-540376":0,"book-toc-540377":0,"book-toc-540416":0,"book-toc-540499":0,"book-toc-540565":0,"book-toc-541291":0,"book-toc-541704":0,"book-toc-541735":0,"book-toc-541738":0,"book-toc-542152":0,"book-toc-543885":0,"book-toc-543995":0,"book-toc-544575":0,"book-toc-544972":0,"book-toc-550889":0,"book-toc-551014":0,"book-toc-551034":0,"book-toc-556953":0,"book-toc-557537":0,"book-toc-559913":0,"book-toc-559914":0,"book-toc-561188":0,"book-toc-561203":0,"book-toc-561212":0,"book-toc-561218":0,"book-toc-561269":0,"book-toc-561457":0,"book-toc-561592":0,"book-toc-561831":0,"book-toc-561846":0,"book-toc-561866":0,"book-toc-561885":0,"book-toc-562383":0,"book-toc-564482":0,"book-toc-564572":0,"book-toc-564573":0,"book-toc-564889":0,"book-toc-565519":0,"book-toc-565530":0,"book-toc-566133":0,"book-toc-566144":0,"book-toc-566726":0,"book-toc-566739":0,"book-toc-567641":0,"book-toc-567642":0,"book-toc-567643":0,"book-toc-567645":0,"book-toc-567646":0,"book-toc-569961":0,"book-toc-569963":0,"book-toc-583849":0,"book-toc-584151":0,"book-toc-584152":0,"book-toc-584153":0,"book-toc-584154":0,"book-toc-584155":0,"book-toc-584156":0,"book-toc-584159":0,"book-toc-584160":0,"book-toc-584162":0,"book-toc-584170":0,"book-toc-584172":0,"book-toc-584182":0,"book-toc-584183":0,"book-toc-584185":0,"book-toc-585194":0,"book-toc-585207":0,"book-toc-585224":0,"book-toc-586153":0,"book-toc-586154":0,"book-toc-586166":0,"book-toc-587354":0,"book-toc-587363":0,"book-toc-587395":0,"book-toc-587399":0,"book-toc-587422":0,"book-toc-587431":0,"book-toc-587454":0,"book-toc-587463":0,"book-toc-587464":0,"book-toc-587486":0,"book-toc-587487":0,"book-toc-587489":0,"book-toc-587495":0,"book-toc-587504":0,"book-toc-587510":0,"book-toc-587542":0,"book-toc-587599":0,"book-toc-587604":0,"book-toc-587607":0,"book-toc-587629":0,"book-toc-587631":0,"book-toc-587633":0,"book-toc-587773":0,"book-toc-587776":0,"book-toc-587779":0,"book-toc-587781":0,"book-toc-587790":0,"book-toc-587853":0,"book-toc-587885":0,"book-toc-587916":0,"book-toc-587917":0,"book-toc-587919":0,"book-toc-587922":0,"book-toc-587924":0,"book-toc-587996":0,"book-toc-588028":0,"book-toc-588060":0,"book-toc-588067":0,"book-toc-588073":0,"book-toc-588172":0,"book-toc-588204":0,"book-toc-588210":0,"book-toc-588216":0,"book-toc-588217":0,"book-toc-588218":0,"book-toc-588313":0,"book-toc-588315":0,"book-toc-588345":0,"book-toc-588347":0,"book-toc-588353":0,"book-toc-588359":0,"book-toc-588360":0,"book-toc-588361":0,"book-toc-588392":0,"book-toc-588424":0,"book-toc-588458":0,"book-toc-588460":0,"book-toc-588576":0,"book-toc-588600":0,"book-toc-588606":0,"book-toc-588607":0,"book-toc-588638":0,"book-toc-588663":0,"book-toc-588743":0,"book-toc-588749":0,"book-toc-588781":0,"book-toc-588806":0,"book-toc-588886":0,"book-toc-588892":0,"book-toc-588893":0,"book-toc-589029":0,"book-toc-589035":0,"book-toc-589067":0,"book-toc-589092":0,"book-toc-589099":0,"book-toc-589145":0,"book-toc-589172":0,"book-toc-589178":0,"book-toc-589210":0,"book-toc-589235":0,"book-toc-589242":0,"book-toc-589288":0,"book-toc-589321":0,"book-toc-589353":0,"book-toc-589378":0,"book-toc-589385":0,"book-toc-589431":0,"book-toc-589483":0,"book-toc-589521":0,"book-toc-589568":0,"book-toc-589574":0,"book-toc-590013":0,"book-toc-590352":0,"book-toc-590353":0,"book-toc-590620":0,"book-toc-590623":0,"book-toc-591704":0,"book-toc-591768":0,"book-toc-591972":0,"book-toc-592009":0,"book-toc-592052":0,"book-toc-592054":0,"book-toc-592389":0,"book-toc-592401":0,"book-toc-592415":0,"book-toc-592429":0,"book-toc-592442":0,"book-toc-592487":0,"book-toc-592526":0,"book-toc-592919":0,"book-toc-593280":0,"book-toc-593589":0,"book-toc-594272":0,"book-toc-594324":0,"book-toc-594555":0,"book-toc-594816":0,"book-toc-595378":0,"book-toc-596103":0,"book-toc-596404":0,"book-toc-596468":0,"book-toc-597167":0,"book-toc-597690":0,"book-toc-598097":0,"book-toc-599846":0,"book-toc-600044":0,"book-toc-600381":0,"book-toc-602161":0,"book-toc-603207":0,"book-toc-603214":0,"book-toc-603220":0,"book-toc-603644":0,"book-toc-603755":0,"book-toc-603786":0,"book-toc-604281":0,"book-toc-604282":0,"book-toc-604531":0,"book-toc-604532":0,"book-toc-605227":0,"book-toc-607226":0,"book-toc-607310":0,"book-toc-607323":0,"book-toc-607353":0,"book-toc-608014":0,"book-toc-608324":0,"book-toc-609793":0,"book-toc-610391":0,"book-toc-610445":0,"book-toc-610465":0,"book-toc-610591":0,"book-toc-610914":0,"book-toc-611630":0,"book-toc-622387":0,"book-toc-622642":0,"book-toc-622915":0,"book-toc-622961":0,"book-toc-623003":0,"book-toc-623535":0,"book-toc-623566":0,"book-toc-623572":0,"book-toc-623578":0,"book-toc-624002":0,"book-toc-624481":0,"book-toc-624554":0,"book-toc-624556":0,"book-toc-625343":0,"book-toc-628212":0,"book-toc-628252":0,"book-toc-628408":0,"book-toc-628730":0,"book-toc-628866":0,"book-toc-628966":0,"book-toc-629122":0,"book-toc-629161":0,"book-toc-631396":0,"book-toc-633223":0,"book-toc-633281":0,"book-toc-635289":0,"book-toc-635459":0,"book-toc-639647":0,"book-toc-639805":0,"book-toc-639936":0,"book-toc-642700":0,"book-toc-651109":0,"book-toc-651135":0,"book-toc-659418":0,"book-toc-660920":0,"book-toc-661272":0,"book-toc-667811":0,"book-toc-667949":0,"book-toc-672403":0,"book-toc-672519":0,"book-toc-672529":0,"book-toc-672535":0,"book-toc-673497":0,"book-toc-674861":0,"book-toc-674972":0,"book-toc-675478":0,"book-toc-675480":0,"book-toc-675482":0,"book-toc-675484":0,"book-toc-675486":0,"book-toc-675488":0,"book-toc-676249":0,"book-toc-676253":0,"book-toc-676255":0,"book-toc-676257":0,"book-toc-676261":0,"book-toc-676262":0,"book-toc-676264":0,"book-toc-676403":0,"book-toc-677888":0,"book-toc-680259":0,"book-toc-680293":0,"book-toc-680316":0,"book-toc-680317":0,"book-toc-680319":0,"book-toc-680321":0,"book-toc-681460":0,"book-toc-681478":0,"book-toc-681573":0,"book-toc-681575":0,"book-toc-681616":0,"book-toc-681618":0,"book-toc-681863":0,"book-toc-681910":0,"book-toc-681911":0,"book-toc-681915":0,"book-toc-681916":0,"book-toc-681917":0,"book-toc-681918":0,"book-toc-682320":0,"book-toc-684610":0,"book-toc-684692":0,"book-toc-684707":0,"book-toc-684728":0,"book-toc-684867":0,"book-toc-685011":0,"book-toc-685304":0,"book-toc-685375":0,"book-toc-685376":0,"book-toc-685451":0,"book-toc-685453":0,"book-toc-685454":0,"book-toc-685455":0,"book-toc-685456":0,"book-toc-685458":0,"book-toc-691235":0,"book-toc-691238":0,"book-toc-691253":0,"book-toc-691284":0,"book-toc-691400":0,"book-toc-692902":0,"book-toc-696094":0,"book-toc-696878":0,"book-toc-696906":0,"book-toc-697690":0,"book-toc-697727":0,"book-toc-698585":0,"book-toc-699454":0,"book-toc-699541":0,"book-toc-700327":0,"book-toc-700717":0,"book-toc-701415":0,"book-toc-701542":0,"book-toc-701626":0,"book-toc-702385":0,"book-toc-703101":0,"book-toc-704094":0,"book-toc-704718":0,"book-toc-705690":0,"book-toc-705837":0,"book-toc-707344":0,"book-toc-709265":0,"book-toc-711193":0,"book-toc-711426":0,"book-toc-712559":0,"book-toc-712619":0,"book-toc-712658":0,"book-toc-712672":0,"book-toc-712679":0,"book-toc-712809":0,"book-toc-713788":0,"book-toc-713886":0,"book-toc-714344":0,"book-toc-715008":0,"book-toc-715188":0,"book-toc-717511":0,"book-toc-717512":0,"book-toc-717539":0,"book-toc-720032":0,"book-toc-720369":0,"book-toc-720718":0,"book-toc-721119":0,"book-toc-721211":0,"book-toc-721395":0,"book-toc-721433":0,"book-toc-721564":0,"book-toc-721990":0,"book-toc-722243":0,"book-toc-722458":0,"book-toc-722460":0,"book-toc-722465":0,"book-toc-722466":0,"book-toc-722467":0,"book-toc-722468":0,"book-toc-722524":0,"book-toc-724083":0,"book-toc-724115":0,"book-toc-724116":0,"book-toc-724117":0,"book-toc-724552":0,"book-toc-724553":0,"book-toc-724554":0,"book-toc-724599":0,"book-toc-725639":0,"book-toc-725807":0,"book-toc-725968":0,"book-toc-726251":0,"book-toc-727706":0,"book-toc-727707":0,"book-toc-727708":0,"book-toc-727709":0,"book-toc-729457":0,"book-toc-731038":0,"book-toc-731039":0,"book-toc-731053":0,"book-toc-731066":0,"book-toc-731067":0,"book-toc-731080":0,"book-toc-731228":0,"book-toc-733274":0,"book-toc-733361":0,"book-toc-733378":0,"book-toc-734163":0,"book-toc-734669":0,"book-toc-734715":0,"book-toc-734898":0,"book-toc-734910":0,"book-toc-734937":0,"book-toc-734967":0,"book-toc-734968":0,"book-toc-734977":0,"book-toc-734985":0,"book-toc-734996":0,"book-toc-735008":0,"book-toc-735024":0,"book-toc-735042":0,"book-toc-735049":0,"book-toc-735072":0,"book-toc-735089":0,"book-toc-735138":0,"book-toc-735175":0,"book-toc-735195":0,"book-toc-735216":0,"book-toc-735248":0,"book-toc-735382":0,"book-toc-735572":0,"book-toc-735854":0,"book-toc-737016":0,"book-toc-737207":0,"book-toc-737243":0,"book-toc-737282":0,"book-toc-737308":0,"book-toc-737312":0,"book-toc-737456":0,"book-toc-737474":0,"book-toc-737481":0,"book-toc-737568":0,"book-toc-738158":0,"book-toc-740374":0,"book-toc-740598":0,"book-toc-740721":0,"book-toc-741358":0,"book-toc-741434":0,"book-toc-741538":0,"book-toc-742008":0,"book-toc-742976":0,"book-toc-743107":0,"book-toc-743241":0,"book-toc-743254":0,"book-toc-743305":0,"book-toc-743335":0,"book-toc-743355":0,"book-toc-743374":0,"book-toc-743405":0,"book-toc-743698":0,"book-toc-743723":0,"book-toc-743741":0,"book-toc-743742":0,"book-toc-744050":0,"book-toc-744051":0,"book-toc-744084":0,"book-toc-744089":0,"book-toc-744105":0,"book-toc-744327":0,"book-toc-744350":0,"book-toc-744351":0,"book-toc-744355":0,"book-toc-744366":0,"book-toc-744367":0,"book-toc-744368":0,"book-toc-744369":0,"book-toc-744370":0,"book-toc-744371":0,"book-toc-744373":0,"book-toc-744394":0,"book-toc-744395":0,"book-toc-744396":0,"book-toc-744712":0,"book-toc-745781":0,"book-toc-745794":0,"book-toc-745809":0,"book-toc-745815":0,"book-toc-745826":0,"book-toc-745832":0,"book-toc-745838":0,"book-toc-745857":0,"book-toc-745869":0,"book-toc-745877":0,"book-toc-745883":0,"book-toc-745890":0,"book-toc-745911":0,"book-toc-746171":0,"book-toc-746883":0,"book-toc-746991":0,"book-toc-747381":0,"book-toc-747537":0,"book-toc-747737":0,"book-toc-748161":0,"book-toc-748987":0,"book-toc-749079":0,"book-toc-749343":0,"book-toc-749391":0,"book-toc-752305":0,"book-toc-752323":0,"book-toc-753957":0,"book-toc-754334":0,"book-toc-754366":0,"book-toc-754724":0,"book-toc-754929":0,"book-toc-755030":0,"book-toc-755770":0,"book-toc-757201":0,"book-toc-757901":0,"book-toc-757919":0,"book-toc-757959":0,"book-toc-758172":0,"book-toc-758977":0,"book-toc-759136":0,"book-toc-759195":0,"book-toc-759317":0,"book-toc-759336":0,"book-toc-759342":0,"book-toc-759515":0,"book-toc-759672":0,"book-toc-759711":0,"book-toc-759712":0,"book-toc-759795":0,"book-toc-760640":0,"book-toc-760641":0,"book-toc-760642":0,"book-toc-760643":0,"book-toc-760652":0,"book-toc-760671":0,"book-toc-760682":0,"book-toc-760699":0,"book-toc-760718":0,"book-toc-760727":0,"book-toc-760772":0,"book-toc-760805":0,"book-toc-760820":0,"book-toc-760850":0,"book-toc-761855":0,"book-toc-762226":0,"book-toc-762645":0,"book-toc-762807":0,"book-toc-762823":0,"book-toc-762840":0,"book-toc-762879":0,"book-toc-762880":0,"book-toc-763183":0,"book-toc-763218":0,"book-toc-763252":0,"book-toc-763279":0,"book-toc-763317":0,"book-toc-765163":0,"book-toc-765182":0,"book-toc-765191":0,"book-toc-765210":0,"book-toc-765249":0,"book-toc-767649":0,"book-toc-767655":0,"book-toc-768960":0,"book-toc-769007":0,"book-toc-769422":0,"book-toc-769463":0,"book-toc-769464":0,"book-toc-769479":0,"book-toc-769493":0,"book-toc-769504":0,"book-toc-769528":0,"book-toc-769529":0,"book-toc-769530":0,"book-toc-769531":0,"book-toc-769534":0,"book-toc-769544":0,"book-toc-769696":0,"book-toc-769840":0,"book-toc-769963":0,"book-toc-769964":0,"book-toc-769965":0,"book-toc-769967":0,"book-toc-773347":0,"book-toc-773350":0,"book-toc-773755":0,"book-toc-775548":0,"book-toc-776512":0,"book-toc-776519":0,"book-toc-776642":0,"book-toc-776643":0,"book-toc-776644":0,"book-toc-776645":0,"book-toc-776646":0,"book-toc-776647":0,"book-toc-776657":0,"book-toc-776658":0,"book-toc-776660":0,"book-toc-776770":0,"book-toc-776798":0,"book-toc-776806":0,"book-toc-777111":0,"book-toc-777117":0,"book-toc-777163":0,"book-toc-777351":0,"book-toc-777400":0,"book-toc-777419":0,"book-toc-777498":0,"book-toc-777750":0,"book-toc-777839":0,"book-toc-777946":0,"book-toc-778017":0,"book-toc-778067":0,"book-toc-778597":0,"book-toc-778656":0,"book-toc-779040":0,"book-toc-779315":0,"book-toc-779333":0,"book-toc-779372":0,"book-toc-779407":0,"book-toc-779412":0,"book-toc-779475":0,"book-toc-779508":0,"book-toc-779533":0,"book-toc-779626":0,"book-toc-779640":0,"book-toc-779721":0,"book-toc-779819":0,"book-toc-779986":0,"book-toc-780125":0,"book-toc-780207":0,"book-toc-780265":0,"book-toc-780464":0}}},"gss":{"key":"017112334782586706075:axbmndd0alq"},"jcarousel":{"ajaxPath":"\/en-us\/jcarousel\/ajax\/views"},"quote_nest":"2","language":{"language":"en","name":"English","native":"English","direction":"0","enabled":"1","plurals":"0","formula":"","domain":"","prefix":"en-us","weight":"-10","javascript":"","provider":"locale-url","dir":"ltr"},"googleanalytics":{"trackOutbound":1,"trackMailto":1,"trackDownload":1,"trackDownloadExtensions":"7z|aac|arc|arj|asf|asx|avi|bin|bz2|csv|doc|exe|flv|gif|gz|gzip|hqx|jar|jpe?g|js|mp(2|3|4|e?g)|mov(ie)?|msi|msp|pdf|phps|pkg|png|ppt|pptx|qtm?|ra(m|r)?|sea|sit|tar|tgz|torrent|txt|wav|wma|wmv|wpd|xls|xml|z|zip","trackDomainMode":"1"},"isn3":{"language_url":{"language":"en","name":"English","native":"English","direction":"0","enabled":"1","plurals":"0","formula":"","domain":"","prefix":"en-us","weight":"-10","javascript":"","provider":"locale-url"}},"currentTheme":{"name":"isn3","path":"sites\/all\/themes\/isn3"},"field_group":{"fieldset":"full"}});</script>
+
+<!--[if lt IE 9]><script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+<!--[if lte IE 7]>
+  <script src="/sites/all/themes/isn3/js/legacy_IE_warning.js"></script>
+<![endif]-->
+<!--[if !IE]><!--><script>if(/*@cc_on!@*/false){document.documentElement.className+=' ie10';}</script><!--<![endif]-->
+</head>
+<body class="html not-front not-logged-in no-sidebars  theme-isn3 i18n-en site-name-hidden isn3">
+<!-- Google Tag Manager -->
+<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-PZRG3F" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<script type="text/javascript">(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0];var j=d.createElement(s);var dl=l!='dataLayer'?'&l='+l:'';j.src='//www.googletagmanager.com/gtm.js?id='+i+dl;j.type='text/javascript';j.async=true;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-PZRG3F');</script>
+<!-- End Google Tag Manager -->
+  <script type="text/javascript">
+    /*<![CDATA[*/
+    //configure tms
+    var wapLocalCode = 'us-en'; //dynamically set per localized site, see mapping table for values
+    var wapSection = "ssg-intel"; //section, specific for each site
+    //load tms
+    (function() {
+      var host = (window.document.location.protocol == 'http:') ? "https://www.intel.com" : "https://www.intel.com";
+      var url = host+"/content/dam/www/global/wap/wap-ssg-intel.js"; //wap file url
+      var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;  po.src = url;
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(po, s);
+    })();
+    /*]]>*/
+  </script>
+  <div id="skip-link">
+    <a href="#main-content" class="element-invisible element-focusable">Skip to main content</a>
+  </div>
+    <header class="l-main-menu">
+  <div class="limiter">
+    <a class="logo-wrapper" href="/en-us">
+      <div class="logo icon-logo-intel notranslate">
+        Developer Zone      </div>
+    </a>
+    <span class="mobile-icon-button user icon-user"></span>
+    <section class="l-user-area">
+      <div id="header-user-display" class="user-display">
+      <div class="login">
+      <a href="https://software.intel.com/registration?lang=en-us" class="register-link">Join today</a>      <a href="https://software.intel.com/en-us/user/login?destination=node/773342" class="login-link">Log in</a>    </div>
+  </div>
+    </section>
+    <span class="mobile-icon-button nav-menu icon-menu"></span>
+      <nav class="menu"><ul><li class="menu-item item-1">Development<ul><li class="category item-1">OS<ul><li><a class="google-track-navigation" href="https://software.intel.com/en-us/android">Android*</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/html5">HTML5</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/windows">Windows*</a></li></ul></li><li class="category item-2">Device<ul><li><a class="google-track-navigation" href="https://software.intel.com/en-us/windows">2-in-1 &amp; Ultrabook™</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/business-client">Business Client</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/embedded-development-tools">Embedded Systems</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/iot">IoT</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/server-developer">Server, Workstation, HPC</a></li></ul></li><li class="category item-3">Technology<ul><li><a class="google-track-navigation" href="https://software.intel.com/en-us/bigdata">Big Data</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/intel-widi">Dual Screen</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/gamedev">Game Dev</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/realsense">Intel® RealSense™</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/isa-extensions">ISA Extensions</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/machine-learning">Machine Learning</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/modern-code">Modern Code</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/networking">Networking</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/oss">Open Source</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/storage">Storage</a></li></ul></li></ul></li><li class="menu-item item-2">Tools<ul><li class="category item-1">Developer Type<ul><li><a class="google-track-navigation" href="https://software.intel.com/en-us/tools-by-segment/embedded">Embedded Systems</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/tools-by-segment/game-dev">Game Dev</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/tools-by-segment/media">Media</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/tools-by-segment/technical-enterprise">Technical, Enterprise, HPC</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/html5">Web</a></li></ul></li><li class="category item-2">OS<ul><li><a class="google-track-navigation" href="https://software.intel.com/en-us/intel-sdp-home">All Tools</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/android/tools">Android*</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/intel-xdk">HTML5</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/linux-tool-suites">Linux*</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/intel-software-development-products-for-mac-os-x">OS X*</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/windows-tool-suites">Windows*</a></li></ul></li><li class="category item-3">Resources<ul><li><a class="google-track-navigation" href="https://software.intel.com/en-us/code-samples">Code Samples</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/support">Contact Support</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/intel-software-technical-documentation">Documentation</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/free">Free Software</a></li><li><a class="google-track-navigation" href="https://registrationcenter.intel.com" target="_blank">Intel Registration Center</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/forum">Product Forums</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/sdks">SDKs</a></li></ul></li></ul></li><li class="menu-item item-3">Resources<ul><li class="category item-1">Partner with Intel<ul><li><a class="google-track-navigation" href="https://software.intel.com/en-us/academic">Academic Program</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/partner-home">Partner Spotlight</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/blackbelt">Black Belt Developer</a></li><li><a class="google-track-navigation" href="https://devmesh.intel.com" target="_blank">Developer Mesh</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/intel-software-innovators">Innovator Program</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/success-stories">Success Stories</a></li></ul></li><li class="category item-2">Learn<ul><li><a class="google-track-navigation" href="https://software.intel.com/en-us/blogs">Blog</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/business-tips">Business Tips</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/all-events">Events</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/videos">Videos</a></li></ul></li><li class="category item-3">Support<ul><li><a class="google-track-navigation" href="https://software.intel.com/en-us/support">Contact Support</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/intel-developer-evangelists">Developer Evangelists</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/faq">FAQs</a></li><li><a class="google-track-navigation" href="https://software.intel.com/en-us/forum">Forums</a></li></ul></li></ul></li></ul></nav>    <span class="mobile-icon-button search icon-search"></span>
+    <section class="l-search">
+      <form action="https://software.intel.com/en-us/search/site/language/en" method="get" id="idz-search-block-form" accept-charset="UTF-8" target="_top">
+  <div class="form-wrapper" id="idz_search_search_form">
+        <ul id="search-dropdown-options" class="dropdown-menu">
+      <li class="disabled"><a href="javascript:void(0)">Site to search:</a></li>
+      <li class="divider"></li>
+      <li><a class="active" href="javascript:void(0)" data-value="idz">Intel® DZ</a></li>
+      <li><a href="javascript:void(0)" data-value="intel">Intel.com</a></li>
+    </ul>
+    <input title="Search our content library..." placeholder="Search our content library..." class="form-text" type="text" id="edit-search-keyword" name="query" value="" size="15" maxlength="128">
+    <button class="form-submit dropdown-toggle" type="submit" id="edit-submit" value="Search"></button>
+  </div>
+</form>
+<form action="https://software.intel.com/en-us/search/site/language/en" method="get" id="idz-search-block-form-mobile" accept-charset="UTF-8" target="_top">
+  <div class="form-wrapper" id="idz_search_search_form_mobile">
+    <span class="search-icon-mobile"></span>
+    <input title="Search our content library..." type="search" id="edit-submit" placeholder="Search our content library..." name="query" value="" size="15" maxlength="128">
+  </div>
+</form>    </section>
+  </div>
+</header>
+<div id="page" class="container forum  nodeid-773342">
+      
+  <div id="before-content">
+    <nav id="breadcrumb" class="has-content">
+              <h2 class="element-invisible">You are here</h2><div class="breadcrumb"><a href="/en-us">Home</a> &#8250; <a href="/en-us/forum">Forums</a> &#8250; <a href="/en-us/forums/platform-and-technology-discussion">Platform and Technology Discussion</a> &#8250; <a href="/en-us/forums/intel-isa-extensions">Intel ISA Extensions</a></div>          </nav>
+
+    
+      <div class="region region-secondary-content">
+    <div id="block-social-block-social-block" class="block block-social-block">
+  <div class="block-inner clearfix">
+                <div class="block-content content">
+      <div class="item-list"><ul><li class="facebook first"><a href="http://www.facebook.com/share.php?src=bm&amp;u=https%3A%2F%2Fsoftware.intel.com%2Fen-us%2Fforums%2Fintel-isa-extensions%2Ftopic%2F773342" title="Facebook" data-social-action="Share" class="google-track-social" target="_blank">Facebook</a></li><li class="linkedin"><a href="http://www.linkedin.com/shareArticle?mini=true&amp;url=https%3A%2F%2Fsoftware.intel.com%2Fen-us%2Fforums%2Fintel-isa-extensions%2Ftopic%2F773342" title="LinkedIn" data-social-action="Share" class="google-track-social" target="_blank">LinkedIn</a></li><li class="twitter"><a href="https://twitter.com/intent/tweet?text=Possible+errors+in+instruction+semantics%3A&amp;url=https%3A%2F%2Fsoftware.intel.com%2Fen-us%2Fforums%2Fintel-isa-extensions%2Ftopic%2F773342&amp;hashtags=IntelSoftware" title="Twitter" data-social-action="Tweet" data-hashtags="IntelSoftware" data-text="Possible errors in instruction semantics:" data-url="https://software.intel.com/en-us/forums/intel-isa-extensions/topic/773342" class="google-track-social" target="_blank">Twitter</a></li><li class="digg"><a href="http://digg.com/submit/?phase=2&amp;url=https%3A%2F%2Fsoftware.intel.com%2Fen-us%2Fforums%2Fintel-isa-extensions%2Ftopic%2F773342" title="Digg" data-social-action="Share" class="google-track-social" target="_blank">Digg</a></li><li class="delicious"><a href="http://del.icio.us/post?&amp;url=https%3A%2F%2Fsoftware.intel.com%2Fen-us%2Fforums%2Fintel-isa-extensions%2Ftopic%2F773342" title="Delicious" data-social-action="Share" class="google-track-social" target="_blank">Delicious</a></li><li class="google_plus last"><a href="http://www.google.com/bookmarks/mark?op=add&amp;;title=https%3A%2F%2Fsoftware.intel.com%2Fen-us%2Fforums%2Fintel-isa-extensions%2Ftopic%2F773342" title="Google Plus" data-social-action="Share" class="google-track-social" target="_blank">Google Plus</a></li></ul></div><div id="social-expander">&nbsp;</div>    </div>
+  </div>
+</div>
+  </div>
+      </div>
+
+  <div id="columns"><div class="columns-inner clearfix">
+    <div id="content-column"><div class="content-inner">
+
+      
+            <section id="main-content" role="main">
+                
+                  <header>
+                          <h1 id="page-title">Possible errors in instruction semantics</h1>
+            
+                      </header>
+                        <div id="content">  <div class="region region-content">
+    <div id="block-system-main" class="block block-system">
+  <div class="block-inner clearfix">
+                <div class="block-content content">
+      
+<div id="node-773342"
+     class="forum-post clearfix en posted-by-1771609 forum-post-comment"  about="/en-us/forums/intel-isa-extensions/topic/773342" typeof="sioc:Post sioct:BoardPost" role="article">
+
+  
+      <h2 id="forum-title">Possible errors in instruction semantics</h2>
+    <div class="forum-post-wrapper1 D8CommentContainer row-with-author-and-content">
+
+    <div class="forum-post-panel-sub1 D8CommentThumb author-pane">
+              <div class="forum-user-picture">          <div class="user-picture">
+        <img typeof="foaf:Image" src="" width="100" height="150" alt="" />      </div>
+    </div><div class="D8CommentThumbIcon"><img title="" src="/sites/all/themes/isn3/images/belts/green.gif" /></div>          </div>
+    <div class="forum-post-panel-main1 clearfix D8Comment content-pane">
+
+      <div class="forum-post-header">
+                <div class="comment-links">
+                  </div>
+        
+                  <div class="forum-post-author ctHidden" data-hj-masked>
+            <a href="/en-us/user/1771609">XXX, XXX</a>          </div>
+        
+                  <div class="forum-post-date">
+            <span property="dc:date dc:created" content="2018-04-04T17:48:27-07:00" datatype="xsd:dateTime">Wed, 04/04/2018 - 17:48</span>          </div>
+              </div>
+      
+      <div class="forum-post-content">
+  	    <div class="field field-name-body field-type-text-with-summary field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Dear Team,</p>
+<p>I would like to report on some disparity  between some instruction specification as documented in the <a href="https://software.intel.com/sites/default/files/managed/a4/60/325383-sdm-vol-2abcd.pdf">Intel 64 and IA-32 Architectures Software Developer's Manual, Vol 2</a> and the actual execution behaviour. </p>
+<p><strong>Bug Report 1: vpsravd %xmm3, %xmm2, %xmm1</strong></p>
+<p> </p>
+<p>Semantics as per the above manual:</p>
+<pre class="brush:bash;">%ymm1  : 0x0₁₂₈ ∘ ((%ymm2[127:96] sign_shift_right (0x0₂₇ ∘ %ymm3[100:96])) ∘
+                  ((%ymm2[95:64] sign_shift_right %ymm3[95:64]) ∘
+                  ((%ymm2[63:32] sign_shift_right %ymm3[63:32]) ∘
+                  (%ymm2[31:0] sign_shift_right %ymm3[31:0]))))
+</pre><p> </p>
+<blockquote><p>** ∘ is the concatenate symbol here.</p>
+</blockquote>
+<p> </p>
+<p>Note that the first term <strong>((%ymm2[127:96] sign_shift_right (0x0₂₇ ∘ %ymm3[100:96]))</strong> has only 5 bits selected from  '%ymm3'.</p>
+<p>But the actual execution behaviour seem to expect  32 bits from %ymm3, i.e.,  <strong>((%ymm2[127:96] sign_shift_right 0x0₂₇ ∘ %ymm3[127:96])</strong></p>
+<p> </p>
+<p>The following is the pseudo code from manual</p>
+<pre class="brush:cpp;">VPSRAVD (VEX.128 version)
+COUNT_0 = SRC2[31 : 0]
+(* Repeat Each COUNT_i for the 2nd through 4th dwords of SRC2*)
+COUNT_3 = SRC2[100 : 96]; //&lt;------------------------------------- Possibly a bug
+DEST[31:0] = SignExtend(SRC1[31:0] &gt;&gt; COUNT_0);
+(* Repeat shift operation for 2nd through 4th dwords *)
+DEST[127:96] = SignExtend(SRC1[127:96] &gt;&gt; COUNT_3);
+DEST[MAXVL-1:128] = 0;</pre><p>I am expecting the above bold portion to be a bug and should be SRC2[127 : 96]</p>
+<p>Test Input (in Hex):</p>
+<p><em>%ymm2:</em>  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  - **80 00 00 00** - 00 00 00 00 - 00 00 00 00 - 00 00 00 00</p>
+<p><em>%ymm3:</em>  00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  - **00 00 00 20** - 00 00 00 00  - 00 00 00 00  - 00 00 00 00</p>
+<p>As per the manual, we should select just 5 bits from  `00 00 00 20`, where as hardware execution semantics require all 32 bits.</p>
+<p> </p>
+<p>Output as per manual:</p>
+<pre class="brush:bash;"> 0x0₁₂₈ ∘ ((0x80000000₃₂ sign_shift_right 0x0₃₂) ∘
+          ((0x0₃₂ sign_shift_right 0x0₃₂) ∘
+          ((0x0₃₂ sign_shift_right 0x0₃₂) ∘
+          (0x0₃₂ sign_shift_right 0x0₃₂))))</pre><p>Output as per actual Intel hardware (Intel(R) Xeon(R) CPU E3-1505M):</p>
+<pre class="brush:bash;"> 0x0₆₄ ∘ 0x0₆₄ ∘ 0xffffffff00000000₆₄ ∘ 0x0₆₄</pre><p> </p>
+<p>The same probable typo appears in the pseudocode for these instructions:</p>
+<blockquote><p><strong>VPSLLVD (VEX.128 version)<br />
+		VPSLLVD (VEX.256 version)<br />
+		VPSLLVQ (VEX.256 version)<br />
+		VPSRAVD (VEX.256 version)</strong></p>
+</blockquote>
+<p>Also, there seems to be a typo in the  description text of VPSRAVW/VPSRAVD/VPSRAVQ. There are two paragraphs starting with "The count values..."; the second one should be deleted.</p>
+<p><strong><strong>Bug Report 2: </strong>packsswb</strong></p>
+<p>There seems to be bug in the descriptive text</p>
+<blockquote><p><em>If the </em><em>signed doubleword value is beyond the <strong>range of an unsigned word</strong> (i.e. greater than 7FH or less than 80H), ...</em></p>
+</blockquote>
+<p> </p>
+<p>In my opinion, the description must say <em><strong>range of signed</strong> word</em> insead.</p>
+</div></div></div>      </div> 
+      
+          </div>   </div>   <div class="forum-post-footer clearfix">
+    <div class="forum-jump-links">
+      <a href="/en-us/forums/intel-isa-extensions/topic/773342/feed" class="forum-rss-link">RSS</a>      <a href="#" title="Jump to top of page"
+         class="af-button-small"><span>Top</span></a>
+    </div>
+    <div class="forum-post-links">
+                            </div>
+  </div> </div> 
+  
+<div id="forum-topic-header" class="forum-topic-header clearfix">
+    <div class="topic-post-count">
+    5 posts / 0 new  </div>
+
+  
+  
+      <div class="last-post-link button-cta">
+      <a href="/en-us/forums/intel-isa-extensions/topic/773342#comment-1920783" class="af-button-large active"><span>Last post</span></a>    </div>
+  
+
+  <a id="forum-topic-top"></a>
+</div>
+
+    </div>
+  </div>
+</div>
+  </div>
+</div>
+        
+        <div class="optimization-notice">For more complete information about compiler optimizations, see our <a href="/en-us/articles/optimization-notice#opt-en">Optimization Notice</a>.</div>        
+                              <div id="button-links-wrap" class="clearfix"><div class="item-list"></div></div>
+                            
+                <div class="clearfix"></div>
+                  <div id="comments">  <div id="forum-comments" class="comment-wrapper">
+    <a id="comment-1920769"></a>
+
+<div id="node-773342"
+     class="forum-post clearfix en posted-by-335808 comment_best_reply_flagged forum-post-comment"  about="/en-us/comment/1920769#comment-1920769" typeof="sioc:Post sioct:Comment">
+
+  
+    <div class="forum-post-wrapper1 D8CommentContainer row-with-author-and-content">
+
+    <div class="forum-post-panel-sub1 D8CommentThumb author-pane">
+              <div class="forum-user-picture">  <div class="left">
+    <div class="default-icon-personal data-icon icon-user"></div>
+  </div>
+  </div><div class="D8CommentThumbIcon"><img title="" src="/sites/all/themes/isn3/images/belts/brown.gif" /></div>          </div>
+    <div class="forum-post-panel-main1 clearfix D8Comment content-pane">
+
+      <div class="forum-post-header">
+                <div class="comment-links">
+          <ul class="links inline"><li><span><a href="/en-us/user/login?destination=node/773342%23comment-form">Log in</a> to post comments</span></li></ul>        </div>
+        
+                  <div class="forum-post-author ctHidden" data-hj-masked>
+            <a href="/en-us/user/335808">Mark Charney (Intel)</a>          </div>
+        
+                  <div class="forum-post-date">
+            Thu, 04/05/2018 - 10:56          </div>
+              </div>
+              <div class="forum-best-reply-label">
+          Best Reply        </div>
+      
+      <div class="forum-post-content">
+  	    <span rel="sioc:reply_of" resource="/en-us/forums/intel-isa-extensions/topic/773342" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Thx. there was more going on in the 2nd example that needs fixing.  I'll pass these along to our documentation person. Thanks for reporting the issues.</p>
+</div></div></div>      </div> 
+      
+          </div>   </div>   <div class="forum-post-footer clearfix">
+    <div class="forum-jump-links">
+            <a href="#" title="Jump to top of page"
+         class="af-button-small"><span>Top</span></a>
+    </div>
+    <div class="forum-post-links">
+                            </div>
+  </div> </div> 
+
+<a id="comment-1920779"></a>
+
+<div id="node-773342"
+     class="forum-post clearfix en posted-by-1771609 post-by-starter forum-post-comment"  about="/en-us/comment/1920779#comment-1920779" typeof="sioc:Post sioct:Comment">
+
+  
+    <div class="forum-post-wrapper1 D8CommentContainer row-with-author-and-content">
+
+    <div class="forum-post-panel-sub1 D8CommentThumb author-pane">
+              <div class="forum-user-picture">          <div class="user-picture">
+        <img typeof="foaf:Image" src="" width="100" height="150" alt="" />      </div>
+    </div><div class="D8CommentThumbIcon"><img title="" src="/sites/all/themes/isn3/images/belts/green.gif" /></div>          </div>
+    <div class="forum-post-panel-main1 clearfix D8Comment content-pane">
+
+      <div class="forum-post-header">
+                <div class="comment-links">
+          <ul class="links inline"><li><span><a href="/en-us/user/login?destination=node/773342%23comment-form">Log in</a> to post comments</span></li></ul>        </div>
+        
+                  <div class="forum-post-author ctHidden" data-hj-masked>
+            <a href="/en-us/user/1771609">XXX, XXX</a>          </div>
+        
+                  <div class="forum-post-date">
+            Thu, 04/05/2018 - 12:47          </div>
+              </div>
+      
+      <div class="forum-post-content">
+  	    <span rel="sioc:reply_of" resource="/en-us/forums/intel-isa-extensions/topic/773342" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Thanks Mark! Really apreciate your reply.</p>
+<p>Do you mind sharing what else is going wrong with the second example ? That might help my current work.  </p>
+</div></div></div>      </div> 
+      
+          </div>   </div>   <div class="forum-post-footer clearfix">
+    <div class="forum-jump-links">
+            <a href="#" title="Jump to top of page"
+         class="af-button-small"><span>Top</span></a>
+    </div>
+    <div class="forum-post-links">
+                            </div>
+  </div> </div> 
+
+<a id="comment-1920782"></a>
+
+<div id="node-773342"
+     class="forum-post clearfix en posted-by-335808 forum-post-comment"  about="/en-us/comment/1920782#comment-1920782" typeof="sioc:Post sioct:Comment">
+
+  
+    <div class="forum-post-wrapper1 D8CommentContainer row-with-author-and-content">
+
+    <div class="forum-post-panel-sub1 D8CommentThumb author-pane">
+              <div class="forum-user-picture">  <div class="left">
+    <div class="default-icon-personal data-icon icon-user"></div>
+  </div>
+  </div><div class="D8CommentThumbIcon"><img title="" src="/sites/all/themes/isn3/images/belts/brown.gif" /></div>          </div>
+    <div class="forum-post-panel-main1 clearfix D8Comment content-pane">
+
+      <div class="forum-post-header">
+                <div class="comment-links">
+          <ul class="links inline"><li><span><a href="/en-us/user/login?destination=node/773342%23comment-form">Log in</a> to post comments</span></li></ul>        </div>
+        
+                  <div class="forum-post-author ctHidden" data-hj-masked>
+            <a href="/en-us/user/335808">Mark Charney (Intel)</a>          </div>
+        
+                  <div class="forum-post-date">
+            Thu, 04/05/2018 - 13:31          </div>
+              </div>
+      
+      <div class="forum-post-content">
+  	    <span rel="sioc:reply_of" resource="/en-us/forums/intel-isa-extensions/topic/773342" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>the 2nd sentence of that paragraph talks about doublewords and words when it should be talking about words and bytes.  The operation section makes it a little more clear.</p>
+</div></div></div>      </div> 
+      
+          </div>   </div>   <div class="forum-post-footer clearfix">
+    <div class="forum-jump-links">
+            <a href="#" title="Jump to top of page"
+         class="af-button-small"><span>Top</span></a>
+    </div>
+    <div class="forum-post-links">
+                            </div>
+  </div> </div> 
+
+<a id="comment-1920783"></a>
+
+<div id="node-773342"
+     class="forum-post clearfix en posted-by-1771609 post-by-starter forum-post-comment"  about="/en-us/comment/1920783#comment-1920783" typeof="sioc:Post sioct:Comment">
+
+  
+    <div class="forum-post-wrapper1 D8CommentContainer row-with-author-and-content">
+
+    <div class="forum-post-panel-sub1 D8CommentThumb author-pane">
+              <div class="forum-user-picture">          <div class="user-picture">
+        <img typeof="foaf:Image" src="" width="100" height="150" alt="" />      </div>
+    </div><div class="D8CommentThumbIcon"><img title="" src="/sites/all/themes/isn3/images/belts/green.gif" /></div>          </div>
+    <div class="forum-post-panel-main1 clearfix D8Comment content-pane">
+
+      <div class="forum-post-header">
+                <div class="comment-links">
+          <ul class="links inline"><li><span><a href="/en-us/user/login?destination=node/773342%23comment-form">Log in</a> to post comments</span></li></ul>        </div>
+        
+                  <div class="forum-post-author ctHidden" data-hj-masked>
+            <a href="/en-us/user/1771609">XXX, XXX</a>          </div>
+        
+                  <div class="forum-post-date">
+            Thu, 04/05/2018 - 13:36          </div>
+              </div>
+      
+      <div class="forum-post-content">
+  	    <span rel="sioc:reply_of" resource="/en-us/forums/intel-isa-extensions/topic/773342" class="rdf-meta element-hidden"></span><div class="field field-name-comment-body field-type-text-long field-label-hidden"><div class="field-items"><div class="field-item even" property="content:encoded"><p>Indeed. Thanks  again.  </p>
+</div></div></div>      </div> 
+      
+          </div>   </div>   <div class="forum-post-footer clearfix">
+    <div class="forum-jump-links">
+            <a href="#" title="Jump to top of page"
+         class="af-button-small"><span>Top</span></a>
+    </div>
+    <div class="forum-post-links">
+                            </div>
+  </div> </div> 
+
+  </div>
+<div id="forum-back-to-top">
+  <a href="#">Back to original post</a>
+</div>
+<div id="forum-comment-form-wrap">
+        <h2 class="title comment-form">Leave a Comment</h2>
+      Please <a href="/en-us/user/login?language=en-us&destination=node/773342&https=1">sign in</a> to add a comment. Not a member? <a href="https://software.intel.com/registration?lang=en-us&amp;0=node/773342" class="register-link button-cta">Join today</a>  </div>
+ 
+</div>
+                               
+      </section>
+
+      
+    </div></div>
+
+        
+  </div></div>
+</div>
+
+  <footer class="l-legal-footer">
+    <nav class="menu">
+        <ul>
+                        <li><a href="/en-us/support">Support</a></li>
+            <li><a href="http://www.intel.com/content/www/us/en/legal/terms-of-use.html">Terms of Use</a></li>
+            <li><a href="http://www.intel.com/content/www/us/en/legal/trademarks.html">*Trademarks</a></li>
+            <li><a href="https://www.intel.com/content/www/us/en/privacy/intel-privacy-notice.html">Privacy</a></li>
+            <li><a href="http://www.intel.com/content/www/us/en/privacy/intel-cookie-notice.html">Cookies</a></li>
+            <li class="menu-item drop-up">Publications                <ul>
+                    <li><a href="/en-us/newsletter">Intel® Developer Zone Newsletter</a></li>
+                    <li><a href="/en-us/intel-parallel-universe-magazine">Intel® Parallel Universe Magazine</a></li>
+                </ul>
+            </li>
+            <li><a href="https://www.intel.com/content/www/us/en/my-intel/subscription-center.html#/communication-preferences">Email preferences</a></li>
+        </ul>
+    </nav>
+</footer>
+
+  <footer class="l-language-footer">
+  <div class="limiter">
+    <section class="look-for-intel">
+      <span id="look-for-intel-expander"></span>
+      <span class="blurb">Look for us on:</span>
+        <div class="item-list"><ul><li class="facebook"><a href="http://facebook.com/inteldeveloperzone" target="_blank" class="icon-logo-facebook">Facebook</a></li><li class="twitter"><a href="http://twitter.com/intelsoftware" target="_blank" class="icon-logo-twitter-bird">Twitter</a></li><li class="gplus"><a href="https://plus.google.com/+IntelSoftware" target="_blank" class="icon-logo-gplus">Google+</a></li><li class="linkedin"><a href="http://www.linkedin.com/groups/Intel-Developer-Zone-3078126" target="_blank" class="icon-logo-linkedin">LinkedIn</a></li><li class="youtube"><a href="https://www.youtube.com/user/intelswnetwork" target="_blank" class="icon-logo-youtube">YouTube</a></li></ul></div>    </section>
+    <section class="language-selector">
+      <ul class="language-switcher-locale-url"><li><a href="/en-us/forums/intel-isa-extensions/topic/773342" class="language-link active active" xml:lang="en">English</a></li><li><a href="/zh-cn/forums/intel-isa-extensions/topic/773342" class="language-link" xml:lang="zh-hans">简体中文</a></li><li><a href="/es-es/forums/intel-isa-extensions/topic/773342" class="language-link" xml:lang="es">Español</a></li><li><a href="/pt-br/forums/intel-isa-extensions/topic/773342" class="language-link" xml:lang="pt-br">Português</a></li></ul>    </section>
+  </div>
+</footer>
+
+<div vocab="http://schema.org/" typeof="Question"><span property="learningResourceType" content="forum"></span><span property="headline" content="Possible errors in instruction semantics"></span><span property="name" content="Possible errors in instruction semantics"></span><span property="datePublished" content="2018-04-04 17:48:27"></span><span property="url" content="https://software.intel.com/forums/intel-isa-extensions/topic/773342"></span><span property="image" content="https://software.intel.com/sites/default/files/managed/cb/9f/GoogleSearch-icon.jpg"></span><span property="inLanguage" content="en"></span><span property="genre" content="20798,Server"></span><span property="keywords" content="37011,Intel ISA Extensions,20857,Intel® Advanced Vector Extensions (Intel® AVX),20861,Intel® Streaming SIMD Extensions,20866,Optimization,20867,Parallel Computing,35851,Vectorization"></span>
+    <meta property="mainEntityOfPage" href="https://software.intel.com">
+      <div property="publisher" typeof="Organization">
+      <div property="logo" typeof="ImageObject">
+        <img class="element-invisible" src="https://software.intel.com/sites/default/files/managed/01/a1/intel_blue.png" property="url" />
+        <meta property="name" content="thumbnail">
+        <meta property="width" content="86">
+        <meta property="height" content="60">
+      </div>
+      <meta property="name" content="Intel">
+    </div></div>
+    <div class="region region-page-bottom">
+    
+<!--[if lte IE 9]>
+<script> if(jQuery('html.lt-ie10.js')) { jQuery(document).ready(function () {jQuery('form').h5Validate();}); }</script>
+<![endif]-->
+
+  </div>
+<script src="https://software.intel.com/sites/default/files/js/js_dHhPGBp5OZl4WSyV64PdcAxPBMCRLzUjWjPuXDfzQcg.js"></script>
+
+<div id='survey_container' style='position: fixed; bottom: 44px; z-index: 2000000000;'>
+  <div id='survey_button' style='top: 0px; left: 304px; position: absolute; z-index: 2000000000; width: 141px; height: 46px; border-width: 0px; border-color: rgb(0, 0, 0); border-style: solid;'>
+    <div style="position: absolute; top: 15px; left: 15px; width: 120px; height: 22px; overflow: hidden;">
+       <span class='rate-txt'>Rate Us </span>
+       <span class="icon-star-empty"></span><span class="icon-star-empty"></span><span class="icon-star-empty"></span>
+    </div>
+  </div>
+  <div id='survey_frame' style='top: 83px; left: 317px; position: absolute; z-index: 2000000001; width: 427px; height: 486px; background-color: transparent; border-width: 0px; border-color: transparent; border-style: solid;'>
+    <div class='scrollable' style='width:427px; height:486px;'>
+     <iframe id='iframe_survey' width='100%' height='85%' frameborder="0" data-src='https://idz.qualtrics.com/SE/?SID=SV_eai43JosW74IFxz' src='about:blank'></iframe>
+    </div>
+  </div>
+  <div style='top: 54px; left: 725px; position: absolute; z-index: 2000000001; width: 30px; height: 30px; background-color: transparent; border-width: 0px; border-color: rgb(0, 0, 0); border-style: solid; opacity: 0.75; cursor: pointer;'>
+    <div id="close_survey" style='position: absolute; top: 0px; left: 0px; width: 30px; height: 30px; overflow: hidden;'>
+      <img src='/sites/all/themes/idzen/images/bwc_close.png'>
+    </div>
+  </div>
+  <div style='top: 44px; left: 304px; position: absolute; z-index: 2000000000; width: 452px; height: 536px; background-color: rgb(106, 190, 235); border-width: 0px; border-color: rgb(0, 0, 0); border-style: solid;'>
+    <div style='position: absolute; top: 0px; left: 0px; width: 452px; height: 536px; overflow: hidden;'></div>
+  </div>
+</div>
+</body>
+</html>

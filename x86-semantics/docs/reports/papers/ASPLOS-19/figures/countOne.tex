@@ -1,0 +1,39 @@
+\begin{figure}[]
+\centering
+\begin{tabular}{l|l}
+\begin{lstlisting}[language=C++, basicstyle=\scriptsize,keywordstyle=\color{blue}]
+int popcnt(uint64_t x) {
+  int res = 0;
+  for ( ; x > 0; x >>= 1 ) {
+    res += x & 0x1ull;
+  }
+  return res;
+}
+\end{lstlisting}
+
+& 
+{\begin{lstlisting}[style=KRULEWOBORDER]
+// lshrMInt(BitVector, BitVector) 
+//    (*$\rightarrow$*) BitVector
+//  A function to evaluate 
+//  bit-vector logical right shift.
+// W'V 
+//  A bit-vector of width W 
+//  and unsigned value V.    
+rule lshrMInt(
+  lshrMInt(W'V, W'V1), W'V2) 
+    (*$\Rightarrow$*) lshrMInt(W'V, W'V1 + W'V2)
+  requires 
+    V1 (*$\leq$*) W and V2 (*$\leq$*) W
+    
+rule lshrMInt(W'V1, W'V2) 
+    (*$\Rightarrow$*) W'0
+  requires V2 (*$=$*) W
+\end{lstlisting}} \\ 
+\multicolumn{1}{c|}{(a)} & \multicolumn{1}{c}{(b)} \\ 
+\multicolumn{1}{c|}{\footnotesize C Program} & \multicolumn{1}{c}{\footnotesize  Lemmas for loop reasoning} \\ \hline
+\end{tabular}
+\caption{Example showing Program Equivalence Checking Capability.}
+\label{fig:countone}
+\end{figure}
+

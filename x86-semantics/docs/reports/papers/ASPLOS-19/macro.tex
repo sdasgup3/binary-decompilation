@@ -1,0 +1,61 @@
+% General
+\newcommand{\w}[1]{\ensuremath{\textit{#1}}}
+\newcommand{\m}[1]{\ensuremath{\texttt{#1}}}
+\newcommand{\s}[1]{\ensuremath{\textsf{#1}}}
+\newcommand{\p}[1]{\ensuremath{\left(#1\right)}}
+\newcommand{\pl}[1]{\ensuremath{\left\langle#1\right\rangle}}
+\newcommand{\OR}{\mbox{ }|\mbox{ }}
+\newcommand{\st}{.\mbox{ }}
+\newcommand{\finto}{\ensuremath{\stackrel{\mathtt{fin}}{\longrightarrow}}}
+\newcommand{\defeq}{\ensuremath{\stackrel{\mathtt{def}}{=}}}
+\newcommand{\cond}[1]{\ensuremath{\left\{\begin{array}{ll} #1 \end{array}\right.}}
+\newcommand{\lst}[1]{\begin{itemize} {#1} \end{itemize}}
+\newcommand{\pby}[1]{\hspace*{\fill}{#1}}
+\newcommand{\slide}[2][]{ \begin{frame} \frametitle{#1} {#2} \end{frame} }
+\newcommand{\etal}{\textit{et~al.}\xspace}
+
+% For references
+\newcommand{\fig}[1]{Figure~\ref{#1}}
+\newcommand{\lem}[1]{Lemma~\ref{#1}}
+\newcommand{\theo}[1]{Theorem~\ref{#1}}
+\newcommand{\coro}[1]{Corollary~\ref{#1}}
+\newcommand{\defn}[1]{Definition~\ref{#1}}
+\newcommand{\rmrk}[1]{Remark~\ref{#1}}
+\newcommand{\exam}[1]{Example~\ref{#1}}
+\newcommand{\sect}[1]{$\S$~\ref{#1}}
+
+%\newcommand{\todo}[1]{}
+%\newcommand{\todo}[1]{{\textcolor{red}{\textbf{[[{#1}]]}}}}
+
+\usepackage{ucs} % for unicode characters (just for \Rosu and \Serbanuta)
+\newcommand{\sh}{\unichar{0537}}
+\newcommand{\Sh}{\unichar{0536}}
+\PrerenderUnicode{\sh}
+\PrerenderUnicode{\Sh}
+\newcommand{\Rosu}{Ro{\sh}u\xspace}
+\newcommand{\Stefanescu}{{\Sh}tef{\u a}nescu\xspace}
+
+\newcommand{\JS}{JavaScript\xspace}
+\newcommand{\ES}{ECMAScript\xspace}
+%\newcommand{\K}{\ensuremath{\mathbb{K}}\xspace}
+%\newcommand{\KJS}{\ensuremath{\mathbb{K}}JS\xspace}
+\newcommand{\KJS}{KJS\xspace}
+\newcommand{\LJS}{\ensuremath{\lambda_{\w{JS}}}\xspace}
+\newcommand{\spec}{specification\xspace}
+
+\lstdefinelanguage{JavaScript}{
+  keywords={break, case, catch, continue, debugger, default, delete, do, else, finally, for, function, if, in, instanceof, new, return, switch, this, throw, try, typeof, var, void, while, with},
+  morecomment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]",
+  sensitive=true
+}
+
+\definecolor{orange}{rgb}{1,0.5,0}
+\definecolor{darkgreen}{rgb}{0.0, 0.5, 0.0}
+\newcommand{\note}[2]{\textbf{\textit{\textcolor{#1}{[[{#2}]]}}}}
+\newcommand{\marker}[1]{} %{\note{orange}{{#1}}}
+\newcommand{\daejun}[1]{\note{red}{Daejun: {#1}}}
+\newcommand{\andrei}[1]{\note{darkgreen}{Andrei: {#1}}}
+\newcommand{\grigore}[1]{\note{blue}{Grigore: {#1}}}

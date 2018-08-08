@@ -1,0 +1,48 @@
+\subsection{\ISA Instruction Set Architecture}
+
+\ISA is the 64-bit extension of X86, a family of backward-compatible ISAs.
+% x64 is a generic name for the 64-bit extensions to Intel's and AMD's 32-bit x86 instruction set architecture (ISA). 
+%
+We briefly explain some details of the architecture.
+
+% Registers:
+\ISA has the sixteen 64-bit general purpose registers (\reg{rax}--\reg{rdx}, \reg{rsi}, \reg{rdi}, \reg{rsp}, \reg{rbp}, \reg{r8}--\reg{r15}), and the two $64$-bit special registers (\reg{rip} and \reg{rflags}).
+The lower $32$-, $16$- and $8$-bit portions of the register are referenced by the sub-register variants, e.g., \reg{eax}, \reg{ax}, and \reg{al} for \reg{rax}, respectively.
+% \cmt{All these registers are used for storing integer values.}
+The Haswell \ISA ISA additionally has sixteen 256-bit SIMD registers (\reg{ymm0}--\reg{ymm15}) along with the lower 128-bit sub-register variants (\reg{xmm0}--\reg{xmm15}).
+% \cmt{, which are used for floating point and packed operations.}
+
+The \reg{rflags} register stores the current state of the processor.
+Specifically, for example, the status flags such as the carry flag (\s{cf}), the parity flag (\s{pf}), the adjust flag (\s{af}), the zero flag (\s{zf}), and the sign flag (\s{sf}) are stored in \reg{rflags}.
+These status flags are set according to the result of arithmetic and logical instructions.
+% the status flags used mostly in user-level \ISA programs, and updated by arithmetic-logical instructions according to the result of the operation.
+Some of control transfer instructions are performed based on the values of these flags.
+
+% Addressing modes: 
+\ISA supports the addressing modes, expressions that calculate a memory address to be read or written to. The addressing modes are used as the source or the destination of instructions that access the memory.
+The addressing mode expressions can be generalized as:
+$\s{base} + \s{index} \times \s{stride} + \s{offset}$.
+In the assembly code, for example, \instr{-4(\reg{rax}, \reg{rbx}, 8)} denotes the address mode ``$\reg{rax} + \reg{rbx} \times 8 - 4$''.
+
+% \cmt{      
+% \begin{lstlisting}[style=SIMPRULES]
+%     D (%RB, %RI, S)
+%         RB is register for base
+%         RI is register for index (0 if empty)
+%         D is displacement (0 if empty)
+%         S is scale 1, 2, 4 or 8 (1 if empty)
+%     Effective Address: Mem[%RB + D + S*%RI]
+% \end{lstlisting}
+% }   
+
+% Instruction variants:
+% If an instruction access memory, we call it memory instruction. Else, if the instruction takes constant, then it is called immediate instruction. Otherwise, it is a register instructions.
+\ISA has three types of instructions depending on the types of their operands: register instructions (with only register operands), memory instructions (with address mode operands), and immediate instructions (with constant operands).
+The same mnemonic can be used for the different types of instructions.
+For example, the mnemonic \instr{add} can be used for the register instructions (e.g., \instr{addq \reg{rax}, \reg{rbx}}\footnote{Throughout the presentation we will be using the {AT\&T} assembly syntax~\cite{Syntax} where the destination operand comes after source operands.}), the memory instructions (e.g., \instr{addq -4(\reg{rax}), \reg{rbx}}), and the immediate instructions (e.g., \instr{addq \$1, \reg{rbx}}).
+% Throughout this paper, we will count each type of instructions as a different instruction.
+% In the presentation, we will count them as different insructions ( and call them  instructions variants). Also different opcodes in the Intel manual are counted separately towards total instruction count. 
+% \cmt{Whereas, register instructions differing on register names, immediate instructions differing on  constant values and memory instructions   differing on  memory addresses will be counted once towards total instruction count. }
+
+
+

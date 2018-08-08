@@ -1,0 +1,73 @@
+\begin{figure*}[]
+    \begin{tabular}{ll} 
+        $
+       \begin{array}{@{}l@{}}
+          \kprefix{k}{\reduce{{\tt exec(pushw\;\;4(\%rsp)\;\;.List)}}
+              {{\tt 4(\%rsp)} \kra {\tt exec(pushw\;\;\Box\;\;.List)}}} \mathrel{}
+          \mathrel{}  
+          \\
+           \multicolumn{1}{c}{(a)} 
+       \end{array}   
+       $               
+        & 
+       $
+        \begin{array}{@{}l@{}}
+           \kprefix{k}{\reduce{{\tt 4(\%rsp)}}{{\tt memOffset( BV_{rsp} + 64'4)}}} \mathrel{}
+        \kall{regstate}{\ellipses{\tt RSP}\mapsto {\tt BV_{rsp}}\ellipses} \mathrel{} \mathrel{}
+       \\
+       \multicolumn{1}{c}{(b)} 
+       \end{array}  
+       $ \\   \\ [1pt]
+ 
+ $
+ \begin{array}{@{}l@{}}
+  \kprefix{k}{\reduce{
+          {\tt memOffset(O)} \kra {\tt exec(pushw\;\;\Box\;\;.List)}}
+      { {\tt exec(pushw\;\;memOffset(O)\;\;.List)}}} \mathrel{} 
+ \\
+ \multicolumn{1}{c}{(c)} 
+ \end{array}   
+ $               
+ & 
+ $
+ \begin{array}{@{}l@{}}
+ \kprefix{k}{\reduce{
+         {\tt exec(pushw\;\;memOffset(O)\;\;.List)}}
+     { {\tt readFromMem(O, 16) \kra exec(pushw\;\;memOffset(O)\;\;.List)}}} \mathrel{} 
+ \\
+ \multicolumn{1}{c}{(d)} 
+ \end{array}  
+ $ \\ \\ 
+
+     
+  \multicolumn{2}{c}{
+  $
+  \begin{array}{@{}l@{}}
+  \kprefix{k}{\reduce{
+          {{\tt {memValue(V) \kra exec(pushw\;\;memOffset(O)\;\;.List)}}}
+      }
+      {{\tt storeToMem(V,\;\;getRegisterVal(\%rsp) - 64'2,\;\;16)}}} \mathrel{} 
+  \kall{regstate}{\ellipses{\tt RSP}\mapsto \reduce{{\tt BV_{rsp}}}{{\tt BV_{rsp}} - 64'2}\ellipses} \mathrel{} \mathrel{}
+  \\
+  \multicolumn{1}{c}{(e)} 
+  \end{array}
+  $      
+    }\\ \hline
+    \end{tabular}
+    \caption{Semantics of \s{pushw (\%rsp)}}
+    \label{fig:pushw}
+\end{figure*}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

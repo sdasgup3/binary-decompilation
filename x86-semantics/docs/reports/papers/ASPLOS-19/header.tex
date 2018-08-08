@@ -1,0 +1,188 @@
+\PassOptionsToPackage{pdftex,usenames,dvipsnames,svgnames,x11names}{xcolor}
+\PassOptionsToPackage{pdftex}{hyperref}
+\usepackage[style=math]{k}
+
+
+% Slightli modified original version of \reduce. Altered baseline for more compactness.
+% No support for multiline.
+\newcommand{\reduceClassic}[2]{\hbox{%
+  \begin{tikzpicture}[baseline=(top.south), %(top.base), - default, less compact
+                      inner xsep=0pt,
+                      inner ysep=.3333ex,
+                      minimum width=2em]
+    \path
+          % Original version. No support for line wrapping.
+          node (top) [inner ysep=1ex]{$#1$ \mathstrut}
+
+          % New version. Line wrapping support.
+          %node (top) [inner ysep=1ex]{$ \begin{array}{@{}c@{}} #1 \end{array} $ \mathstrut}
+          (top.south)
+          % Original version. No support for line wrapping.
+          node (bottom) [anchor=north, inner ysep=.5ex] {$#2$};
+
+          % New version. Line wrapping support.
+          % Adds a little bit of vertical space, but the difference is truly insignificant. All the experiments below failed to remove it.
+          %node (bottom) [anchor=north, inner ysep=.5ex] {$ \begin{array}{@{}c@{}} #2 \end{array} $};
+          % no extra effect
+          % node (bottom) [anchor=north, inner ysep=.5ex] {\vspace{-1em} $ \begin{array}{@{}c@{}} #2 \end{array} $};
+          % trying mathstrut - some horizontal re-alignment, but no vertical
+          % node (bottom) [anchor=north, inner ysep=.5ex] {$ \begin{array}{@{}c@{}} #2 \end{array} $ \mathstrut};
+          % no outer ysep (if no inner - looks bad)
+          %node (bottom) [anchor=north, inner ysep=.5ex, outer ysep=0] {$ \begin{array}{@{}c@{}} #2 \end{array} $};
+          % \vskip -1em just don't compile no matter where we put it
+    \path[draw,thin,solid] let \p1 = (current bounding box.west),
+                               \p2 = (current bounding box.east),
+                               \p3 = (top.south)
+                           in (\x1,\y3) -- (\x2,\y3);
+    % Solid arrow (augmenting the solid line).
+    \path[fill] (top.south) ++(2pt,0) -- ++(-4pt,0) -- ++(2pt,-1.5pt) -- cycle;
+  \end{tikzpicture}%
+}}
+
+% Defalut version of \reduce in this document.
+%   Support for multi-line LHS and RHS
+%   Good compactness. Separators adjusted to be aligned with \reduceClassic
+\newcommand{\reduceMulti}[2]{\hbox{%
+  \begin{tikzpicture}[baseline=(top.south), %(top.base), - default, less compact
+                      inner xsep=0pt,
+                      inner ysep=.3333ex,
+                      minimum width=2em]
+    \path
+          % New version. Line wrapping support.
+          node (top) [
+            %inner ysep=1ex
+            inner ysep=0.6ex
+          ]{ $ \begin{array}{@{}c@{}}
+                #1
+               \end{array} $ \mathstrut}
+          (top.south)
+          % New version. Line wrapping support.
+          node (bottom) [
+            anchor=north,
+            %inner ysep=.5ex
+          ] {
+            $ \begin{array}{@{}c@{}}
+              #2
+            \end{array} $};
+    \path[draw,thin,solid] let \p1 = (current bounding box.west),
+                               \p2 = (current bounding box.east),
+                               \p3 = (top.south)
+                           in (\x1,\y3) -- (\x2,\y3);
+    % Solid arrow (augmenting the solid line).
+    \path[fill] (top.south) ++(2pt,0) -- ++(-4pt,0) -- ++(2pt,-1.5pt) -- cycle;
+  \end{tikzpicture}%
+}}
+
+%Special version of \reduce with modified baseline, for better rendering of multiline
+% LHS and RHS
+\newcommand{\reduceCompact}[2]{\hbox{%
+  \begin{tikzpicture}[baseline=(bottom), %(top.base), - default, less compact
+                      inner xsep=0pt,
+                      inner ysep=.3333ex,
+                      minimum width=2em]
+    \path
+          node (top) [inner ysep=0.6ex]{$ \begin{array}{@{}c@{}} #1 \end{array} $ \mathstrut}
+          (top.south)
+          node (bottom) [anchor=north] {$ \begin{array}{@{}c@{}} #2 \end{array} $};
+    \path[draw,thin,solid] let \p1 = (current bounding box.west),
+                               \p2 = (current bounding box.east),
+                               \p3 = (top.south)
+                           in (\x1,\y3) -- (\x2,\y3);
+    % Solid arrow (augmenting the solid line).
+    \path[fill] (top.south) ++(2pt,0) -- ++(-4pt,0) -- ++(2pt,-1.5pt) -- cycle;
+  \end{tikzpicture}%
+}}
+
+%\renewcommand{\reduce}[2]{\reduceClassic{#1}{#2}}
+\renewcommand{\reduce}[2]{\reduceMulti{#1}{#2}}
+
+
+
+
+%\lstset{captionpos=t,tabsize=3,frame=no,keywordstyle=\color{blue},
+%        commentstyle=\color{gray},stringstyle=\color{red},
+%        breaklines=true,showstringspaces=false,emph={label},
+%        basicstyle=\ttfamily}
+
+% Required in order to make \kall cells inside comments black.
+\renewcommand{\kall}[3][black]{\mall{#1}{#2}{#3}}
+
+% Environment "kdefinition" has effect only in poster style, thus in math style may be safely deleted.
+
+%Continuation of a syntax definition on a new line
+\newcommand{\syntaxContNewLine}[3][\defSort]{\par\indent\rulebox{%
+  $\setlength{\syntaxlength}{\widthof{$\mathrel{::=}$}}%
+  \setlength{\syntaxlength}{.5\syntaxlength}%
+  \addtolength{\syntaxlength}{\widthof{\syntaxKeyword$#1$}}%
+  \hspace{\syntaxlength}%
+  \;\;\;\;\;\;\;{#2}$ \ifthenelse{\equal{#3}{}}{}{[#3]}%
+  }%\k@markPosition%
+}
+
+%Should be put after a syntaxLong.
+\newcommand{\syntaxEnd}[3][\defSort]{
+  \indent\rulebox{%
+  $\setlength{\syntaxlength}{\widthof{$\mathrel{::=}$}}%
+  \setlength{\syntaxlength}{.5\syntaxlength}%
+  \addtolength{\syntaxlength}{\widthof{\syntaxKeyword$#1$}}%
+  \hspace{\syntaxlength}$%
+  }%\k@markPosition%
+}
+
+\newcommand{\syntaxLong}[3][\defSort]{\rulebox{%
+\syntaxKeyword
+$
+  \begin{array}[t]{@{}l@{}}
+  #1 \\
+  \mathrel{::=}{#2}
+  \end{array}
+$ {}%
+}%\k@markPosition%
+}
+
+% Grigore's idea macro
+\newcommand{\idea}[1]{
+  \begin{quote}
+    \rule{.45\textwidth}{.5pt}\newline
+    {\em #1}
+    \vspace*{-1ex}\newline \rule{.45\textwidth}{.5pt}
+  \end{quote}
+}
+
+\newenvironment{ideas}
+{ \begin{quote}
+    \rule{.45\textwidth}{.5pt}
+    \newline
+    \begin{em}
+} {
+    \end{em}
+    \vspace*{-1ex}
+    \leavevmode
+    \newline
+    \rule{.45\textwidth}{.5pt}
+  \end{quote}
+}
+
+%Enforcing black cells
+\renewcommand{\kall}[3][white]{\mall{black}{#2}{#3}}
+\renewcommand{\kallLarge}[3][white]{\mallLarge{black}{#2}{#3}}
+\renewcommand{\kprefix}[3][white]{\mprefix{black}{#2}{#3}}
+\renewcommand{\ksuffix}[3][white]{\msuffix{black}{#2}{#3}}
+\renewcommand{\kmiddle}[3][white]{\mmiddle{black}{#2}{#3}}
+
+% Settigns required for Chucky's background section
+\usepackage{acronym}
+
+\providecommand{\Sec}{}
+\renewcommand{\Sec}{Section~}
+\newcommand{\Fig}{Figure~}
+
+\newcommand{\cellname}[1]{\textsf{#1}}
+
+\newcommand{\kequation}[2]{\begin{equation*}{\small#2}\end{equation*}}
+
+%Probably a mapsto with spacing
+\newcommand{\mapstox}{\small\mathrel{\mapsto}}
+
+%For spacing between cell lines
+%\newcommand{\kBR}{\\[0.3em]}

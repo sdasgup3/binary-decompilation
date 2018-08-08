@@ -1,0 +1,13 @@
+\begin{abstract}
+% We present a complete, thoroughly tested, and executable formal semantics of \ISA user-level instruction set architecture in \K framework.
+% Being executable, the model has been tested rigorously, using a test-suite of 7,000+ test inputs and \ISA programs corresponding to GCC torture tests, against actual hardware leading to revealing bugs in Intel Manual and related projects.
+% Using \K framework's formal reasoning tools (such as deductive program verifier, symbolic execution, and program equivalence checker), we demonstrated the applicability of our semantics in formal analysis and verification of non-trivial machine programs and proving equivalence of \ISA programs across optimizations.
+% Also, the model has been applied to generate test inputs to trigger a known security vulnerability.
+We present the most complete and thoroughly tested formal semantics of \ISA to date.
+Our semantics faithfully formalizes all the non-deprecated, sequential user-level instructions of the \ISA Haswell instruction set architecture.
+This totals \currentIS{} instruction variants, corresponding to \currentIntel{} mnemonics. % ~\cite{IntelManual} (Section~\ref{sec:IC}).
+The semantics is fully executable and has been tested against more than 7,000 instruction-level test cases and the GCC torture test suite. % using the co-simulation method,
+This extensive testing paid off, revealing bugs in both the \ISA reference manual and other existing semantics.
+We also demonstrate the applicability of our semantics in different formal analyses such as symbolic execution, deductive verification, and translation validation, and discuss how it can be useful for processor verification.
+% verifying the functional correctness of a non-trivial \ISA binary, translation validation of binary optimizations, and generating inputs to trigger a known security vulnerability.
+\end{abstract}

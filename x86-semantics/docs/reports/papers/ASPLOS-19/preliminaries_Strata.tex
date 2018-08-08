@@ -1,0 +1,56 @@
+\subsection{Strata Project}\label{sec:prelimstrata}
+%% Support Count 
+\Strata~\cite{Heule2016a} automatically synthesized formal semantics of the
+input/output behavior of \strataWithDupIS{} instructions variants (representing \strataIntel{} unique mnemonics) of the \ISA Haswell ISA. 
+%% Set of test input 
+The algorithm to learn the formal semantics of an instruction, say \s{IS}, starts with a small set of instructions, called base set \s{B}, whose semantics are known and trusted; a set of test inputs \s{T}, and the output behavior of \s{IS} obtained by executing \s{IS} on \s{T}. Then \Stoke~\cite{Stoke2013} is used  to synthesize  instruction sequences which contain instructions from \s{B} and match the behavior of \s{IS} for all test cases in \s{T}. Given two such generated instruction sequences \s{IS} and \s{IS}$^\prime$, their equivalence is decided  using an SMT solver and the trusted and known  semantics from the base set. If the two sequences are
+semantically distinct, then the model produced by the SMT solver is used  to obtain
+an input \s{t} that distinguishes \s{IS} and \s{IS}$^\prime$, and \s{t} is added to \s{T}. This process of synthesizing instruction sequence candidates and accepting or rejecting them based on equivalence checking with previous candidates, is repeated until a threshold is reached, which in their implementation is based on the number of accepted instruction sequences. 
+
+%% Generalization 
+\cmt{
+Using the above technique, they first came up with the semantics of $692$ register
+and $120$ immediate instructions. Then they used ``generalization'' of the register
+instructions to get a total support count of \strataWithDupIS. Generalization is based on their hypothesis that the memory or immediate variants will behave identically with corresponding register variant (other than where the inputs come from) and hence can use the same formula as register variants. They validate this hypothesis using random testing. }
+
+%% Two format of output
+For each instruction, \Strata manifested its semantics in terms of two related artifacts.
+The first artifact is an instruction sequence and the second is a set of SMT formulas 
+in the bit-vector theory, one for each output register. 
+The second is obtained by symbolically executing the first.
+
+\cmt{
+\Stoke~\cite{Stoke2013} contains manually written specifications  for a subset of the
+x86-64 instruction set and there are APIs to generate SMT formulas from those specifications. 
+\Strata uses those formulas to compare against the ones learned
+by stratification by asking an SMT solver if the formulas are equivalent. For
+example, for the instruction \instr{andnq \%rdx, \%rcx, \%rbx} the manually
+written specification looks like the following:
+
+\begin{lstlisting}[style=C++, label={lst:CS5}, caption={Manually Writen  specification for \instr{andnq
+\%rdx, \%rcx, \%rbx}}]
+semantic_function (
+  Operand dst, Operand src1, Operand src2, 
+  // dst == %rbx, src1 == %rcx, src2 == %rbx
+  SymBitVector a, SymBitVector b, SymBitVector c, 
+  // a, b, c are symbolic values for dst, src1, 
+  // src2 resp. 
+            SymState& ss) {
+  // The symbolic state to be updated with the 
+  // behaviour of the instruction     
+  auto tmp = (!b) & c;
+  
+  // Setting destinaton
+  ss.set(dst, tmp); 
+  // Setting of, cf to false 
+  ss.set(eflags_of, SymBool::_false()); 
+  ss.set(eflags_cf, SymBool::_false());
+  // Updating sf, zf based on result
+  ss.set(eflags_sf, tmp[dst.size()-1]);
+  ss.set(eflags_zf, tmp == SymBitVector::constant(dst.size(), 0));
+  // Setting af, pf to undefined values
+  ss.set(eflags_af, SymBool::tmp_var());
+  ss.set(eflags_pf, SymBool::tmp_var());
+}
+\end{lstlisting}
+}

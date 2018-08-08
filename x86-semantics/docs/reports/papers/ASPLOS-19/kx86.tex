@@ -1,0 +1,538 @@
+% \section{Defining Semantics of X86-64 ISA in K}\label{sec:x86sema}
+
+% This section is about defining the semantics of individual instructions in \K along with  execution environment, which is used to execute instructions using \K framework. \cmt{We describe the different components of our definition and give a number of example of the semantics.}
+
+% \cmt{ \subsection{Syntax}
+% Our model parsers the syntax of \ISA assembly language program which is generated either from the source code using GNU assembler~\cite{GNUAS} or
+% directly from the binary using disassemblers like Objdump~\cite{Objdump}.  
+% }
+
+\subsection{Program Configuration}\label{sec:x86sema}
+
+\input{figures/configuration.tex}
+
+Defining a language semantics in \K requires defining the program configuration, the semantics of how programs are evaluated (i.e., the execution environment), and the semantics of the statements or instructions.  We begin with the configuration.
+
+The \K configuration of a running \ISA program is shown in Figure~\ref{fig:config}. The cells are represented using angle brackets. The outer $\top$ cell contains the cells used during program evaluation. The inner \s{k} cell contains a list of computations to be executed. Below we describe the two other inner cells.
+
+\paragraph{Register State}
+
+The \s{regstate} cell contains a  map from registers or flag names to values. The register names include the sixteen general purpose registers, \reg{rip}, and the sixteen SIMD registers.  The value mapped to a register name is a $64$-width bit-vector (or a 256-width one for the SIMD registers). Values for sub-register variants are derived from the register values by extracting the relevant bits. \cmt{In the \s{regstate} map, }We store individual flag names (mapped to a bit-vector value of width $1$) as opposed to a $64$-bit \s{rflags} register. Every access (read/write) of \reg{rflags} retrieves the entries in the \s{regstate} map for the individual flags.
+
+\paragraph{Memory State}
+
+The \s{memstate} cell is a map from $64$-bit addresses to bytes, which specifies the byte-addressable memory, but our implementation is flexible enough to use alternative memory  representations with addressing of $2$-byte or $4$-byte quantities.  Our memory layout is ``flat'', in which all available memory locations can be addressed, \cmt{without going through additional levels of addressing, such as memory segments.} but we do have logical partitions\footnote{These abstractions are useful for executing \ISA programs.} of the memory into sections like code, data and stack.  The following is an example snapshot of a memory state,  holding a $4$-bytes integer value $65535$:
+\begin{center}
+    \newcommand{\bytecell}[2]{\s{byte}({#1},\;\;{#2})}
+    $
+    \kall{memstate} {
+        %\begin{array}{@{}c@{}}
+        \begin{array}{ll}
+        4 \;\mapsto\; & \bytecell{0}{32'65535}\\
+        5 \;\mapsto\; & \bytecell{1}{32'65535}\\
+        6 \;\mapsto\; & \bytecell{2}{32'65535}\\
+        7 \;\mapsto\; & \bytecell{3}{32'65535}\\
+        \end{array}
+    }
+    $
+\end{center}
+This says that the memory address $4$ stores the $0^\text{th}$ byte of the bit-vector \bv{32}{65535}\footnote{All the values and address are represented as bit-vectors which are depicted in this paper  as \bv{W}{V}, and interpreted as a bit-vector of size $W$ and value $V$.}, the address 5 stores the $1^\text{st}$ byte, and so on. While memory read, requested bytes are aggregated according to the size of the memory access.
+
+
+
+\subsection{Semantics of Execution Environment}
+%\input{figures/computelayer}
+
+We now give the reader a flavor of our semantics, by discussing a few of the roughly $5,200$ rules that we defined to model the entire semantics.
+%\Comment{Can you list how many of these rules came from Strata unchanged, 
+%how many had to be "fixed" in various ways, how many you wrote yourself?}
+We first explain the semantics of the execution environment, which involves all the machinery used for executing \ISA programs.
+We will explain the semantics of individual instructions in the next section.
+
+The semantics of execution of an \ISA program involves initializing the memory with program instructions and then  fetching the instructions from the memory one at a time and executing it. The instruction to be executed next is pointed to by the instruction pointer register \reg{rip}.  
+
+The following rule is applied to initialize memory with instructions one at a time: 
+\begin{lstlisting}[style=KRULE]
+rule  <k> OpC:Mnemonic OpR:Operands (*$\Rightarrow$*) (*\textbf{.}*) ...</k>
+  <memstate> M:Map (*$\Rightarrow$*) M[L (*$\leftarrow$*) (OpC OpR)] </memstate>
+  <nextloc> L:Address (*$\Rightarrow$*) L + instrSize(OpC OpR) </nextloc>
+\end{lstlisting}
+The \s{k} cell contains the instruction to be processed next. We use ``\s{:T}'' to represent the type of a term used in a rule. For example, \s{Mnemonic} and \s{Operands} denote the types of the terms used to represent an instruction.  The `$\Rightarrow$' symbol
+represents a reduction (i.e., a transition relation). A cell without the `$\Rightarrow$' symbol means that it is read but not changed by the rule. \K allows us to use ``.'' to represent an empty computation and ``...'' to represent a structural frame, that is, it matches the portions of a cell that are neither read nor written by the rule. The above rule essentially  stores each instruction in memory, which is modeled as a map, at an address \s{L} given by the \s{nextloc} cell. Subsequently, the \s{nextloc} cell gets updated to an appropriate address  used for storing the next instruction.  Once the entire program is loaded, the fetch-and-execute cycle starts, which is realized by the following rule:
+\begin{lstlisting}[style=KRULE]
+rule <k> fetch (*$\Rightarrow$*) exec(OpC OpR) (*$\kra$*) fetch ... </k>
+  <memstate>... L (*$\rightarrow$*) (OpC OpR) ...</memstate>
+  <regstate>... 
+    "RIP" (*$\rightarrow$*) ( L (*$\Rightarrow$*) L + instrSize(OpC OpR))  
+  ...</regstate>
+\end{lstlisting}
+%\Comment{It is not clear what kind of term \Code{exec(OpC OpR)} is: is it a special function defined somewhere, or a separate rule? I'm not familiar enough with K, but remember that reviewers won't be familiar either!}
+%
+ The symbol $\kra$ is used to separate the computations in the \s{k} cell. The rule reads the instruction, pointed to by the instruction pointer register \reg{rip}, from memory and puts it at the head of the \s{k} cell along with the ``fetch'' computation to be executed in order and updates the value of \reg{rip}. The execution will be terminated when there is no instruction stored in the memory at the address pointed to by \reg{rip}.\footnote{While initializing the stack section of memory, we store an invalid address just before the entry-point function as return address. When the entry point function returned, the invalid return address is popped out of the stack and stored in \reg{rip} leading to program termination.} 
+
+\subsection{Semantics of Individual Instructions}
+Here we explain how we define the semantics of an instruction in \K using a running example of logical-and-not \instr{andnq -4(\%rsp), \%rbx, \%rax}, which performs a bitwise logical AND of inverted source register operand (\reg{rbx}) with the source memory operand -4(\%rsp) and writes the result to destination register \reg{rax}. Additionally the instruction affects all the $6$ status flags.
+
+
+%\input{figures/andnl}
+
+The semantics of most of the instructions can be modeled broadly in $3$ phases: (1) read the data from source operand(s), which could be a register, memory or constant value; (2) operate on the data based on the mnemonic; and (3) write the result(s) to destination operand(s), which could be a register or memory. An instruction may exercise some or all of the above phases. 
+   
+\paragraph{Read from Source Operand(s)}
+Instruction in the running example reads from  register (\reg{rbx}) and memory (-4(\%rsp)) operands. A read from register is modeled as a lookup with register name in the \s{regstate} map and subsequent read of the mapped value or,
+for a sub-register, a portion of it. The semantics of register read can be defined as:  
+\begin{lstlisting}[style=KRULE]
+rule <k> getRegisterVal(R:R64) (*$\Rightarrow$*) BV(*$_\s{r}$*) ...</k>
+     <regstate>... "R" (*$\mapsto$*) BV(*$_\s{r}$*) ...</regstate>
+\end{lstlisting}
+ In the context of the running example, this rule
+is applied when the current computation (at top of the \s{k} cell) is a $64$-bit register
+lookup, depicted as  \s{getRegisterVal(\reg{rbx})}, and \s{regstate} contains a register
+with name ``RBX''. This rule resolves the register lookup  to the mapped bit-vector value \s{BV$_\s{r}$}. 
+
+A read from memory involves computing the effective address in the memory, looking-up that address in memory, and reading requested bytes from memory if the memory access is within allowed range.
+The following rule is applied to compute the effective address:
+\begin{lstlisting}[style=KRULE]
+rule <k> 
+ Offset:Int (R:R64):Mem (*$\Rightarrow$*) ( 64'Offset + BV(*$_\s{r}$*)):Address
+...</k>
+  <regstate> ... "R" (*$\mapsto$*) BV(*$_\s{r}$*) ... </regstate>
+\end{lstlisting}
+The term to the left of $\Rightarrow$ shows the memory addressing expression at the 
+top of \s{k} cell, which gets reduced to a memory address. The effective memory address for the memory operand used in the running example is (64'-4 + \s{BV$_\s{rsp}$}) which is then used to do memory read access. 
+The rules associated with memory read is responsible to read a memory value of requested number of bits ($64$-bits for the current example) starting from the effective memory address. 
+ 
+\paragraph{Operate on Data}
+The rules for operating on operands will be different for each instruction based on the mnemonic. For example, the mnemonic \instr{andnq} requires logical-and-not operation to be computed on the operands.
+
+\paragraph{Write to Destination Operand(s)}
+The example instruction writes the result to a destination register \reg{rax}. Also, the flags \s{sf} and \s{zf} are updated based on the result; \s{of} and \s{cf}  are cleared, and \s{af} and \s{pf} are undefined. The following rule realizes the destination write operation, where \s{memVal$_{64}$} and \s{BV$_\s{r}$} represents the $64$-bit data values evaluated using the respective rules for register and memory operands (mentioned above).
+%
+%\Comment{Should "R" be "Dest" below in the first regstate rule?}
+%
+\begin{lstlisting}[style=KRULE]
+rule <k>
+  exec(andnq memVal(*$_{64}$*), BV(*$_\s{r}$*), R:R64) (*$\Rightarrow$*) (*\textbf{.}*)
+...</k>
+  <regstate>
+    "R"  (*$\rightarrow$*) _ (*$\Rightarrow$*) ((*$\sim$*)BV(*$_\s{r}$*) & MemVal(*$_{64}$*))
+    // sf and zf are updated based on the result. 
+    "SF" (*$\rightarrow$*) ((*$\sim$*)BV(*$_\s{r}$*) & MemVal(*$_{64}$*))[63:63]
+    "ZF" (*$\rightarrow$*) ((*$\sim$*)BV(*$_\s{r}$*) & MemVal(*$_{64}$*)) (*$=$*) 64'0 ? 1'1:1'0
+    // of and cf are cleared. 
+    "OF" (*$\rightarrow$*) 1'0
+    "CF" (*$\rightarrow$*) 1'0
+    // sf and zf are undefined.
+    "AF" (*$\rightarrow$*) undef
+    "PF" (*$\rightarrow$*) undef
+  ...</regstate>  
+\end{lstlisting}
+The operator ``[i:j]'' extracts bits i down to j from a bit-vector of size n, yielding another  bit-vector of size i - j + 1, assuming that n $>$ i $\ge$ j $\ge$ 0. The operator ``$\&$'' implements bit-wise and operation. The rule associated with memory write is similar to that for memory read and is skipped here. 
+
+A \ISA program is modeled as a list of instructions and its semantics is  given by composing the semantics of its constituents. The reader is encouraged to take a look at the instruction semantics (made available as supplemental material~\cite{Suppl}).
+
+\subsection{Constructing the \ISA Semantics}
+\label{sec:Approach}
+
+% we built our complete semantics on top of the \Strata semantics that we took as our baseline.
+%
+% As mentioned in section~\ref{sec:prelimstrata}, 
+
+\paragraph{Systematic Translation of \Strata Rules to \K}
+%
+As mentioned in the introduction, we leverage the \Strata~\cite{Heule2016a} semantics to develop our complete semantics, to minimize the overall effort.
+We systematically translated their semantics into \K.
+%
+Specifically, \Strata offers the semantics of \strataWithDupIS{} instruction variants as SMT formulas specifying the behavior of output registers.
+For each instruction, we converted the SMT formulas that \Strata provides to a \K specification using a simple script ($\sim$500 LOC).
+% The ease of this porting is facilitated by the fact that SMT-LIB expressions use s-expression (or "symbolic-expression") notation ~\cite{Steele} which eases the parsing effort significantly.
+
+To validate the translation, we generated SMT formulas from the translated \K specifications (using APIs provided by the \K framework), and use the Z3 SMT solver to check their equivalence to the corresponding formulas provided by \Strata.
+% In the course of the validation, we found bugs in \Strata's SMT formula extraction module.
+%
+While translating and validating their semantics, we found various issues that we had to fix to establish our baseline semantics.
+%
+Below we describe the issues we found in \Strata.%, and how we fixed them  as follows.
+
+% as we explain our general methodology of the semantics formalization.
+% Our approach is to borrow this available information and see if we can use it towards faithful modeling of instruction semantics.
+% Modeling the semantics of remaining \currentManual{} (\currentIS{} - \strataWithDupIS{}) instructions are discussed in section~\ref{sec:US}. 
+
+
+
+
+% \paragraph{Challenges in Modeling Semantics of \ISA ISA} 
+
+% Fully modeling the semantics of \ISA ISA is more challenging than it would
+% seem. In order to appreciate the difficulty, we will walk through few examples.
+
+% \paragraph{Status Flags}
+
+% Consider the following \ISA code snippet that features
+% \emph{Logical And Not} instruction \instr{andnq}, the semantic of which is
+% mentioned as a side comment. The following instruction \instr{jz target}, makes a conditional jump to \TS{target} if the result of the previous operation is $0$ (which is manifested by a $0$ value in the \reg{zf} flag), otherwise the
+% control-flow  will reach the following instruction. 
+% \begin{lstlisting}[style=Bash, caption={A code snippet in X86-64 Assembly Language },label={lst:CS1}]
+% andnq %rax, %rbx, %rcx  
+%         # %rcx = (~(%rbx) bitwiseAnd %rax)
+%         # %sf, %zf: Updated based 
+%         #           on result %rcx
+%         # %of, %cf: Set to 0
+%         # %af, %pf: Undefined
+
+% jz target
+%         # jump to target 
+%         # if zf == 1
+% ...     # following instruction
+% \end{lstlisting}
+
+% Suppose we want to find inputs value to \reg{rax} and \reg{rbx} which will
+% trigger the control-flow to either directions. We can do a symbolic execution
+% of the code snippet using symbolic input value to \reg{rax} and \reg{rbx} and
+% later using a theoram prover like \Z, we can solve the path condition created
+% at line 8, to get the required concrete inputs.  The operation \emph{Logical
+%   And Not}  sets up to $6$ status flags, and control flow  depends upon the
+%   values of those flags, not directly on the result of the operation. Hence, a
+%   simple model of the first instruction to something like \emph{rcx =
+%     $\sim$(rbx) and rax} does not expose those side effects and hence the
+%     symbolic execution will fail to reason about the program.  The following
+%     shows a correct modeling of the \reg{zf} flag for \instr{andq \%rax, \%rbx,
+%       \%rcx} (in  SMT-LIB 2.0\cite{smtlib}).
+
+% \begin{lstlisting}[style=SMTLIB, caption={A code snippet in X86-64 Assembly Language },label={lst:CS2}]
+% /* 
+% ** If the value of ~(%rbx) and %rax is 0, 
+% **  return bit 1 or bit 0 
+% */
+% (ite 
+%     (= 
+%       (bvand 
+%         (bvnot %rbx) 
+%         %rax
+%       ) 
+%       #x0000000000000000
+%     ) #b1 #b0)
+% \end{lstlisting}
+
+% A symbolic execution using the above model of \reg{zf} will provide us with
+% path condition 
+% $
+% \text{(\textbf{=} (\textbf{bvand} \%rax (\textbf{bvnot} \%rbx)) \#x0000000000000000)}
+% $
+% \\
+%  for which the target path is taken, which can then be solved to get a
+%  triggering input value. Similarly solving the negation of the above path
+%  condition will provide input to trigger the other path.
+
+
+
+
+% \paragraph{Undefined Behaviors}
+% % \paragraph{Undefined, Implementation-Dependent Behaviors}
+% 
+% According to the \ISA standard, many instructions (\undefIntel{}\footnote{\label{note1}These numbers are obtained by parsing the official manual ``Volume 2: Instruction Set Reference'' and cross checked with projects~\cite{Stoke2013, Felix} investing similar efforts.} out of \totalIntel{})
+% have undefined, implementation-dependent behaviors: their output values of the destination register or the \reg{rflags} register are undefined in certain cases.
+% In our semantics, we faithfully modeled the undefined value as a unique symbol (say, \s{undef}) whose value is nondeterministically decided within the proper range.
+% These nondeterministic values are enough to capture and formally reason about all possible behaviors of the instructions for different processors (and even any future processor that conforms to the standard).
+% Regarding the instruction-level testing (Section~\ref{sec:Eval}), we consider the \s{undef} symbol to be matched with any concrete value provided by the hardware, so that we can test the instructions modulo the undefined behaviors.
+% 
+% We found that other semantics do not faithfully model the undefined behaviors, simply following a specific behavior taken by a processor implementation.
+% %
+% For example, the parity flag \reg{pf} is undefined in the logical-and-not instruction \instr{andn}, where the processor implementation is allowed to either update the flag value (to 0 or 1), or keep the previous value.
+% We found that Strata~\cite{Heule2016a} updates the flag based on the result of the \instr{andn} operation, whereas a binary analysis tool Radare~\cite{Radare2}, for example, keeps it unmodified.
+
+
+
+% Vol. 1. APPENDIX A EFLAGS CROSS-REFERENCE
+%%636 = 474 + 162; 162 are all included in 474 
+% There are \undefTotal{}\footnote{\label{note1}These numbers are obtained by parsing the official manual ``Volume 2: Instruction Set Reference'' and cross checked with projects~\cite{Stoke2013, Felix} investing similar efforts.} instructions that places undefined value to a flag register either conditionally based on some condition of the input state (register or memory) or un-conditionally. We ensured to model all those flags by consulting the Intel Manual.
+
+% For conditional undefined cases, we 
+% tested against hardware with
+% input values which does not trigger the
+% condition for undefined-ness.  For the remaining cases; (1) where the input value triggers the condition for undefined-ness 
+% (2) where the instruction places undefined value to output register irrespective of input value, we make sure that the output registers hold \udef token after \K execution.
+
+
+
+%
+% Consider a slightly different code snippet where the conditional jump is based
+% the value of undefined flag\footnote[1]{Even though a compiler does not seem to
+% produce such a code snippet, but we can realize a code injection attack using
+% the code snippet whose purpose is to jump on  a malicious \emph{target} on
+% a specific processor implementation.}, \reg{pf}. 
+% \begin{lstlisting}[style=Bash]
+% andnq %rax, %rbx, %rcx       
+% jp target
+%       # jump to target 
+%       # if pf == 1
+% ...    # following instruction 
+% \end{lstlisting}
+%
+% Some binary analysis tools like Radare~\cite{Radare2} keeps the flag
+% unmodified, whereas Strata~\cite{Heule2016a} chose to compute the parity flag
+% based on the result of the \instr{andn} operation.
+% In effect, these
+% approaches restricts the value of the flag to a concrete value and hence a
+% semantics model based on these approaches prevent exploration of paths feasible
+% in some processor implementation.  Therefore, it is desirable to identify these
+% cases where a register or a flag could be undefined and to encode this
+% information in the model in such a way so as to assist exploration of all
+% resulting execution paths.
+
+
+
+\paragraph{Status Flags}
+
+We found that \Strata omitted to specify the \reg{af} flag behaviors, as the flag is not commonly used.
+However, we faithfully specified the semantics of all the status flags in the \reg{rflags} register, even if some of them are not commonly used, since they may affect the overall program's behavior in some tricky cases, and we do not want to miss any of such details when formally reasoning about the \ISA programs.
+
+% We had to revise the semantics of $689$\footnoteref{note1} instructions that affect the \reg{af} flag, when we borrow the \Strata semantics as our baseline.
+
+
+
+
+\paragraph{Instruction Variants}
+
+\Strata essentially provides the semantics of the register instructions, assuming that the semantics of the memory and immediate instruction variants can be obtained by generalizing the register instructions.
+However, we found that certain memory instructions cannot be inferred by simply generalizing their corresponding register instructions.
+%
+For example, for \instr{movsd}, one of the 128-bit SSE instructions, its register variant has quite different semantics from the memory variant.
+Below are their pseudo-code semantics:
+{
+\small
+\begin{center}
+\begin{tabular}[b]{l}
+   // Register Variant: movsd \%xmm1  , \%xmm0 \\ 
+   {\tt S1.} XMM0[63:0] $\leftarrow$ XMM1[63:0] \\ 
+   {\tt S2.} XMM0[127:64] (Unmodified) \\
+   \\
+   // Memory Variant: movsd  (\%rax) , \%xmm0 \\
+   {\tt S1.} XMM0[63:0] $\leftarrow$ MEM\_ADDR[63:0] \\
+   {\tt S2.} XMM0[127:64] $\leftarrow$ 0
+\end{tabular}
+\end{center}
+}
+\noindent As seen, only the memory instruction clears the higher 64 bits of the destination register, which cannot be inferred from the register instruction behavior that does not touch the higher bits at all.
+%
+We found that another 128-bit SSE instruction, \instr{movss}, has the same generalization issue.
+%
+For the other instructions, we obtained the memory and immediate variants by generalizing the register variants, and validated the generalization by co-simulating the inferred semantics against a processor.
+
+
+\paragraph{Immediate Instruction Variants}
+
+There are 118 immediate instruction variants (over the 8-bit constants) that do not have corresponding register instructions.
+For those immediate instructions, Strata provides the instruction semantics for each individual constant, resulting in 30,208 (= $118 \times 256$)\footnote{Indeed, Strata provides explicitly only 19,783 formulae by randomly sampling $\sim$168 constants out of 256, in average, for each immediate instruction, assuming that the remaining 10,425 formulae can be inferred.} formulae for the immediate instructions' semantics.
+We generalized the set of formulae for each immediate instruction into a single semantic rule.
+We validated our generalization by cross-checking the generalized semantics with the original using the SMT solver.
+
+% Moreover, there are $118$ immediate variants with $8$-bit constant value, which
+% do not have a corresponding register variant to generalized from. \Strata tries to learn $256$ separate formulas for every possible value of
+% the $8$-bit immediate operand. We would like the instruction semantics to be concise and maintainable.  For each of those 
+% instructions, we manually write  its semantic in \K and then use APIs provided by \K framework to get the
+% corresponding SMT formula. We then compare each of those separate formulas, for a
+% constant say \s{c}, with our SMT formula by replacing its symbolic inputs  with
+% the constant value \s{c}. Upon successful equivalence check, for all values of
+% \s{c}, we accept the manually written semantics. We managed to get a concise
+% semantics for all of the $118$ immediate variants. \cmt{Note that, had we used \Strata's  formula with a $k$-bit immediate, \Strata needs 2$^k$ formulas each of which has to be checked, but we have $1$ formula which has to be checked 2$^k$ times, so testing cost is similar but final result is exponentially more concise.}
+% %         works for all values of the immediate operand) for those instructions
+% %     because that way is more intuitive and easy to maintain.  
+
+
+
+
+% the the semantics of  memory or immediate instruction variants which are obtained from the register variant using ``generalization'' by co-simulating it  against a physical x86 machine.
+
+% While doing that,  we found instructions like \instr{movsd (\%rax), \%xmm0} where the generalization from the corresponding register variant, \instr{movsd \%xmm1, \%xmm0} is not faithful. Followings are their specification as per the Intel manuals.
+
+% Clearly, the memory variant cannot be obtained using generalization of the  corresponding register instruction. Same is true with instruction \instr{movss (\%rax), \%xmm0}.   
+
+
+%\footnote{Even though \Strata have simplification rules to prevent formula blowup but we found that they are not adequate for many instructions. Hence we added $13$ additional rules.}
+ 
+\paragraph{Formula Simplification}
+
+Due to the nature of the stratification, \Strata provides complex formulae for certain instructions.
+%
+We simplified those complex formulae by either applying some simplification rules or manually translating into simpler ones.
+Then we validated the simplification by checking the equivalence between them using the SMT solver.
+%
+For example, the original \Strata-provided formula for \instr{shrxl \%edx, \%ecx, \%ebx} consists of 8971\cmt{2560} terms (including the operator symbols), but we could simplify it to a formula consisting of only 7 terms.\footnote{Refer to our semantics~\cite{Suppl}, specifically \url{instruction-semanatics/shrxl_r32_r32_r32.k}, for details.}
+
+
+
+
+% We wrote several simplification rules to automatically simplify the complex formulae.
+% For the complex formulae that are not simplified enough by the simplification rules, we manually translated them into simple, but equivalent formulae, and check the equivalence 
+
+
+% We added additional $13$ simplification rules in \Strata framework to simplify \Strata formulas even further. This helps in getting rid of many redundant \uif.
+
+% After applying the simplification rules, we checked the \Strata formulas\footnote{Note that we have to check the formulas of only the register variants which are generated by \Strata as the rest are obtained either by``generalization'', in which case, the formulas for memory and immediate variants are guaranteed to be simple if the register variants are simple, or has been already written manually in simplified form.} if they are still un-simplified. In that case, we write the specification of that instruction in \K (similar to Figure~\ref{fig:pushw}) and compare the SMT formula, obtained by using \K APIs, with the \Strata formula for equivalence. .
+
+% Following are some of them:
+% \begin{lstlisting}[style=SIMPRULES]
+% /* Assume 
+%     A, B, C are symbolic bit-vector values of 
+%         width W,
+%     W'N denotes a constant bit-vector value of 
+%         width W and integer value N.    
+%     Cond is a symbolic boolean value, and  
+%     I, J and K are symbolic integers s.t.  
+%         K (*$\geq$*) J (*$\geq$*) I (*$\geq$*) 0.
+    
+%   A (*$\circ$*) B  denote bit-vector concatenation. 
+%   A[J:I] denotes bitvector-extract operation. 
+%   '+'    denote addition over bit-vectors
+%   '(*$\otimes$*)' denote  any of xor, or, add operators.
+% */
+% // Emilimitae redundant uninterpreted functions.
+%   (*$\bullet$*) (*$\s{add\_double(W'0, A)}\;\;\equiv\;\;\s{A}\;\;\text{{\color{blue} if}}\;\; \s{A}\equiv$\;\;\text{\s{concat(W1'0, W2'N) s.t. W1 + W2 = W}}*) 
+% // Distribute over if-then-else
+%   (*$\bullet$*) (*\s{(Cond ? A : B)[J:I]} $\equiv$ \s{(Cond ? A[J:I] : B[J:I])}*)
+%   (*$\bullet$*) (*\s{X} $\circ$ \s{(Cond ? A : B)} $\equiv$ \s{(Cond ? X$\circ$A : X$\circ$B)}*)
+%   (*$\bullet$*) (*\s{(Cond ? A : B)} $\otimes$ \s{(Cond ? C : D)} $\equiv$ \s{(Cond ? A $\otimes$ B : C $\otimes$ D)}*)
+% // Distribute extract over addition.
+%   (*$\bullet$*) (*\s{(A + B)[J:0]} $\equiv$ \s{A[J:0] + B[J:0]}*)
+% // Merge consecutive  concatenations.  
+%   (*$\bullet$*) (*\s{(A[K][J] $\circ$ (B[J][I] $\circ$ C))} $\equiv$ \s{A[K:I] $\circ$ C}*)  
+  
+% \end{lstlisting}
+
+
+
+
+
+
+% \paragraph{Challenges Borrowing Semantics from Strata}
+% At first glance it might seem that the \cmt{straightforward to use} \Strata generated artifacts as useful and  faithful to be used directly as the formal semantics, but our experience tells a
+% different story and  following are the reasons:
+
+% \begin{enumerate} 
+%     \item \textbf{Non-Intuitive Formula for Stratified Immediate Instruction }
+%     \Strata learns the semantics of $120$ immediate variants whose immediate operand is of size $8$ bits. The reason that they
+%     do not use ``generalization'' (as mentioned in section~\ref{sec:prelimstrata}) is that these instructions do not have a
+%     corresponding register-only variant to generalized from.  In all fairness,
+%     \Strata tries to learn a separate formula for every possible value of the
+%     $8$-bit immediate operand.  We intend to have a ``concise'' semantics (that
+%         works for all values of the immediate operand) for those instructions
+%     because that way is more intuitive and easy to maintain.  
+
+%  \item \textbf{Un-Handled \emph{undef} flags} There are instructions which
+%  conditionally sets some cpu flags to undefined state (henceforth referred as \emph{undef} state). For example, the shift left
+%  instruction \instr{salq \%cl, \%rbx} sets flag \reg{of} to \emph{undef} state
+%  if the count mask $>1$.  Also there are instructions like \instr{andnq \%rax,
+%   \%rbx, \%rcx} which un-conditionally puts flags like \reg{pf} \& \reg{af} to
+%   \emph{undef} state. \Strata does not attempt to learn the output relation
+%   for undefined values that are placed in output registers, nor allow
+%   instructions to read from an undefined location.
+     
+    % \item \textbf{Un-Handled \reg{af} flag} 
+
+      
+    % \item \textbf{Unreliable\revisit{??} Generalization to Immediate and Memory} How
+    % faithful is the the hypothesis of ``generalization'' of register
+    % instructions to memory or immediate variants?  
+    
+    % \item \textbf{Complex Formula} \Strata works in a stratified fashion in the
+    % sense that simple instructions are learned first, followed by slightly more
+    % complex instructions that reuse the entire formula of the simpler instructions learned previously.
+    % This
+    % implies that the formulas learned later  in the process might become very complex; even beyond the simplifications rules that \Strata apply later. For example, the \Strata formula for \instr{shrxl \%edx, \%ecx, \%ebx} contain around
+    % $8971$\cmt{$2560$} terms (including the operator symbols) after simplification. 
+    
+    % Another interesting observation about \Strata learned artifacts is: For a non-floating point instruction \s{I}, \Strata might learn an instruction sequence containing floating point instruction(s). This might be possible because the instruction sequence happens to agree with \s{I} on a set of test inputs.  Now a symbolic execution on that instruction sequence might  yield a formula containing  those floating point operations expressed as \uif{}. Note that this will happen only when the simplification rules are not able to
+    % eliminate the redundant floating point operation. For example, the \Strata
+    % formula for \instr{vpbroadcastb \%xmm1 \%ymm2} contain  instances of uninterpreted function, \s{add\_double(0, A)} (representing addition of two double precision floating point values),
+    %  whereas the instruction semantics itself has nothing to
+    % do with floating point operations. Naive simplification rules  like $\s{add\_double(0, A)}$ $\equiv$ \s{A} cannot eliminate such redundant \uif{}   unless we apply
+    % some additional heuristics to make sure that \s{A} is not $-0.0$.
+    
+    % In all cases, we aim to have simpler and more intuitive formula specifications.
+    
+%     \item \textbf{Different Artifacts for Execution \& Formal Reasoning: } As mentioned in section~\ref{sec:prelimstrata}, \Strata provides two different artifacts as the semantics of an instruction; First, an instruction sequence which  can be  executed  on real hardware and hence can be used as an executable artifact. 
+%     Second artifacts are SMT formulas generated by 1) Symbolically executing the  instruction sequence , and 2) Later simplification using various simplification lemmas. The resulting SMT formulas provide an important artifact for formal reasoning about \ISA programs. Unfortunately, these formulas cannot be used for execution on actual machine  because of the presence of \uif. In that sense we have different artifacts used for different purposes and the question that alarms us is: Can we trust those formulas given the fact that it cannot be tested? More specifically, Can we trust the symbolic execution and the later simplification stages?       
+% \end{enumerate} 
+
+% \paragraph{Addressing the Challenges imposed by Strata Semantics}
+%      Next we will elaborate how we mitigate all the challenges mentioned
+%      above. 
+
+%   \begin{enumerate}
+    %   \item \textbf{Getting Concise Formula for Immediate Variants: }
+    %   The goal is to get a single concise formula for those immediate instructions for which \Strata
+    %   learned separate formulas for each constant value of the immediate operand (provided the
+    %   immediate operand size  is  $8$-bits). We  obtain a candidate
+    %   for such a concise formula by writing its semantics
+    %   specification manually in \K and then use APIs provided by \K framework
+    %     to get the required SMT formula. While doing so we consulted the Intel
+    %   Manual~\cite{IntelManual} and tested the specification using the testing
+    %   infrastructure mentioned in section~\ref{sec:Eval}.  
+    %   We then compare each \Strata learned formula, for a constant say \s{c}, with the concise formula (that we just obtained) by replacing its symbolic inputs  with the constant value
+    %   \s{c}. A successful equivalence check, for all values of \s{c}, suggest our concise formula
+    %   to be of same correctness guarantee that \Strata has for any of the individual
+    %   separate formulas. 
+       
+    %   Also, for some immediate instructions, \Strata learns a subset of $256$ separate formulas. 
+    %   For each constant, say \s{z}, for which \Strata do not have a separate formula, we test our concise formula against the actual hardware after replacing its symbolic inputs  with the constant value \s{z}.
+       
+
+       
+       
+    %   \item \textbf{Modeling `af' Flag}
+    %   \cmt{
+    %   \begin{figure}[t]
+    %       \centering
+    %       \scalebox{0.7}{
+               
+    %           \incfig{figures/af_distribution.eps}
+    %       }
+    %       \caption{Instructions affecting \reg{af} flag.} The numbers represent count of Instruction variants. 
+    %       \label{fig:AD}
+    %   \end{figure}
+       
+    %   Figure \ref{fig:AD} represents the distribution of instructions
+    % }There are total $689$\footnoteref{note1} instructions affecting the \reg{af} flag either in a defined or undefined  way.  Also the undefined-ness can occur
+    %   conditionally or unconditionally. For all those 
+    %   instructions, we ensure that the `af' is modeled faithful by consulting
+    %   the Intel Manual. We tested the behavior of `af'-flag against actual hardware similar to the testing of \udef flags.
+
+%   \item \textbf{Establishing Faithfulness of ``Generalization''} We validated
+%   the the semantics of  memory or immediate instruction variants which are
+%   obtained from the register variant using ``generalization'' by co-simulating
+%   it  against a physical x86 machine.  While doing that,  we found
+%   instructions like \instr{movsd (\%rax), \%xmm0} where the
+%   generalization from the corresponding register variant, \instr{movsd \%xmm1, \%xmm0} is not faithful. Followings are their specification as per the Intel manuals.
+   
+%   {\small 
+%       \begin{center}
+%       \begin{tabular}[b]{l}
+%           // Memory Variant: movsd  (\%rax) , \%xmm0 \\
+%           {\tt S1.} XMM0[63:0] $\leftarrow$ MEM\_ADDR[63:0] \\
+%           {\tt S2.} XMM0[127:64] $\leftarrow$ 0 \\ \\
+           
+%           // Register Variant: movsd \%xmm1  , \%xmm0 \\ 
+%           {\tt S1.} XMM0[63:0] $\leftarrow$ XMM1[63:0] \\ 
+%           {\tt S2.} XMM0[127:64] (Unmodified) \\
+%       \end{tabular}
+%     \end{center}
+%   }   
+%   Clearly, the memory variant cannot
+%   be obtained using generalization of the  corresponding register instruction. Same is true with instruction \instr{movss (\%rax), \%xmm0}.   
+
+   
+   
+
+    % \item \textbf{Ensuring Single Artifact for Both Execution and Formal Reasoning: }
+    % The problem with \Strata is that artifact which can be used for formal reasoning is non-executable owing to the presence of \uif. 
+    % We have implemented the semantics of most of the \uif{} using the Java bindings~\cite{MPFRJAVA} of GNU MPFR library~\cite{GNUMPFR}. 
+    % Empowered by the fact that now we can use a single artifact for both execution and formal reasoning, we tested all \K rules which are either derived from  \Strata or manually written. To our surprise we found bugs in the simplification lemmas in project \Strata (details are given in section ~\ref{sec:Eval}).  
+
+%   \end{enumerate}
+
+% \subsection{Modeling Unsupported Instructions}\label{sec:US}
+% For the remaining \currentManual{} which are not supported by \Strata, we manually defining their semantic directly in \K by consulting the Intel
+% manual~\cite{IntelManual} and testing the model extensively.
+
+

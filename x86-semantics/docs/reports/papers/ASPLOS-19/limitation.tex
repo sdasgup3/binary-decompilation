@@ -1,0 +1,18 @@
+\section{Limitations}\label{sec:limit}
+Our limitations can be categorized into missing features of the \ISA ISA and missing functionality in the \K tools.
+
+The missing \ISA features are:
+%
+\begin{itemize}
+ \item {\em Floating Point Operations\/}: Our testing shows that we have FP precision issues with instructions implementing the fused-multiply-add operation. We plan to fix it by including the FMA capabilities of GNU MPFR library~\cite{GNUMPFR} in \K's library support~\cite{MPFRJAVA}.
+ \item {\em Exceptions\/}: We do not support exceptions, including the FP exceptions. Moreover, we do not distinguish between quiet and signaling NaN, i.e. all NaNs are quiet in our model.
+ \item {\em Concurrency\/}: Like the closest previous work~\cite{Goel:FMCAD14,Heule2016a}, we do not model concurrent semantics or the relaxed memory model. Other previous work has defined a formal, executable semantics for the X86 memory model~\cite{Sarkar:POPL09,Owens:x86-TSO}, and we leave it future work to merge that with our semantics.
+\end{itemize}
+
+Missing functionality in the \K tools limits our ability to run some programs:
+%
+\begin{itemize}
+ \item {\em C-standard library support\/}: \K does not yet support the C-library, which is necessary for widely used operations like \s{malloc, printf}. We are actively working with the \K team on modeling those library functions.
+ %
+ \item {\em Assembler directives\/}: Our parser does not yet support certain assembler directive like \s{.comm, .string and .bss}; we plan to support these in future.
+\end{itemize}

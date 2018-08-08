@@ -1,0 +1,64 @@
+\begin{figure}[t]
+% \centering    
+% \begin{tabular}{l@{\hskip 0.25in}|@{}l}
+\begin{lstlisting}[language=C++, basicstyle=\scriptsize,keywordstyle=\color{blue},breaklines=true,
+breakatwhitespace=false,morekeywords={uintptr_t,uint64_t},commentstyle=\color{gray},]
+uintptr_t safe_addptr(int *of, uint64_t a, uint64_t b) {
+  uintptr_t r = a + b;
+  if (r < a) { // "error state" 
+    *of = 1;
+    return r;
+  } else {     // "safe state" 
+    return r;
+  }
+}
+\end{lstlisting}
+\vspace{-10pt}
+\begin{center}
+{\small (a) C source code}
+\end{center}
+\begin{lstlisting}[
+language=Bash,
+keywordstyle=\color{blue},
+morekeywords={movl,cmpl, jle, addl, decl, jmp, ret, sbbl, jnc},
+commentstyle=\color{gray},
+basicstyle=\scriptsize,
+numberstyle=\tiny\color{codegray},
+breaklines=true,
+breakatwhitespace=false,
+% numbers=left,
+stepnumber=1,
+escapeinside={(*}{*)}
+]
+  # Address %ebp - 8  contains 64-bit value 'a'  
+  # Adress  %ebp - 16 contains 64-bit value 'b'
+  # Let a[32:0]: lower 32 bits of 'a' 
+  #     b[32:0]: lower 32 bits of 'b'
+  
+  movl -8(%ebp), %edx   # a[32:0] moved to %edx
+  movl -16(%ebp), %eax  # b[32:0] moved to %eax
+  addl %edx, %eax       # r = a[32:0] + b[32:0]
+  movl $0, %edx         # check if (32'0 (*$\circ$*) r) < a
+  cmpl -8(%ebp), %eax   #  (*$\circ$*): denotes concatenation
+  movl %edx, %eax
+  sbbl -4(%ebp), %eax
+  jnc L2                # true branch: "error state"
+  ...                   # set *of to 1
+  ...                   # set %eax to r
+  jmp L3
+L2:                     # else branch: "safe state"
+  ...                   # set %eax to r
+L3:
+  ret
+\end{lstlisting}
+\vspace{-15pt}
+\begin{center}
+{\small (b) \ISA assembly code in a 32-bit target}
+\end{center}
+% \multicolumn{1}{c|}{(a)} & \multicolumn{1}{c}{(b)} \\ 
+% \multicolumn{1}{c|}{\footnotesize C version} & \multicolumn{1}{c}{\footnotesize Assembly version} \\ \hline
+% \end{tabular}
+\caption{A security vulnerability in the HiStar kernel}
+\label{fig:histar}
+\end{figure}
+

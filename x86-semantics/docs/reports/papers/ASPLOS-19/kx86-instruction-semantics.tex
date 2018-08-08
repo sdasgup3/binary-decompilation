@@ -1,0 +1,59 @@
+\section{Formalization of \ISA Semantics}
+\label{sec:harvestsema}
+This section presents how we get the complete semantics of all the
+user-level instructions. Section~\ref{sec:IC} details the scope of our work. Section~\ref{sec:Approach} mentions how we leverage the information available in \Strata, our baseline semantics. Section~\ref{sec:x86sema} explains how we formalize our model in \K.
+
+\subsection{Scope of the Work}\label{sec:IC}
+We support all but a few non-deprecated user-level instructions, amounting to \currentIS{} total variants of the Haswell \ISA ISA (representing \currentIntel{} out of \totalIntel{} 
+unique mnemonics). The entire implementation took 8 man-months (not including extensive time spent on projects related to binary decompilation that gave the lead author relevant experience and strong familiarity with the X86-64 architecture and documentation).  Below is a summary of the instruction categories that we support:
+\begin{itemize}
+    \item \textbf{General-Purpose Instructions:} These implement data-movement, arithmetic, logic, control-flow, string operations.
+    
+    \item \textbf{Streaming SIMD Extensions (SSE) Instructions \&   subsequent extensions (SSS-2, SSE-3, SSE-4.1, SSE-4.2):} Instructions in this category operate on integer, string or floating-point values stored in $128$-bit xmm registers. Among other things, the category features instructions related to conversions between integer and floating-point values with selectable rounding mode, and string processing.
+    
+    \item \textbf{Advanced Vector Extensions (or AVX) \& subsequent extensions (Fused-Multiply-Add (or FMA) \& AVX2):} These instructions operate on integer or floating-point values stored in $256$-bit ymm registers; a majority of which are promoted from SSE instruction sets. Additionally, the category features enhanced functionalities specific to AVX \& AVX2, like  broadcast/permute, vector shift, and non-contiguous data fetch operations on data elements. 
+    \item \textbf{$\textbf{16}$-bit Floating Point Conversion (or F16C):} These instructions implement conversions between single-precision ($32$-bit) and half-precision ($16$-bit) floating-point values. 
+\end{itemize}
+
+Instructions which are \emph{not included} in the current scope of work are: 
+(1) System-level instructions, which are related to the operating system, 
+protection levels, I/O, cache lines, and other supervisor instructions; 
+(2) X87 \& MMX instructions, which deal with floating-point and vector 
+operations respectively and are deprecated by SSE; 
+(3) Concurrency-related operations, including atomic operations and fences; and 
+(4) Cryptography instructions, which support cryptographic processing specified by Advanced Encryption Standard (AES).
+
+\subsection{Overview of the Approach}
+\label{sec:Approach:Overview}
+
+Briefly, our approach is as follows.
+%
+We first defined the machine configuration and underlying infrastructure in the \K framework, in order to define, execute and test the X86 semantics.
+%
+To leverage previous work as much as possible, we took the semantic rules for about 60\% of the instructions in scope from the formal semantics in Strata, in the form of SMT formulas.
+%
+We corrected, improved or simplified many of the baseline rules.
+%
+We then translated these SMT formulas from Strata into \K rules using a script, and tested the resulting rules by comparing with the Strata rules using Z3.
+%
+These steps give us a validated initial set of semantic rules in \K for about 60\% of the target instructions (our ``baseline'' set).
+
+We attempted to extend the stratification approach in Strata to define additional rules automatically, in two ways: (i) augmenting their base set \s{B}, and (ii) constraining the search space manually using knowledge of instruction behaviors.  Both these attempts failed: Both (i) and (ii) work well for a few instructions, but in the general case, we found them to be impractical.  Getting the right set of base instructions or a constrained search space for a complex instruction need an insight about the semantics of that instruction itself. We found that the effort to extract such information from the manual is about the same  as manually defining that instruction.
+
+%\Comment{SANDEEP: Please check this last sentence and fix / improve.}
+
+We then manually added \K rules for the remaining 40\% of the target instructions by reading the Intel manual and translating into \K rules, in some cases cross-referencing against semantics available in Stoke.
+%
+The outcome was a complete formal specification of user-level X86-64 in \K.
+
+We validated this semantics in three ways, as described in Section~\ref{sec:Eval}.
+%
+First, we use the \K interpreter to execute the semantics of each instruction for 7000+ test inputs (each input is a processor state configuration) and compared the output directly with the hardware behavior for the same instruction.
+%
+Second, we repeated this experiment using the applicable programs in the GCC torture tests.  % (\TortureInclude{} out of \TortureTotal{} tests).
+%
+Third, we compared against the semantics defined in the Stoke project for about 330 instructions that were not also defined in the Strata project (and so not included in our baseline), using an SMT solver.
+
+These validation experiments uncovered bugs in the Intel manual, in Strata's simplification rules, and in the Stoke semantics.  All these bugs were reported to the authors, and most have been acknowledged and some have been fixed.  The details are in Section~\ref{sec:Eval}.
+
+

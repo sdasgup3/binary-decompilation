@@ -1,0 +1,83 @@
+\begin{figure*}[t]
+\begin{tabular}{l}      
+\begin{lstlisting}[basicstyle=\scriptsize,morekeywords={andBool, requires, ensures, and, rule},keywordstyle=\color{blue},escapeinside={(*}{*)},]
+rule <k>  (OpC:Opcode OpR:Operands):Instruction) Rest:Instructions ~> fetch </k>
+\end{lstlisting} \\
+
+\begin{lstlisting}[basicstyle=\scriptsize,morekeywords={andBool, requires, ensures, and, rule},keywordstyle=\color{blue},escapeinside={(*}{*)},]
+rule  <k> OpC:Opcode OpR:Operands => (*\textbf{.}*) ...</k>
+   <memstate>... L <- storedInstr(OpC OpR) ...</memstate>
+   <nextLocPc> L:Address => L + sizeofInstr(OpC OpR) </nextLocPc>
+\end{lstlisting} \\
+
+\begin{lstlisting}[basicstyle=\scriptsize,morekeywords={andBool, requires, ensures, and, rule},keywordstyle=\color{blue},escapeinside={(*}{*)},]
+rule <k> fetch => execinstr(OpC OpR) ~> fetch ... </k>
+  <memstate>... L |-> storedInstr(OpC OpR) ...</memstate>
+  <regstate>... "RIP" |-> ( L => sizeofInstr(OpC OpR))  ...</regstate>
+\end{lstlisting} \\
+
+\begin{lstlisting}[basicstyle=\scriptsize,morekeywords={andBool, requires, ensures, and, rule},keywordstyle=\color{blue},escapeinside={(*}{*)}]
+rule <k> fetch => (*\textbf{.}*)  ... </k>
+  <memstate> codeMap:Map  </memstate>
+  <regstate> "RIP" |-> BV(*$_\s{rip}$*) </regstate>
+    requires not iloc( {RSMap["RIP"]}:>MInt ) in_keys ( CMap )
+\end{lstlisting} \\
+
+
+\end{tabular}
+        \caption{Semantics of Execution Environment}
+        \label{fig:compSema}
+\end{figure*}
+
+
+\cmt{\begin{figure*}[t]
+
+$
+\begin{array}{@{}l@{}}
+
+\mbox{\scshape {\scriptsize rule}: \textbf{\scriptsize inital value of k cell}} \\
+\kall{k}{\scriptsize {\tt initEnv}(\$ARGV)\kra ((OpC{\tt:Opcode}\;\; OpR{\tt:Operands}){\tt:Instruction} \;\;Rest{\tt:Instructions})\kra{\tt fetch}} \\
+\multicolumn{1}{c}{(a)} 
+\\[0.3cm]
+
+\mbox{\scshape {\scriptsize rule}: \textbf{\scriptsize load instruction}} \\
+\kall{k}{\scriptsize \reduce{OpC{\tt:Opcode}\;\; OpR{\tt:Operands}}{\cdot} \ellipses}
+\mathrel{}
+\kall{memstate}{\scriptsize \ellipses \reduce{\cdot}{BV_{L} \;\mapsto\; (OpC\;\;OpR)} \ellipses}
+\mathrel{}
+\kall{nextloc}{\scriptsize  \reduce{BV_{L}}{BV_{L} + {\tt sizeof}(OpC\;\;OpR)}}
+\\
+\multicolumn{1}{c}{(b)} 
+\\[0.3cm]
+
+\mbox{\scshape {\scriptsize rule}: \textbf{\scriptsize fetch instruction}} \\
+\kall{k}{\scriptsize \reduce{{\tt fetch}}{{\tt exec}(OpC\;\;OpR) \kra fetch} \ellipses}
+\mathrel{}
+\kall{memtate}{\scriptsize \ellipses BV_{L} \;\mapsto\; (OpC\;\;OpR) \ellipses}
+\mathrel{}
+\kall{regstate}{\scriptsize \ellipses RIP \;\mapsto\; \reduce{BV_{L}}{BV_{L} + {\tt sizeof}(OpC\;\;OpR)} \ellipses}
+\\
+\multicolumn{1}{c}{(c)} 
+\\[0.3cm]
+
+\mbox{\scshape {\scriptsize rule}: \textbf{\scriptsize program termination}} \\
+\kall{k}{\scriptsize \reduce{{\tt fetch}}{\cdot} \ellipses}
+\mathrel{}
+\kall{memstate}{\scriptsize codeMap{\tt :Map}}
+\mathrel{}
+\kall{regstate}{\scriptsize \ellipses RIP \;\mapsto\; BV_{rip}\ellipses}
+\\
+  \qquad \texttt{when notBool}\;\;BV_{rip}\;\; \texttt{in\_keys}\;\;codeMap 
+  \mathrel{}
+\\
+\multicolumn{1}{c}{(d)} 
+\\
+\hline
+\end{array}
+$
+
+%
+\caption{Semantics of Execution Environment}
+\label{fig:compSema}
+\end{figure*}
+}

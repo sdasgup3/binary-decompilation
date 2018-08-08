@@ -1,0 +1,741 @@
+%%%%%%%%% Eval
+
+\cmt{
+    The importance of instruction level testing over program level testing can be realized by the fact that program level testing, using a suite of programs, may not cover all instructions.  On the other hand, instruction level testing does not test the combination of instructions, which is important while testing control flow instructions (like jump and call instructions).}
+
+
+
+%%Semantics of Exection env
+\begin{lstlisting}[style=KRULE]
+rule  <k> OpC:Opcode OpR:Operands (*$\Rightarrow$*) (*\textbf{.}*) ...</k>
+<memstate>... L (*$\rightarrow$*) _ (*$\Rightarrow$*) (OpC OpR) ...</memstate>
+<nextloc> L:Address (*$\Rightarrow$*) L + instrSize(OpC OpR) </nextloc>
+\end{lstlisting}
+ and  ``\_'' to represent  a term that we do not care to name.
+  The rule above
+mentions two cells: \s{k} and \s{regstate}. The \s{k} cell contains a list of
+computations to be executed, and the \s{regstate} cell represents the
+state of all the registers and flags and stores a map from register names to
+bit-vector values (represented here as \s{BV$_{\s{register-name}}$}).
+
+At the beginning of program execution, the \K parser  reads the program and puts it at the top of the \s{k} cell as shown below. 
+\begin{lstlisting}[style=KRULE]
+rule <k> (OpC:Opcode OpR:Operands):Instruction
+Rest:Instructions ~> fetch 
+</k>
+\end{lstlisting}
+The item at the top of the cell is the list of instructions followed by the next item ``\s{fetch}'' to be executed in order.
+
+%%Semantics of Individual Instructions
+\subsection{Semantics of Individual Instructions}
+
+
+
+using the following rule.  
+\begin{lstlisting}[style=KRULE]
+rule <k>
+readFromMemory(Addr:Address, Nbits:Int) (*$\Rightarrow$*) mRead(Addr, Nbits)
+... </k>
+\end{lstlisting}
+\noindent
+The cells are represented with angle brackets notation. The `$\Rightarrow$' symbol\cmt{horizontal line}
+represents a reduction (i.e., a transition relation). A cell with no such symbol means that it is read but not changed by the rule.  The rule above
+mentions two cells: \s{k} and \s{regstate}. The \s{k} cell contains a list of
+computations to be executed, and the \s{regstate} cell represents the
+state of all the registers and flags and stores a map from register names to
+bit-vector values (represented here as \s{BV$_{\s{register-name}}$}). This rule
+is applied when the current computation (top of the \s{k} cell) is a register
+lookup, \s{getRegisterVal(\reg{rax})}, and \s{regstate} contain a register
+with name \reg{rax}. This rule resolves the register lookup  to  value
+\s{BV$_{rax}$}. The ``...'' is a structural frame, that is, it matches the
+portions of a cell that are neither read nor written by the rule.
+
+
+Here we explain how we define the semantics of an instruction in \K using a running example listed below. The side comment describes an informal semantics of the instruction. 
+\begin{lstlisting}[style=Bash,label={lst:CS4}]
+pushw -4(%rsp)  
+# 1. Load 2 bytes from the memory 
+#  starting at  offset (%rsp - 4).
+# 2. %rsp = %rsp - 2 
+# 3. Store the loaded value in memory
+#  at offset (%rsp)
+
+\end{lstlisting}
+\input{figures/andnl}
+\cmt{We model \ISA instruction as an \s{Opcode} followed by an optional list of \s{Operand}s. In the running example, \s{popw} is the \s{Opcode} and \s{-4(\%rsp)} represents  an operand.}   The operational semantics of most of the instructions can be modeled broadly in $3$ phases; 1) Read the data from source operand(s), 2) Operate on the data based on the \s{opcode}, and 3) Write the result(s) to destination operand(s). A source or destination operand could be a register or memory. In our model, a read from register is basically a lookup with register name in the \s{regstate} map and reading the mapped value or a portion of it in case the register name matches a sub-register. The semantic of register read is already defined in Section~\ref{sec:KF}.  Even though in this presentation we will talk specifically about the particular instruction, which involves a memory read as part of phase (1) and a memory write as in phase (2), but in general the defined semantics of  all instructions looks the same, except the fact that they may read/write from operands from registers instead of memory or read a constant value (also called immediate) or operate on the operands. Also for brevity we skip the semantics of  register write, but they can be defined similar to register read. \cmt{A \ISA program is modeled as a list of instructions and the semantics of a \ISA program is given by the composition of the semantics of its constituent instructions.}    
+
+The instruction in the running example reads value from memory and eventually writes a value to the memory. A read from memory involves 1) Computing the effective offset in the memory, 2) Look-up with the address in the memory and \cmt{and check if the address causes any memory access violation, and 3) If the memory access is valid, then} read requested bytes from memory.  
+In Figure~\ref{fig:pushw}(a), \s{exec( pushw -4(\%rsp))} above the horizontal line shows the instruction is at the top of \s{k} cell and ready to get computed. The reduction puts the operand \s{-4(\%rsp)} to the top of the cell for evaluation, specifying the requirement that the operand need to be evaluated first. This leaves a $\Box$ (spelled ``hole'') marking the context 
+from which the expression \s{-4(\%rsp)} was pulled out. The rule should only apply
+if the expression is not a final result yet (here a \s{Offset} value). Once the expression is evaluated to a \s{Offset} value \s{memOffset(BV$_{\s{rsp}}$ + 64'4)}, using rule at Figure~\ref{fig:pushw}(b), that value is put back to its original context as shown in Figure~\ref{fig:pushw}(c). Rule in Figure~\ref{fig:pushw}(d), add a new task at the top of the \s{k} cell meant for reading $16$ bit from \s{stackmem} starting at offset \s{BV$_{\s{rsp}}$ + 64'4} (which is abbreviated as \s{O} in the Figure). \s{readFromMem} is responsible to check if the offset \s{O} is within the allowed access range of memory and return the read value. Otherwise it will generate a ``InvalidMemoryAccess'' token at the top of the \s{k} cell leading to a halt of the \K execution as there is no rule to match and evaluate that token. For brevity we skip these details from Figure~\ref{fig:pushw}.  Figure~\ref{fig:pushw}(d) shows the rule where we have the value read from memory, \s{memValue}, and in the next reduction we store the value in memory at offset \s{getRegisterVal(\%rsp) - 64'2} and writing $16$-bits of it. Also the value of \s{\%rsp} is decremented by $2$-bytes. 
+
+
+
+For example, consider the code snippet and the associated side comments for an informal semantics of the instruction involved. 
+\begin{lstlisting}[style=Bash, caption={Memory Read}, label={lst:CS3}]
+movw -2(%rsp), %ax 
+# Read two bytes starting from stack  
+# memory address (%rsp - 2)and store the  
+# read value in %ax.
+\end{lstlisting}
+For the sake of presentation, lets assume that 1) The memory designated for stack has exactly  the  snapshot presented above, and 2) \reg{rsp}, the stack pointer, contains address $7$. With that assumption, the effective memory access address is $5$ and the value read from the memory is: (memory value at address $6$) $\circ$ (memory value at address $5$), which is, \bv{8}{0} $\;\circ$ \bv{8}{255} or \bv{16}{255}($\circ$ means concatenation over bit-vectors), to be stored in \reg{ax}. 
+
+
+
+
+
+For example, the execution semantics first instruction, in the running example
+Listing~\ref{lst:CS1}, involve register lookup at the
+beginning to read the value of the operands.  The register lookup semantics can
+be defined as the following \K rule:
+\cmt{ 
+    \kequation{ref}{
+        \kprefix{k}{\reduce{{\tt getRegisterVal(\%rax)}}{{\tt BV_{rax}}}} \mathrel{}
+        \kall{regstate}{\ellipses{\tt RAX}\mapsto {\tt BV_{rax}}\ellipses} \mathrel{}
+}}
+\begin{lstlisting}[style=KRULE]
+rule <k> getRegisterVal(%rax) (*$\Rightarrow$*) BV(*$_\s{rax}$*) ...</k>
+<regstate>... RAX (*$\mapsto$*) BV(*$_\s{rax}$*) ...</regstate>
+\end{lstlisting}
+
+\noindent
+The cells are represented with angle brackets notation. The `$\Rightarrow$' symbol\cmt{horizontal line}
+represents a reduction (i.e., a transition relation). A cell with no such symbol means that it is read but not changed by the rule.  The rule above
+mentions two cells: \s{k} and \s{regstate}. The \s{k} cell contains a list of
+computations to be executed, and the \s{regstate} cell represents the
+state of all the registers and flags and stores a map from register names to
+bit-vector values (represented here as \s{BV$_{\s{register-name}}$}). This rule
+is applied when the current computation (top of the \s{k} cell) is a register
+lookup, \s{getRegisterVal(\reg{rax})}, and \s{regstate} contain a register
+with name \reg{rax}. This rule resolves the register lookup  to  value
+\s{BV$_{rax}$}. The ``...'' is a structural frame, that is, it matches the
+portions of a cell that are neither read nor written by the rule.
+
+
+
+
+\paragraph{Operation on Operands}
+As mentioned earlier, the values and address stored in register or memory are implemented as bit-vectors. Depending upon the context of an \s{opcode}, these values can be interpreted as integers (signed/unsigned) or floating point values (with different precisions). We developed libraries to interpret the bit-vectors depending on the current context and do integer or floating point operations on them.  
+
+%% Scope
+ \item \textbf{Systems-level:} These instructions require modeling  of the operating system (e.g. \instr{syscall} for fast system call), protection levels (e.g. \instr{sysexit}), I/O (e.g. \instr{outs} for output to port), cache lines (e.g. \instr{clflush} for flush cache line) and other low-level details. 
+\item \textbf{X87 \& MMX:} These are floating-point instructions (X87)  or vector instruction (MMX) both of which are deprecated by SSE.
+\item \textbf{Cryptography}: These instruction support cryptographic processing specified by Advanced Encryption Standard (AES). 
+
+ offers \totalIS{} unique mneinstructions variants.
+Following is the overview of all the supported instructions.
+\begin{itemize}
+    \item \textbf{Symtem-level (\system{} variants)}:  These instructions are seldom
+    used by application-level code and would require a more detailed model of
+    the operating system, protection levels, I/O, cache lines and other
+    low-level details. Examples are \instr{clflush} (flush cache line),
+    \cmt{\instr{int} (cal to interrupt), \instr{xsave} (save processor extended
+        state), \instr{hlt} (stopping execution),} syscall (system call) and
+    \instr{invlpg} (invalidate TLB entries).
+    
+    \cmt{
+        \item \textbf{Legacy mode string instructions (65 variants)}: These are
+        \emph{Legacy Mode} string instructions which allows \ISA processor to act
+        as if they were $16$- or $32$-bit x86 processors with all of the abilities
+        and limitations of them in order to run legacy $16$-bit and $32$-bit
+        softwares.\cmt{https://en.wikipedia.org/wiki/Legacy_mode}
+    }
+    
+    \item \textbf{x87 \& MMX (\Xmmx{} variants)}: x87 (155 variants) are
+    floating-point instructions  and MMX are vector instructions,
+    both deprecated by SSE.  
+    
+    \item \textbf{Cryptography instructions (\crypto{} variants)}: These instruction
+    supprts encryption, decryption and other  cryptographic processing
+    specified by Advanced Encryption Standard (AES). 
+\end{itemize}
+
+
+\label{sec:IC}
+
+\input{figures/instruction.distribution.tex}
+
+Haswell \ISA ISA has  \cmt{\totalIntel{} unique mnemonics amounting to} a total of \totalIS{} instructions variants. In the current work we only support (and hence model the semantics)
+of \currentIS{}  user-level instructions \cmt{(or \currentIntel{} unique Intel
+    opcodes)}. \fig{fig:IC} shows the classification of all the supported instructions variants. ``Control-Flow'' instructions encompasses jump and call instructions and their variants.  The ones we do not support (\totalIS{} - \currentIS{}) \cmt{(shown with dotted ovals)} can be categorized as
+follows:
+\begin{itemize}
+    \item \textbf{Symtem-level (\system{} variants)}:  These instructions are seldom
+    used by application-level code and would require a more detailed model of
+    the operating system, protection levels, I/O, cache lines and other
+    low-level details. Examples are \instr{clflush} (flush cache line),
+    \cmt{\instr{int} (cal to interrupt), \instr{xsave} (save processor extended
+        state), \instr{hlt} (stopping execution),} syscall (system call) and
+    \instr{invlpg} (invalidate TLB entries).
+    
+    \cmt{
+        \item \textbf{Legacy mode string instructions (65 variants)}: These are
+        \emph{Legacy Mode} string instructions which allows \ISA processor to act
+        as if they were $16$- or $32$-bit x86 processors with all of the abilities
+        and limitations of them in order to run legacy $16$-bit and $32$-bit
+        softwares.\cmt{https://en.wikipedia.org/wiki/Legacy_mode}
+    }
+    
+    \item \textbf{x87 \& MMX (\Xmmx{} variants)}: x87 (155 variants) are
+    floating-point instructions  and MMX are vector instructions,
+    both deprecated by SSE.  
+    
+    \item \textbf{Cryptography instructions (\crypto{} variants)}: These instruction
+    supprts encryption, decryption and other  cryptographic processing
+    specified by Advanced Encryption Standard (AES). 
+\end{itemize}
+
+
+%%
+The instruction in the running example reads value from memory and eventually writes a value to the memory. A read from memory involves 1) Computing the effective offset in the memory, 2) Look-up with the address in the memory and check if the address causes any memory access violation, and 3) If the memory access is valid, then read $n$ bytes from memory stating from effective offset, where $n$ is determined from the the last character of opcode.\footnote{This is true for the AT\&T syntax of assembly language. For Intel syntax, the size information are extracted from operand prefixes}. In the current example, the value of $n$ is $2$ bytes as determined by last character ``w'' in the opcode \s{pushw}. In Figure~\ref{fig:pushw}(a), \s{exec( pushw -4(\%rsp))} above the horizontal line shows the instruction is at the top of \s{k} cell and ready to get computed. The reduction puts the operand \s{-4(\%rsp)} to the top of the cell for evaluation, specifying the requirement that the operand need to be evaluated first. This leaves a $\Box$ (spelled ``hole'') marking the context 
+from which the expression \s{-4(\%rsp)} was pulled out. The rule should only apply
+if the expression is not a final result yet (here a \s{Offset} value). Once the expression is evaluated to a \s{Offset} value \s{memOffset(BV$_{\s{rsp}}$ + 64'4)}, using rule at Figure~\ref{fig:pushw}(b), that value is put back to its original context as shown in Figure~\ref{fig:pushw}(c). Rule in Figure~\ref{fig:pushw}(d), add a new task at the top of the \s{k} cell meant for reading $16$ bit from \s{stackmem} starting at offset \s{BV$_{\s{rsp}}$ + 64'4} (which is abbreviated as \s{O} in the Figure). \s{readFromMem} is responsible to check if the offset \s{O} is within the allowed access range of memory and return the read value. Otherwise it will generate a ``InvalidMemoryAccess'' token at the top of the \s{k} cell leading to a halt of the \K execution as there is no rule to match and evaluate that token. For brevity we skip these details from Figure~\ref{fig:pushw}.  Figure~\ref{fig:pushw}(d) shows the rule where we have the value read from memory, \s{memValue}, and in the next reduction we store the value in memory at offset \s{getRegisterVal(\%rsp) - 64'2} and writing $16$-bits of it. Also the value of \s{\%rsp} is decremented by $2$-bytes. 
+
+%%%%%%%%% Config
+\cmt{
+    and transfer control to the \s{k} execution engine which looks into the top of the \s{k} cell for the next computation. The content of the cell is already initialized with a list of computations (the list elements are separated by $\kra$ and are called tasks) as shown in Figure~\ref{fig:compSema}(a).  The first task called \s{initEnv} is responsible to initialize different cell of our configuration using the command line arguments to \s{krun}. The next task in the \s{k} cell is the entire input program which is processed by the rule in Figure~\ref{fig:compSema}(b). This rule essentially reads the instructions one at a time and store it in code section of \s{memstate} cell.  For brevity, we do not introduce the cell  \s{nextloc}  in Figure~\ref{fig:config}. The sole purpose of the cell is to generate appropriate address to store the instruction in the memory. Once the program is loaded, the next task in the \s{k} cell, i.e. \s{fetch}, kicks in whose semantics is shown in Figure~\ref{fig:compSema}(c). The task \s{fetch} reads the instruction pointed to by the program counter \reg{rip} and put it on the head of the \s{k} to be executed next.     
+    The last rule, in Figure~\ref{fig:compSema}(d), ensures program termination when there is no instruction stored in \s{codemem} at address pointed to by \reg{rip}. While initializing the stack memory we store an invalid address just before the entry-point function as the return address. Once the entry point function is returned, the return address  is popped from the stack and stored in \reg{rip} leading to program termination owing to the rule at Figure~\ref{fig:compSema}(d). We could also pass an address as a parameter to \s{krun}, which, if encountered as an instruction pointer, halts the execution of the program, thus  allowing executing only a part of the program.}
+
+\cmt{ 
+    An \ISA program execution broadly entails 2 phases
+    \begin{itemize}
+        \item \textbf{State initialization:} The underlying parser in \K reads the \ISA program and populate the code section of the memory.
+        The \K's execution engine provides the flexibility to pass any configuration cell content as a parameter. We used that to appropriately initialize register (default register values, execution entry point \reg{rip}) or memory state. 
+        
+        or to pass an address as a parameter to \s{krun}, which, if encountered as an instruction pointer, halts the execution of the program, thus allowing executing only a part of the program.
+        \item  \text{Fetch \& Execute} After the program is loaded, reads the instruction pointed to by the program counter \reg{rip} and put it on the head of the \s{k} to be executed next.     
+        The last rule, in Figure~\ref{fig:compSema}(d), ensures program termination when there is no instruction stored in \s{codemem} at address pointed to by \reg{rip}. While initializing the stack memory we store an invalid address just before the entry-point function as the return address. Once the entry point function is returned, the return address  is popped from the stack and stored in \reg{rip} leading to program termination owing to the rule at Figure~\ref{fig:compSema}(d). We could also pass an address as a parameter to \s{krun}, which, if encountered as an instruction pointer, halts the execution of the program, thus  allowing executing only a part of the program.}
+\end{itemize}
+}
+\cmt{ 
+    The cell \s{executionEnv} is to store details used for the execution of \ISA programs.
+    The cell \s{entryPoint} contains a memory address of the first instruction from where the program execution is supposed to begin. The cell \s{commandlineArgs}  allow passing command-line arguments to program. The inner cell, \s{argc}, contains an integer specifying the number of arguments, and  \s{argv}, stores an address in stack  memory region which is initialized with the pointers to actual command line arguments before execution. 
+    The initialization of different calls in \s{executionEnv} are achieved by an ``environment initialization'' phase }
+
+\cmt{
+    Figure~\ref{fig:compSema} illustrates the semantics of different component of the execution environment\cmt{ used for executing a \ISA program}. \K's execution engine is called \emph{krun} which takes the input \ISA machine-code program along with arguments like the initial values of the registers, entry point of execution,  and arguments to the program\footnote{In addition to program arguments, \K provides the flexibility to pass any cell content as a parameter to the \K execution engine}. The underlying \K parser then reads the program and transfer control to the \s{k} execution engine which looks into the top of the \s{k} cell for the next computation. The content of the cell is already initialized with a list of computations (the list elements are separated by $\kra$ and are called tasks) as shown in Figure~\ref{fig:compSema}(a).  The first task called \s{initEnv} is responsible to initialize different cell of our configuration using the command line arguments to \s{krun}. The next task in the \s{k} cell is the entire input program which is processed by the rule in Figure~\ref{fig:compSema}(b). This rule essentially reads the instructions one at a time and store it in code section of \s{memstate} cell.  For brevity, we do not introduce the cell  \s{nextloc}  in Figure~\ref{fig:config}. The sole purpose of the cell is to generate appropriate address to store the instruction in the memory. Once the program is loaded, the next task in the \s{k} cell, i.e. \s{fetch}, kicks in whose semantics is shown in Figure~\ref{fig:compSema}(c). The task \s{fetch} reads the instruction pointed to by the program counter \reg{rip} and put it on the head of the \s{k} to be executed next.     
+    The last rule, in Figure~\ref{fig:compSema}(d), ensures program termination when there is no instruction stored in \s{codemem} at address pointed to by \reg{rip}. While initializing the stack memory we store an invalid address just before the entry-point function as the return address. Once the entry point function is returned, the return address  is popped from the stack and stored in \reg{rip} leading to program termination owing to the rule at Figure~\ref{fig:compSema}(d). We could also pass an address as a parameter to \s{krun}, which, if encountered as an instruction pointer, halts the execution of the program, thus  allowing executing only a part of the program.}
+ \cmt{ 
+    hosts various memory cell which contain different memory objects used during program execution. More details about memory objects and their layout  are given in next subsection.  
+    \begin{itemize}
+        \item The \textbf{\s{codemem}} cell represents the standard text section  of an object file which contains executable instructions and is of fixed size. It stores a map from \s{Address} to \s{instruction}, which is used during control flow of an executing program.  
+        \item The \textbf{\s{datamem}} cells represents the data memory section of an executable which contains any global or static variables which have a predefined value and represented. 
+        \item There is a Stack Memory \textbf{\s{stackmem}} cell used for calling and returning from functions, local data storage and parameter passing. 
+        \item The program heap, represented as \textbf{\s{heapmem}}, which is managed by C library functions malloc, calloc, realloc, and free. The ``*'' appearing next to the \s{heapmem} cell name in the configuration tells K that zero, one or more cells with that name can occur at that position in the configuration.  
+    \end{itemize}
+}
+
+\begin{itemize}
+    \item \textbf{Register State: } The cell \s{regstate} contains a  map from register or flag names to values. \cmt{At any point of execution, the map contains $16$ $64$-bit general purpose registers, the instruction pointer \reg{rip}, $16$ $256$-bit YMM registers \reg{ymm0}-\reg{ymm15} and $6$-status flags.}
+    \item \textbf{Memory State: } The cell \s{memstate} denotes the program memory which contains a map from addresses to Values.  
+    
+    
+    \item \textbf{Entry Point: } The cell \s{entryPoint} contains a memory address of the first instruction from where the program execution is supposed to begin.
+    \item \textbf{Command Line Arguments: } The cells \s{argc} and \s{argv} allow passing command-line arguments to program. The former contains an integer specifying the number of arguments and the later stores an address in stack  memory region which is initialized with the pointers to actual command line arguments before execution (using an initial  ``environment initialization'' phase).       
+\end{itemize}
+In our implementation \s{Value} and \s{Address} are represented using  bit-vectors of appropriate size.
+
+%%%%%%%%%%%%%% Memory layout
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+The Memory State (which we call \s{memstate})  is essentially a map from locations to blocks of bytes, where locations are symbolic numbers and the  blocks of bytes are really maps from offsets to bytes. An element of that map, which we call \s{memobj}, is used to represent either the stack memory, data memory or each heap allocated object. For example, in Figure~\ref{fig:config}, each of cells witin \s{memstate} cells contains a \s{memobj}. The following is a snippet of a memory object, \s{memobj}, holding four bytes:
+\begin{center}
+    \newcommand{\bytecell}[2]{{#1} \;\mapsto\; {#2}}
+    $
+    \kall{memobj} {
+        %\begin{array}{@{}c@{}}
+        \begin{array}{ll}
+        
+        5 \;\mapsto\; &(4, \\
+        &   \text{bytes}( \; \bytecell{0}{8'255}, \bytecell{1}{8'255}, \\ 
+        & \;\;\;\, \qquad \bytecell{2}{8'0}, \quad\bytecell{3}{8'0}))
+        
+        \end{array}
+    }
+    $
+\end{center}
+This says that at symbolic location 5, there is an block of bytes of size 4; those bytes are  $255, 255, 0, 0$ (starting from lowest significant byte). As mentioned earlier, all the values and address are represented as bit-vectors which are depicted in this paper  as $W'V$, and interpreted as a bit-vector of size $W$ and value $V$. The values and address are broken into individual bytes while stored into memory and appropriate aggregated while reading from memory. 
+
+The stack and data memory are allocated before execution during a program environment initialization phase. 
+Each heap object upon allocation (using library calls like \emph{malloc})  is created as a new block and is mapped from a new symbolic
+number. The block of bytes corresponding to a memory object  is allowed to contain as many bytes as allocated in the object, and accesses relative to that object must be contained in
+the block. Otherwise, the \K execution will stuck with a memory access violation error.  
+
+
+The pointers used to access the memory are actually base/offset pairs, which we write as
+sym(\s{B}) $+$ \s{O}, where \s{B} corresponds to the base address of an object
+itself, while the \s{O} represents the offset of a particular byte in the
+object. We wrap the base using ``sym'' to emphasize the fact that it is symbolic
+despite representing a location. It is better to think of the $5$ above
+as representing ``memory object $5$'', as opposed to ``location $5$''.
+
+While memory lookup, the bytes are interpreted depending on the size of the memory access. Consider the code snippet and the associated side comments for the semantics of the instructions involved. 
+\begin{lstlisting}[style=Bash, caption={Reading from Stack Memory}, label={lst:CS3}]
+movw -2(%rsp), %ax 
+# Read two bytes starting from stack  
+# memory address (%rsp - 2)and store the  
+# read value in %ax.
+\end{lstlisting}
+For the sake of presentation, lets assume that 1) The stack memory object is exactly  the memory object snippet presented above, and 2) \reg{rsp}, the stack pointer, contains address $4$. In that case, the effective address for the memory access is going to be ($sym(5) + \reg{rsp} -2$) which is ($sym(5) + 1$) and the value read from the memory is $8'255 \;\circ \;8'0$ ($\circ$ means concatenation over bit-vectors), equals  $16'255$, which will get stored in \reg{ax}. 
+
+
+
+%%% Config
+%%%%%%%%%
+$
+\kall{T}{
+    \begin{array}{@{}c@{}}
+    \kall{k}{\dotCt{K}} \mathrel{}
+    \\ \mathrel{}
+    \kall{regstate}{\regstate} \mathrel{}
+    \\ \mathrel{}
+    \kall{memstate} {
+        \kall{codemem}{\codemem} \mathrel{}
+        \kall{datamem}{\datamem} \mathrel{}
+        \kall{stackmem}{\stackmem} \mathrel{}
+        \kall{heapmem*}{\heapmem} \mathrel{}
+    } \mathrel{}
+    \\ \mathrel{}
+    \kall{commandineArgs}{
+        \kall{argc}{\argc} \mathrel{}    
+        \kall{argv}{\argv} \mathrel{}
+    } \mathrel{}
+    \kall{entryPoint}{\entrypoint} \mathrel{}
+    %  \kall{labelAddress}{\labeladdress} \mathrel{}
+    
+    \end{array}
+}
+$
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Evaluation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{itemize}
+    \item A program may not drive the input state of an instruction to various interesting corner cases.
+    \item Program level testing, using a suite of programs, may not cover all instructions.
+\end{itemize} 
+Also there are scenarios were  program level testing shines better. 
+\begin{itemize}
+    \item There are instructions related to changing control flow (like jump and call instructions) which cannot be tested in isolation. For example, semantics of call instruction involve saving the return address in stack and then jump to the called location. In order to test that the return address is saved properly we might need a return instruction that attempts to retrieve that address so as to return the control back to the calling function. Similarly jump instruction change the control flow to different program locations. A faithful testing of changing the control flow requires those target program locations to exist at the least.     
+    
+    \item As instruction level testing is not exhaustive, program level testing might generate some test-inputs which we might miss during testing instructions individually.  
+\end{itemize}   
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Strata Prelim %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cmt{ 
+    Each complex instruction is manifested
+    as a sequence of simpler instruction which are either  previously learned or
+    belong to the initial base set. For example, for instruction \instr{andnq
+        \%rdx, \%rcx, \%rbx}, they provide an following instruction sequence as the
+    semantics.
+    \begin{lstlisting}[style=Bash,caption={\Strata Generated Semantics of \instr{andnq
+    \%rdx, \%rcx, \%rbx}}, label={lst:CS6}]
+    orq %rcx, %rdx   
+    xorq %rcx, %rdx    
+    movq %rdx, %rbx    
+    retq     
+    \end{lstlisting} 
+    Also it is possible to generate SMT formulas, specifying the output behavior of an instruction, by
+    symbolically executing the learned instruction sequence. For example, the SMT formula specifying the behavior of output register \reg{rbx} looks like:
+    \begin{lstlisting}[style=SMTLIB]
+    (*\qquad\qquad*)    %rbx: (bvand (bvnot %rcx) %rdx)
+    \end{lstlisting} 
+}
+
+\cmt{ 
+    Using this combination of stochastic search + pruning
+    using testing (we referred as {\tt initial search}) and subsequent refining of the
+    search results using equivalence checking ({\tt henceforth referred as \secS{}
+    }), }
+
+
+\cmt{
+    After having that {\tt initial search},
+    they keep on searching  additional programs, called {\tt secondary
+        searches}, each agreeing with {\tt I} on {\tt T} and using the instructions from {\tt B}, in a hope of
+    getting  one which would prove non-equivalent to existing ones and
+    thereby gaining more confidence on the searched programs. 
+    
+    In the process the initial set of test inputs got augmented by counter examples 
+    
+    and probably an
+    augmented test-suite (as {\tt TS} might get augmented with a
+    counter example from equivalence checker in the event of
+    non-equivalence). 
+}
+\cmt{ 
+    The  algorithm starts with a set of test inputs \s{T} and output results for
+    the target machine instruction, whose semantics we want to learn. It then uses
+    \Stoke~\cite{Stoke2013} as its synthesizer to generate  instruction sequence
+    which is valid for all test cases in \s{T}. Given two such instruction
+    sequences \s{I} and \s{I}$^\prime$, they decide, suing an SMT solver and the
+    formulas from the base set, if they are equivalent. If the two sequences are
+    semantically distinct they use the model produced by the SMT solver to obtain
+    an input \s{t} that distinguishes \s{I} and \s{I}$\prime$, add \s{t} to the set
+    of tests \s{T}, and start over to generate other instruction sequence and
+    repeat the process.  
+}
+
+\cmt{
+    \begin{table}[h]
+        \centering
+        \scalebox{1}{
+            \begin{tabular}{lllll}
+                \reg{zf} := \;(ite &      &                     & \multicolumn{1}{c}{} &  \\[-1pt]
+                & (=   &                     &                      &  \\[-1pt]
+                &      & (bvand              &                      &  \\[-1pt]
+                &      & \quad (bvnot \%rcx)                    &         &  \\[-1pt]
+                &      & \quad \%rdx                    &                 &  \\[-1pt]
+                &      & )                    &                 &  \\[-1pt]
+                &      & \#x0000000000000000 &                      &  \\[-1pt]
+                & )    &                     &                      &  \\[-1pt]
+                & \#b1 &                     &                      &  \\[-1pt]
+                & \#b0) &                     &                      &  \\[-1pt]
+        \end{tabular}}
+    \end{table}
+}
+
+\cmt{
+    their results is stratified synthesis, where they use a set of instructions
+    whose semantics are known to synthesize the semantics of additional instructions
+    whose semantics are unknown. 
+    In a nutshell the approach is as follows. The approach needs as input  a small set of x86-64 instructions, the base set {\tt B}, whose semantics is already known. They execute
+    an instruction {\tt I} for which the formal semantics is not known yet on a set of test inputs {\tt TS} to obtain an initial description of its behavior. Then they search for a program {\tt p}, thats agrees with {\tt I} on T,  where {\tt p} only uses instructions drawn from the {\tt B}. This search will henceforth be referred as \initS{}. 
+    After the \initS{}, they perform multiple searches to get a set of programs {\tt P} all agreeing with {\tt I} on {\tt T} and uses only the instructions from {\tt B}. These subsequent searches will henceforth be referred as \secS{}. Given two programs p, p$\prime$ $\in$ {\tt P}, they test whether $p\equiv_\text{Z3}p\prime$ using an SMT solver and the formulas from the base set. If the two programs are semantically distinct (meaning
+    the agreement on {\tt T} is coincidental), they know that one or both programs are not a correct description of {\tt I}. They use the model produced by the SMT solver to obtain an input {\tt t} that distinguishes $p$ and $p\prime$, add $t$ to the set of tests {\tt T}, and start over. This process is  repeated until they having enough programs according to a threshold. Once done, a {\tt p} $\in$ {\tt P} is chosen according to some heuristics, and returned as the semantics of {\tt I}. Also {\tt p} is added to the base set {\tt B}.  This  enables stratified synthesis  as the vocabulary for expressing the semantics of more complex instructions expands.}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% RW %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cmt{
+    As shown in Table~\ref{table:RW}, either they are not complete or the semantics is not executable. In some cases they require different formalizations for different purposes, e.g., an operational/computational
+    semantics for execution and a axiomatic/declarative semantics
+    for deductive reasoning. Having to define two or more different semantics
+    for a real-life language, together with proofs of equivalence,
+    is a huge burden in itself, not to mention that these all need to be
+    maintained as the language evolves. Lastly in some cases, the formal semantics is not backed by he framework suitable for doing  formal reasoning. }
+
+
+\cmt{
+    The second and third columns
+    respectively indicate if the project hosts semantics of all the user level \ISA
+    ISA and if that specification is executable. If the answer is yes we mark it
+    with \cmark, and \xmark\ otherwise. For the third column, a \rating{50} symbol
+    indicated if the semantics is partly executable. The fourth column specifies
+    whether the there exist infrastructure for doing formal reasoning (like
+    symbolic exploration or program verification) on top of the developed
+    semantics.  A \cmark\ indicates ``yes"" and \xmark\ indicates ``no''. A
+    \rating{50} symbol in the column shows that the project supports symbolic
+    exploration but not full fledged program verification. The last column shows if
+    the development approach is automatic or manual. A \rating{50} symbol
+    indicates that some fraction of the instruction semantics is manually added. }
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% APPROACH %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cmt{
+    a \Z equivalence check as follows: $\forall c \in
+    \{0..255\}:$ \CF{I}{c} $\equiv_\text{Z3}$ \GN{I}{c}, where \GN{I}{c} is
+    obtained by replacing the symbolic inputs of $G^I$ with constant value
+    {\tt c}. A successful equivalence check suggest $G^I$ to be a generic formula
+    with the same correctness guarantee that \Strata has for any of the individual
+    concrete formulas. For the case where we have a separate formula for a subset
+    of constant values, we do the same equivalence check as before for that subset.
+    The constants for which we do not have a separate formula we test \GN{I}{c}
+    against the actual hardware. 
+    
+    The immediate instructions can be
+    broadly classified based on whether there is a corresponding register
+    variant available or not. An example of the former is  \instr{andb \$0,
+        \%al} that has a corresponding register variant like instr{andb \%bl,
+        \%al}. The later kind can be exemplified using  \instr{blenpd
+        \%xmm1, \%xmm2, \$0} which  do not have such a corresponding
+    register variant. 
+    
+    
+    For the immediate instruction of later kind, \Strata attempts to learn a
+    separate SMT formula for each value of the constant operand( provided
+    constant operand size  is  $8$-bits). In some cases it succeeds in
+    learning all $256$ different formulas and in some other cases it could
+    learn a few of them.  We use \CF{I}{c} to refer each of the separate
+    formulas for an immediate instruction \s{I}  for a particular constant
+    value {\tt c} of constant   operand. Our goal here is to get a concise
+    formula for the instruction, say $\s{G}^\s{I}$, which faithfully model
+    the semantics of \s{I} for any value of constant. We  obtain a candidate
+    for a generic formula of an instruction \s{I} by writing semantics
+    specification manually as shown in
+    Figure~\ref{fig:pushw}\cmt{Listing~\ref{lst:CS5}} and use APIs provided
+    by \K  to get the required formula. While doing so we consult the Intel
+    Manual~\cite{IntelManual} and test the implementation using the testing
+    infrastructure mentioned in section~\ref{sec:Eval}. 
+    
+    In the case where we have a separate \CF{I}{c} $\forall c \in
+    \{0...255\}$, we do a Z3 equivalence check as follows: $\forall c \in
+    \{0..255\}:$ \CF{I}{c} $\equiv_\text{Z3}$ \GN{I}{c}, where \GN{I}{c} is
+    obtained by replacing the symbolic inputs of $G^I$ with constant value
+    {\tt c}. A successful equivalence check suggest $G^I$ to be a generic formula
+    with the same correctness guarantee that \Strata has for any of the individual
+    concrete formulas. For the case where we have a separate formula for a subset
+    of constant values, we do the same equivalence check as before for that subset.
+    The constants for which we do not have a separate formula we test \GN{I}{c}
+    against the actual hardware. }
+
+
+
+\cmt{( Note that these $8$ instructions are not
+    stratified and hence we borrowed it from \Stoke).} 
+
+
+\cmt{
+    \emph{There are $474\ (= 141(\text{Reg}) +
+        109(\text{Imm}) + 224(\text{Mem}))$ instructions that results in
+        conditional  (or \emph{may}) \emph{undef} ($162\ (= 40 + 46 + 76)$) or
+        un-conditional (or \emph{must}) \emph{undef} ($312\ (= 101 + 63 + 148)$)  in
+        one or more cpu flag.}}   
+
+
+As discussed in section~\ref{sec:prelimstrata}, \cmt{both the projects (\Strata or \Stoke)} \Strata allows generating SMT formulas specifying the behavior of output registers. \cmt{In case of \Strata it is generated by symbolically executing the learned  instruction sequences. Whereas, for \Stoke, we developed APIs using their framework, to generate the SMT formula out of the  manually written  semantics specification.}
+
+
+As mentioned earlier in section~\ref{sec:prelimstrata}, \Strata auto-generates
+the semantics of \strataRegVarIS{} register variants and $120$ 8-bit constant
+immediate variants. Then they use  ``generalization''  of the register variants
+to memory and immediate variants, which is mention in
+section~\ref{sec:prelimstrata}, to get a total support count of
+\strataWithDupIS{} out of \totalIS{} instructions.  Our
+approach is to borrow this available information of \cmt{\strataPlusStokeIS{}
+    (\strataWithDupIS{} + \stokeIS{})} \stokeIS{} instructions and see if we can use it to
+faithfully define their semantics in \K. \cmt{Modeling the semantics of remaining
+    \currentManual{} instructions is discussed in section~\ref{sec:US}.} 
+
+\cmt{Also the project \Stoke
+    hosts manually written semantics (as shown in the same section) with $79\%$
+    overlap with the auto generated formula. \Stoke also contains formulas for
+    \stokeIS{} exclusive instructions which are not produced by \Strata.}
+
+
+\cmt{In K, a language semantics is
+    described as a term rewriting system.} 
+\cmt{ 
+    to reuse existing work 
+    In order to get the semantics of complete user-level instruction we used the information available in projects like \Strata~\cite{Heule2016a} and \Stoke~\cite{Stoke2013}. As hinted earlier, these projects are not complete in terms of the instruction support. Hence we modeled the remaining $23\%$ of the user-level instructions by carefully consulting Intel manual and defining their specification in  a semantics formalization framework of our choice. 
+}   
+
+
+\cmt{
+    The reason for using \Strata as our starting point is as follows:
+    \begin{itemize}
+        \item \Strata is fully automatic which is preferable because manual approaches are neither scalable nor practical because of the progressiveness and sheer complexity of the ISA.
+        \item \Strata assumes no knowledge about the semantic information encoded in compilers and extract the semantics solely based on the input/output behavior of the instruction on hardware whereas Hasabnis et. al. approach is based on that information. We agree that their approach is backed up by years of testing and debugging already performed on the code generator, but we would prefer an approach which does not keep compiler on the trust base. 
+    \end{itemize}
+    
+    The framework used for modeling the semantics plays an important role when it comes
+    to modeling \ISA ISA owing to its huge size and complexity. The desirable features of the framework are:
+    \begin{itemize}
+        \item It should be easy to specify the semantic rules for individual instruction irrespective of its complexity. For example, in \ISA ISA, instructions are capable to affect all or some of register state, CPU flags or memory state. The desirable modeling framework should be intelligent enough to ask the user (who models the semantics) for just relevant details like the states which are actually modified and infer the ones which are unmodified states from the context.     
+        \item \ISA being a progressive ISA, the modeling framework should scale well and be maintainable while accommodating future extensions.  
+        \item The framework should allow efficient execution of the semantics so as to help validate the model against real hardware using co-simulation by comparing the simulation results of a \ISA program on the model with the corresponding results on real \ISA hardware.  
+        \item The framework should allow formal reasoning based on the defined semantics. This aspect makes the model useful beyond just being a reference model/implementation.
+    \end{itemize}
+}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \paragraph{Handling CH.1} For an unsupported instruction {\tt I}, we either
+model its semantics  manually or borrowed it from project \Stoke.   Once we
+have this candidate, we test it against hardware using {\tt ATS}.  Once the
+test passes we claim (from the above observation) the semantics to have the
+same correctness guarantee which \Strata provided for most of its cases.
+
+This helped us finding instruction semantics bugs in Intel
+Manual~\cite{} and \Stoke~\cite{BugStoke983}.
+
+We understand that this is not as efficient as \Stoke, which is fully
+automatic in getting these formulas, and we do not intend to make any
+contribution towards efficient generation of instruction semantics. The
+purpose of above mentioned effort is to deliver in cases where \Stoke cannot
+without loosing much on the correctness guarantee. 
+
+Moreover, writing the semantics manually might alleviate the need of
+secondary search as a means to provide ``better'' formula as we can control
+the complexity and choice of operations to include in the formula. Also
+carefully written manual formula tend to need less number of conflicting
+searches than the onces generated by random search engines like Stoke.
+
+We also tried the following other options, which we do not pursue further:
+\begin{itemize}
+    \item \textbf{Augmenting the Base Set: }
+    Coming up with a suitable set of base instructions, which help 
+    synthesizing the semantics most of the user level instruction, could be framed 
+    as an optimization problem, which we do not explore in this work. \revisit{Why?} 
+    
+    \item \textbf{Reducing \Stoke Search Space: }This option is based
+    on the observation that {\tt initial search} for some instructions (like
+    \instr{vfmaddsub132pd \%ymm1 \%ymm2 \%ymm3}) times-out because of the
+    huge search space to be explored by \Stoke. We tried to limit the search
+    space using manually learned heuristics. An example of one such heuristic is
+    \emph{ If we know the semantics of an instruction with ymm operands and the
+        target instruction, which we want to learn, is a variant of that
+        instruction and uses xmm operand, then the search pool should contain
+        some specific instructions}. This particular heuristic  work well for few
+    instructions. In the general case, getting the search pool for every
+    target instruction, need an approximate insight about the semantics of
+    the target instructions itself. Even though such information is available
+    in manuals but we find it difficult to extract it in a way to create the
+    search pool, which is the main reason we drop this venture.
+\end{itemize} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cmt{
+Following is a key observation concerning stratification which help us handle
+the most of the above mentioned challenges.
+
+\paragraph{Observation} In order to get the semantics of a target instruction
+{\tt I}, \Strata uses \Stoke along with a set {\tt TS} of $6580$ test cases to
+synthesize an instruction sequence which agrees with {\tt I} on {\tt TS} (which
+    means the output behavior of the instruction sequence matches with that on
+    real hardware for input {\tt TS}). After having that {\tt initial search},
+           they keep on searching  additional sequences, called {\tt secondary
+             searches}, each agreeing with {\tt I} on {\tt TS}, in a hope of
+             getting  one which would prove non-equivalent to existing ones and
+             thereby gaining more confidence on the search and probably an
+             augmented test-suite (as {\tt TS} might get augmented with a
+                 counter example from equivalence checker in the event of
+                 non-equivalence). 
+      
+      One unfavorable possibility for \Strata is when all subsequent secondary
+      search results proves  equivalent to the one obtained from initial search
+      and hence there are no conflicts among searches, in which case it  means
+      that  secondary searches fail to add any ``confidence'' to the initial
+      search result and end up giving the same correctness guarantee as provided
+      by the initial search result. Even though in such unfavorable case, the
+      secondary searches might have provided ``better'' choices to pick the
+      final formula from. A better choice of formula do not contain
+      uninterpreted functions or  non-linear arithmetics and are simple.  
+    
+   In the paper\cite{Heule2016a}, it is mentioned that there are only $50$
+   cases, where they found a (valid) counterexample. That means, there are $762
+   = (692 + 120 - 50)$ instructions, for which  the initial stoke search using
+   augmented test-suite, containing $6630\ (= 6580 + 50$) tests,  is sufficient
+   enough to provide a semantics with the same correctness guarantee which
+   \Strata provides.   In other words, in  most of the cases, the correctness
+   guarantee of secondary searches is same as that of the initial stoke search
+   using the augmented test-suite (henceforth referred as {\tt ATS})  which
+   \Strata ends up with. \revisit{Had \Strata supported rest of the instructions 
+       it could have performed better by providing more counter examples. 
+       In that sense can we generalize the the observation to unsupported ones?}
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cmt{
+    
+    \subsection{Porting to \K Rules}
+    
+    For the purpose of getting  \K rules, we could have directly converted the
+    \Strata formulas for an instruction to \K rule assuming that the \Strata's
+    symbolic execution over the stratified instruction sequence is correct.
+    
+    Given that fact the \K's symbolic execution engine is more trusted as that has
+    been used extensively in language-agnostic manner to perform symbolic execution,
+    we decided to use \K's symbolic executor. Also in order to check if
+    \Strata's symbolic execution engine is correct, we did an equivalence check
+    on the outputs of both the symbolic executions.   
+    
+    
+    \begin{enumerate}
+        \item Implementing the base instructions semantics in \K and testing them.
+        \item Symbolic execution of the stratified instruction sequences.
+        \item Dealing with scratch pad registers.
+        \item Equivalence check between \Strata formula ad the output of 2.
+        
+        All the checks are \emph{unsat}, expect one where the check fail to due a bug
+        in the simplification rules in \Strata, which states the following lemma
+        related to two single precision floating point numbers  {\tt A}  and {\tt B},
+        which is not correct for {\tt NaNs}. However this bug is fixed in the latest
+        version of \Stoke. 
+        
+        
+        { \tt  
+            \begin{tabular}[b]{l}
+                \qquad sub\_single(A, B) $\equiv$ 0 if A == B     
+            \end{tabular}
+        }
+        
+        \item {Simplification of formulas:} Simplification generates simple \K rule
+        (sometimes simpler than the corresponding \Strata formula).  Also it is much
+        easier to write the simplification rules in \K.\revisit{show the example for
+            concat(A[1:2], concate(B[2:3], X)) $\equiv$ concate(A[1:3], X)}
+        
+        
+        \item One drawback of the \Strata formulas is they could be non-intuitive and
+        complex at times when the simplification rules are not adequate enough to
+        simplify their complexity to more intuitive formulas. Appendix \ref{sec:AP:A}
+        provides such an example.  Towards the goal of having intuitive formulas, we
+        borrowed the hand written formula (provided they are simpler) from \Stoke or
+        manually write those  and check equivalence with the stratified formula. If they
+        match on all register state and/or memory, we employ that in our \K semantics.
+        
+        \cmt{
+            An example of one such simplification opportunity is: 
+            { \tt  
+                \begin{tabular}[b]{l}
+                    ($0_{32}$ $\cdot$ \%rax[32:0]) $\oplus$ \%rax $\equiv$ \%rax[63:32] $\cdot$  $0_{32}$ 
+                \end{tabular}
+            }
+        }
+        
+        
+        
+        
+    \end{enumerate}
+    
+    \subsection{Supporting un-stratified instructions \& Porting their formulas to \K Rules}
+    
+    \subsubsection{Supporting un-stratified instructions}
+    \paragraph{Instruction support status}
+    
+    
+    
+    \subsection{Porting to \K Rules}
+    
+    \Strata could output the internal AST, used to model a register state formula, in different
+    formats. Supported backend are SmtLib and Prefix notation. We have added another backend 
+    to generate \K rule. We need some way to validate the backend. 
+    
+    \paragraph{Validate the Backend}
+    
+    The \K rules generated using the backend are matched (syntactically)  against
+    the ones we already obtained via symbolic execution on stratified instructions.
+    Other than validaing the backend, this has an added benefit that in order to get
+    the exact match, we need to port all the simplification rules from \K to strata
+    code, which in turn will later help in generating simplified \K rules for
+    non-stratified instructions. 
+    
+    Main challenges in getting an exact match are:
+    \begin{itemize}
+        
+        \item  \Strata rules uses \extract to extract portion of a bit-vector. The high
+        and low indices of \extract are obtained considering LSB at index 0, whereas \K
+        uses \extractMInt for the same purpose, but uses MSB at index zero.
+        
+        \item  \Strata uses flags as \bool, whereas they are treated as \bv in our
+        semantics. We modifed strata so as to treat flag registers as 1 bit bitvectors.
+        
+    \end{itemize}
+    
+}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\cmt{
+    While we are writing the semantics of instructions manually, we prefer
+    to write it in \K{} framework directly rather than adding them in
+    \Stoke framework. In order to write a formula in \Stoke, we need to
+    create a AST for that formula, which might be too difficult to create
+    for instructions like \instr{pdepq_r64_r64_r64}
+    \instr{pextq_r64_r64_r64} \instr{mpsadbw_xmm_m128_imm8}
+    \intr{pclmulqdq_xmm_m128_imm8} and all their variants, because the AST
+    in these cases wil ave a node for 
+}

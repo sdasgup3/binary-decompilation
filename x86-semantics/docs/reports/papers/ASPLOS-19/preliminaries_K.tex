@@ -1,0 +1,42 @@
+\subsection{K Framework}\label{sec:KF}
+
+\K~\cite{k-primer-2013-v32} \cmt{\url{http://kframework.org}} is a framework for
+defining formal language semantics. Given a syntax and a semantics of a language, \K
+generates a parser, an interpreter, as well as formal analysis tools such as
+model checkers and deductive program verifiers, at no additional cost. Using
+the interpreter, one can test their semantics immediately, which significantly
+increases the efficiency of semantics developments. Furthermore, the formal
+analysis tools facilitate formal reasoning about the given language semantics.
+This helps both in terms of applicability of the semantics and in terms of
+engineering the semantics itself.
+
+We   refer the reader to~\cite{k-primer-2013-v32, rosu-serbanuta-2010-jlap} for
+ details. In a nutshell, in \K, a language syntax is given using conventional
+Backus-Naur Form (BNF). A language semantics is given as a parametric
+transition system, specifically a set of reduction rules over configurations. A configuration is an algebraic representation of the
+program code and state. Intuitively, it is a tuple whose elements
+(called cells) are labeled and possibly nested. Each cell represents a
+semantic component, such as the memory or the registers. A special cell, named \s{k}, contains a
+list of computations to be executed. A computation is essentially
+a program fragment, while the original program is flattened into a
+sequence of computations. A rule describes a one-step transition
+between configurations, giving semantics to language
+constructs. Rules are modular; they mention only relevant cells that
+are needed in each rule, making many rules far more concise and easy to read
+than in some other formalisms.
+
+
+
+% One of the most appealing aspects of K is its modularity. It is very rarely the
+% case that one needs to touch existing rules in order to add a new feature to
+% the language. This is achieved by structuring the configuration as nested cells
+% and by requiring the language designer to mention only the cells that are
+% needed in each rule, and only the needed portions of those cells. For example,
+% the above rule only refers to the \s{k} and \s{regstate} cells, while
+% the entire configuration contains many more cells (Figure
+% ~\ref{fig:config}). This modularity makes for compact and human
+% readable semantics, and also helps with the overall effectiveness of the
+% semantics development. For example, even if new cells are later added to
+% configuration, to support new features, the above rule does not change.
+
+% \input{figures/configuration.tex}

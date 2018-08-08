@@ -1,0 +1,18 @@
+\section{Conclusion}\label{sec:conc}
+
+We have presented the most complete formal semantics of X86-64 user-level instructions
+to date, which has been thoroughly tested and demonstrated  to be applicable
+for different formal analyses such as symbolic execution, deductive
+verification, and translation validation.
+Moreover, the \K framework enables us to represent a semantics as SMT theories,
+which other projects can
+leverage for their own purposes.
+
+%\K  has success stories about defining the formal semantics of production languages like C~\cite{KC} and LLVM~\cite{KLLVM}. We can use that towards the benefit of binary lifters like ~\cite{McSema:Recon14, FCD} which lifts the binary code to LLVM IR for binary analysis and/or optimization. Having the semantics of both the source (\ISA) and the target language(LLVM) help in verifying the translation using symbolic reasoning and hence enhance trust in  the translation.
+
+\textit{Acknowledgements.}
+We warmly thank the \K team
+   for their technical support throughout the project.  Also we thank the Strata
+   developers for promptly confirming
+   our reported bugs and for answering all our questions in great detail.
+   

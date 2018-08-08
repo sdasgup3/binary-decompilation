@@ -1,0 +1,341 @@
+\documentclass[pageno]{styles/jpaper}
+
+%replace XXX with the submission number you are given from the ASPLOS submission site.
+\newcommand{\asplossubmissionnumber}{5}
+
+\usepackage[normalem]{ulem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% Custom Packages
+\usepackage{listings}
+\usepackage{color}
+\usepackage{xspace}
+\usepackage[title]{appendix}
+\usepackage{tikz}
+%\usepackage{pgf-pie}
+\usepackage{forest}
+\usepackage{amsmath,amssymb}
+\usepackage{ctable}
+\usepackage{pifont}
+\usepackage{calculator}
+
+
+
+% FIXME: overleaf broken if uncommented
+% \usepackage{tikz-qtree}
+% \usetikzlibrary{arrows,shapes,positioning,shadows,trees}
+% \usetikzlibrary{shadows,trees}
+
+
+%% Custom Commands
+\def\Code#1{\texttt{#1} }
+%\def\Comment#1{}
+\def\Comment#1{\textbf{\textsl{\color{red}  $\langle\!\langle$#1$\rangle\!\rangle$}} }
+\newcommand{\percentage}[2]{\DIVIDE{#1}{#2}{\duv}\MULTIPLY{\div}{100}{\res}$\res\%$}
+\newcommand{\revisit}[1]{{\color{red} Sandeep: #1}}
+\newcommand{\Qd}[1]{{\color{red} Daejun: #1}}
+\newcommand{\Qt}[1]{{\color{red} Theo: #1}}
+\newcommand{\BW}[1]{{\color{red} Borrowed: #1}}
+\newcommand{\cmt}[1]{}
+\newcommand{\xmark}{{\color{red} \ding{55}}}
+\newcommand{\cmark}{{\color{green} \ding{51}}}
+\newcommand{\ISA}{X86-64\xspace}
+%\newcommand{\K}{\mbox{$\mathbb{K}$}\xspace}
+\newcommand{\Z}{$\mathbb{Z}3$\xspace}
+\newcommand{\uif}{uninterpreted functions}
+\newcommand{\Strata}{Strata\xspace}
+\newcommand{\Stoke}{Stoke\xspace}
+\newcommand{\initS}{{\tt initial search}}
+\newcommand{\secS}{{\tt secondary searches}}
+%\newcommand{\K}{\ensuremath{\mathcal{{\tt K}}}\xspace}
+\newcommand{\TS}[1]{{\tt #1}}
+%\newcommand{\instr}[1]{\texttt{#1}}
+\newcommand{\instr}[1]{\textbf{\color{brown}\m{#1}}}
+\newcommand{\reg}[1]{\s{\%#1}}
+\newcommand{\opcode}[1]{\ensuremath{#1}}
+%\newcommand{\cond}[1]{\ensuremath{#1}}
+\newcommand{\extract}{\emph{extract}\xspace}
+\newcommand{\extractMInt}{\emph{extractMInt}\xspace}
+\newcommand{\false}{\textbf{False}}
+\newcommand{\true}{\textbf{True}}
+\newcommand{\bool}{\texttt{Bool}\xspace}
+\newcommand{\incfig}[1]{\includegraphics[scale=.7]{#1}}
+\newcommand{\CF}[2]{$\s{F}_{\s{#2}}^{\s{#1}}$}
+\newcommand{\GN}[2]{$G{[#2]}^{#1}$}
+\newcommand{\udef}{\emph{undef}\xspace}
+\newcommand{\bv}[2]{$#1\text{'}#2$\xspace}
+
+\newcommand{\rating}[1]{%
+    \begin{tikzpicture}[x=1ex,y=1ex]
+    \begin{scope}
+    \clip (0,1) circle (1);
+    \fill[black] (-1,0) rectangle (1,#1/50);
+    \end{scope}
+    \draw[black, thin, radius=1] (0,1) circle;
+    \end{tikzpicture}%
+}
+
+% Current Support
+%\newcommand{\currentIS}{$3186$} %including jmp label
+\newcommand{\currentIS}{$3155$}
+\newcommand{\currentIntel}{$774$}
+%\newcommand{\currentManual}{$1199$} %3104 - 1905
+%\newcommand{\currentManual}{$1281$} %3186 - 1905
+%\newcommand{\currentManualPerc}{$40\%$} %100 - \strataPerc
+% Total
+\newcommand{\totalIS}{$3736$}
+\newcommand{\totalIntel}{$996$}
+%\newcommand{\totalIntel}{$1,000$}
+\newcommand{\dup}{$109$}
+% Strata
+\newcommand{\strataIS}{$1796$}
+\newcommand{\strataIntel}{$466$}
+\newcommand{\strataWithDupIS}{$1905$}
+\newcommand{\strataRegVarIS}{$692$}
+% Unsupported
+\newcommand{\system}{$210$}
+\newcommand{\Xmmx}{$336$}
+\newcommand{\crypto}{$35$}
+
+\newcommand{\strataPerc}{$47\%$} % 466/996 or  1905 / 3736
+\newcommand{\goelPerc}{$33\%$} 
+% Stoke disjoin from Strata
+%\newcommand{\stokeIS}{$332$} % 262 + 15 + 9 + 46. ALso 332/3767 == 9%
+% 1432(strata common) + 332
+\newcommand{\stokeIS}{${\sim}1764$}
+%\newcommand{\stokeExcPerc}{$9\%$}
+% Strata stoke combined
+%\newcommand{\strataPlusStokeIS}{$2237$} % 
+
+%\newcommand{\unsupp}{$939$}
+
+%%%%%% Immediates
+%\newcommand{\ImmUg}{$146$} % 118 + 28
+%\newcommand{\ImmTotal}{$308$}
+%\newcommand{\ImmG}{$190$}
+
+%%%%%%% Registers
+%\newcommand{\RegTOTAL}{$1133$} % 1083 + 50
+%\newcommand{\RegSTRAT}{$742$} % 692 + 50
+%\newcommand{\RegSTOK}{$262$}
+%\newcommand{\RegMAN}{$129$}
+
+%%% toture status
+\newcommand{\TortureTotal}{$1629$} %
+\newcommand{\TortureExclude}{$692$}
+\newcommand{\TortureInclude}{$937$}
+\newcommand{\TortureUifsInstr}{$182$} % 134(all three jobs) +  48
+\newcommand{\TortureUifs}{$35$}
+\newcommand{\TortureCoverage}{$963$}
+%%% Undef counts
+\newcommand{\undefTotal}{$474$}
+\newcommand{\undefIntel}{$32$}
+\newcommand{\undefPerc}{$3$} %32/1000
+
+\input{header.tex}
+\input{macro.tex}
+
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+
+\cmt{
+\lstset{ %
+    language=Bash,                % choose the language of the code
+    basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+    numbers=left,                   % where to put the line-numbers
+    numberstyle=\footnotesize,      % the size of the fonts that are used for the line-numbers
+    stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+    numbersep=5pt,                  % how far the line-numbers are from the code
+    backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+    showspaces=false,               % show spaces adding particular underscores
+    showstringspaces=false,         % underline spaces within strings
+    showtabs=false,                 % show tabs within strings adding particular underscores
+    frame=single,           % adds a frame around the code
+    %tabsize=2,          % sets default tabsize to 2 spaces
+    captionpos=b,           % sets the caption-position to bottom
+    breaklines=true,        % sets automatic line breaking
+    breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+    escapeinside={\%*}{*)},          % if you want to add a comment within your code
+     commentstyle=\color{gray},
+     keywordstyle=\color{blue},
+    morekeywords={bvand, bvnot, andnq, jp, jz, movw, movq, xorq, orq, retq, pushw, concat, extract, bvxor}
+}}
+
+
+    \lstdefinestyle{Bash}{
+       language=Bash,                % choose the language of the code
+       basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+       numbers=left,                   % where to put the line-numbers
+       numberstyle=\tiny\color{codegray},      % the size of the fonts that are used for the line-numbers
+       stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+       numbersep=5pt,                  % how far the line-numbers are from the code
+       backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+       showspaces=false,               % show spaces adding particular underscores
+       showstringspaces=false,         % underline spaces within strings
+       showtabs=false,                 % show tabs within strings adding particular underscores
+       frame=single,           % adds a frame around the code
+       %tabsize=2,          % sets default tabsize to 2 spaces
+       captionpos=b,           % sets the caption-position to bottom
+       breaklines=true,        % sets automatic line breaking
+       breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+       escapeinside={\%*}{*)},          % if you want to add a comment within your code
+       commentstyle=\color{gray},
+       keywordstyle=\color{blue},
+       morekeywords={andnq, jp, jz, movw, movq, xorq, orq, retq, pushw}
+    }
+
+ \lstdefinestyle{C++}{
+    language=C++,                % choose the language of the code
+    basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+    numbers=left,                   % where to put the line-numbers
+    numberstyle=\tiny\color{codegray},      % the size of the fonts that are used for the line-numbers
+    stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+    numbersep=5pt,                  % how far the line-numbers are from the code
+    backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+    showspaces=false,               % show spaces adding particular underscores
+    showstringspaces=false,         % underline spaces within strings
+    showtabs=false,                 % show tabs within strings adding particular underscores
+    frame=single,           % adds a frame around the code
+    %tabsize=2,          % sets default tabsize to 2 spaces
+    captionpos=b,           % sets the caption-position to bottom
+    breaklines=true,        % sets automatic line breaking
+    breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+    escapeinside={\%*}{*)},          % if you want to add a comment within your code
+    commentstyle=\color{gray},
+    keywordstyle=\color{blue},
+}
+
+\lstdefinestyle{SMTLIB}{
+    language=Java,
+    basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+    numbers=left,                   % where to put the line-numbers
+    numberstyle=\tiny\color{codegray},      % the size of the fonts that are used for the line-numbers
+    stepnumber=1,                   % the step between two line-numbers. If it is 1 each line will be numbered
+    numbersep=5pt,                  % how far the line-numbers are from the code
+    backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+    showspaces=false,               % show spaces adding particular underscores
+    showstringspaces=false,         % underline spaces within strings
+    showtabs=false,                 % show tabs within strings adding particular underscores
+    frame=single,           % adds a frame around the code
+    %tabsize=2,          % sets default tabsize to 2 spaces
+    captionpos=b,           % sets the caption-position to bottom
+    breaklines=true,        % sets automatic line breaking
+    breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+    escapeinside={(*}{*)},          % if you want to add a comment within your code
+    commentstyle=\color{gray},
+    keywordstyle=\color{blue},
+    morekeywords={bvand, bvnot, concat, extract, bvxor}
+}
+
+\lstdefinestyle{KRULE}{
+    %language=Java,
+    %basicstyle=\footnotesize,      
+    basicstyle=\scriptsize,
+    backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+    showspaces=false,               % show spaces adding particular underscores
+    showstringspaces=false,         % underline spaces within strings
+    showtabs=false,                 % show tabs within strings adding particular underscores
+    frame=single,           % adds a frame around the code
+    %tabsize=2,          % sets default tabsize to 2 spaces
+    captionpos=b,           % sets the caption-position to bottom
+    breaklines=true,        % sets automatic line breaking
+    breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+    escapeinside={(*}{*)},          % if you want to add a comment within your code
+    commentstyle=\color{gray},
+    morecomment=[l]{//},
+    keywordstyle=\color{blue},
+    %morekeywords={regstate, stackmem, andBool, requires, ensures, codemem, memstate, and}
+    morekeywords={andBool, requires, ensures, and, rule}
+}
+
+\lstdefinestyle{KRULEWOBORDER}{
+    %language=Java,
+    %basicstyle=\footnotesize,      
+    basicstyle=\scriptsize,
+    backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+    showspaces=false,               % show spaces adding particular underscores
+    showstringspaces=false,         % underline spaces within strings
+    showtabs=false,                 % show tabs within strings adding particular underscores
+    %frame=single,           % adds a frame around the code
+    %tabsize=2,          % sets default tabsize to 2 spaces
+    captionpos=b,           % sets the caption-position to bottom
+    breaklines=true,        % sets automatic line breaking
+    breakatwhitespace=false,    % sets if automatic breaks should only happen at whitespace
+    escapeinside={(*}{*)},          % if you want to add a comment within your code
+    commentstyle=\color{gray},
+    morecomment=[l]{//},
+    keywordstyle=\color{blue},
+    morekeywords={regstate, stackmem, andBool, requires, ensures, codemem, memstate, and}
+}
+
+\lstdefinestyle{SIMPRULES}{
+    language=Java,
+    basicstyle=\footnotesize,       % the size of the fonts that are used for the code
+    backgroundcolor=\color{white},  % choose the background color. You must add \usepackage{color}
+    escapeinside={(*}{*)},          % if you want to add a comment within your code
+    commentstyle=\color{gray},
+    morecomment=[l]{//},
+}
+
+\cmt{
+    backgroundcolor=\color{backcolour},   
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\footnotesize,
+    breakatwhitespace=false,         
+    breaklines=true,                 
+    captionpos=b,                    
+    keepspaces=true,                 
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+
+\makeatletter
+\newcommand\footnoteref[1]{\protected@xdef\@thefnmark{\ref{#1}}\@footnotemark}
+\makeatother
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+\title{A Complete Formal Semantics of X86-64 User-Level Instruction Set Architecture}
+
+\date{}
+\maketitle
+
+\thispagestyle{empty}
+
+\input{abstract.tex}
+\input{introduction.tex}
+\input{preliminaries.tex}
+\input{kx86-instruction-semantics.tex}
+\input{kx86.tex}
+\input{evaluation.tex}
+\input{application.tex}
+\input{limitation.tex}
+\input{relatedwork.tex}
+\input{future.tex}
+\input{conclusion.tex}
+\input{acknowledgement.tex}
+
+
+%\begin{appendices}
+%\input{appendixA.tex}
+%\end{appendices}
+
+
+\bibliographystyle{plain}
+\bibliography{bibs/references,bibs/modeling-X86-semantics,bibs/bugs,bibs/k}
+
+
+\end{document}
+

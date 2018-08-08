@@ -1,0 +1,40 @@
+\begin{figure}[t]
+  \centering
+  %
+  \renewcommand{\dotCt}[1]{\scriptstyle\s{#1}}
+  \newcommand{\regstate}{\scriptstyle\s{ID}_\s{regname} \;\mapsto\; \s{Value}}
+  \newcommand{\argc}{\scriptstyle\s{Int}}
+  \newcommand{\argv}{\scriptstyle\s{Address}} 
+  \newcommand{\entrypoint}{\scriptstyle\s{Address}}
+%  \newcommand{\labeladdress}{\scriptstyle\textit{ID}_\textit{Label Name} \;\mapsto\; \textit{Address}}
+  \newcommand{\codemem}{\scriptstyle\textit{Address} \;\mapsto\; \textit{Instruction}}
+  \newcommand{\datamem}{\scriptstyle\s{Address} \;\mapsto\; \s{Value}}
+  \newcommand{\bssmem}{\scriptstyle\textit{Address} \;\mapsto\; \textit{Value}}
+  \newcommand{\stackmem}{\scriptstyle\textit{Address} \;\mapsto\; \textit{Value}}
+  \newcommand{\heapmem}{\scriptstyle\textit{Address} \;\mapsto\; \textit{Value}}
+  %
+$
+\kall{T}{
+  \begin{array}{@{}c@{}}
+  \kall{k}{\dotCt{K}} \mathrel{}
+  \mathrel{}
+  \kall{regstate}{\regstate} \mathrel{}
+  \mathrel{}
+  \kall{memstate} {\datamem} \mathrel{}
+  \mathrel{}
+  \cmt{ 
+  \kall{executionEnv}{ 
+  \kall{commandineArgs}{
+    \kall{argc}{\argc} \mathrel{}    
+    \kall{argv}{\argv} \mathrel{}
+  } \mathrel{}
+  \kall{entryPoint}{\entrypoint} \mathrel{}
+}}
+%  \kall{labelAddress}{\labeladdress} \mathrel{}
+  \end{array}
+}
+$
+  %
+  \caption{Program Configuration}
+  \label{fig:config}
+\end{figure}
