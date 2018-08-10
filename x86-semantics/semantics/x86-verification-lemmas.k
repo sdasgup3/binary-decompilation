@@ -746,14 +746,24 @@ module PROG-VERIFICATION-LEMMAS
     andBool   bitwidthMInt(MI) >Int (E -Int S)
     andBool   uvalueMInt(MI) >=Int 0    
     andBool   uvalueMInt(MI) <Int (2 ^Int (E -Int S))    
-    //andBool   S ==Int 32 andBool E ==Int 64 
+    andBool   S ==Int 32 andBool E ==Int 64 
 
+  rule extractMInt(MI:MInt, S:Int, E:Int) => mi(E -Int S, uvalueMInt(MI))
+    requires  bitwidthMInt(MI) ==Int E
+    andBool   E >Int S
+    andBool   bitwidthMInt(MI) >Int (E -Int S)
+    andBool   uvalueMInt(MI) >=Int 0    
+    andBool   uvalueMInt(MI) <Int (2 ^Int (E -Int S))    
+    andBool   S ==Int 1 andBool E ==Int 33 
+
+    /*
   rule extractMInt(MI:MInt, S:Int, E:Int) => mi(E -Int S, 0)
     requires  E<Int bitwidthMInt(MI)
     andBool   E >Int S
     andBool   bitwidthMInt(MI) >Int (E -Int S)
     andBool   uvalueMInt(MI) >=Int 0    
     andBool   uvalueMInt(MI) <Int (2 ^Int (bitwidthMInt(MI) -Int E))    
+    */
 
   /*@
     L10: redundant ite
