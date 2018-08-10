@@ -689,19 +689,14 @@ module MINT-WRAPPER
         Output:                  <--->
           MI:16' 0x                 ff 00
 
-    extractMask(MI, 4, 1)
-      6 5 4 3 2 1 0
-      * * * * * * *
-          ------^
+     0 1 2 3 4 5 6 7  exractMInt(MI, 3, 7)
+     * * * * * * * *
+     7 6 5 4 3 2 1 0  extractMask(MI, 4, 1)
+           ------^
 
     extractMask(MI, NUM, P) <==> extractMInt(MI, S , S + NUM)
       where S = bitwidthMInt(MI) - (P + NUM)
 
-    Example, extractMInt(MI, 2, 6) // Bits in range [2..6)
-
-      0 1 2 3 4 5 6
-      * * * * * * *
-          ^-------^
   */
   rule extractMask(MI, NUM, P) => extractMInt(MI, bitwidthMInt(MI) -Int P -Int NUM,
       bitwidthMInt(MI) -Int P)
