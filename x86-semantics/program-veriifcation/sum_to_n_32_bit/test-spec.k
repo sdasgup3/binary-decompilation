@@ -93,9 +93,9 @@ module TEST-SPEC
         <argc> .K  </argc>
         <argv> .K  </argv>
       </environment>
-        requires N >=Int 0 andBool N <Int 2147483647
+        requires N >=Int 0 andBool N <Int (2 ^Int 31) 
         andBool (N *Int (N +Int 1)) /Int 2 >=Int 0  
-        andBool (N *Int (N +Int 1)) /Int 2 <Int 2147483647 //[trusted]
+        andBool (N *Int (N +Int 1)) /Int 2 <Int  (2 ^Int 31) //[trusted]
 
 
   // Other Configuration
@@ -191,13 +191,13 @@ module TEST-SPEC
         <argc> .K  </argc>
         <argv> .K  </argv>
       </environment>
-        requires M >=Int 0 andBool M <Int 2147483647
+        requires M >=Int 0 andBool M <Int (2 ^Int 31)
 
-        andBool A >=Int 0 andBool A <Int 2147483647
-        andBool B >=Int 0 andBool B <Int 2147483647 
+        andBool A >=Int 0 andBool A <Int (2 ^Int 31)
+        andBool B >=Int 0 andBool B <Int (2 ^Int 31) 
 
         andBool B +Int ((A *Int (A +Int 1)) /Int 2) >=Int 0  
-        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int 2147483647  //[trusted]
+        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int (2 ^Int 31)  //[trusted]
 
 
 endmodule
