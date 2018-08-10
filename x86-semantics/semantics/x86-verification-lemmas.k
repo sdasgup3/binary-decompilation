@@ -730,6 +730,9 @@ module PROG-VERIFICATION-LEMMAS
   rule svalueMInt(mi(M:Int, N:Int)) => N
     requires M ==Int 1
 
+  /*@
+    Concatenate with 0
+  */  
   rule concatenateMInt(MI1, MI2) => 
       mi(bitwidthMInt(MI1) +Int bitwidthMInt(MI2), uvalueMInt(MI2))
     requires eqMInt(MI1, mi(bitwidthMInt(MI1), 0))
@@ -743,6 +746,7 @@ module PROG-VERIFICATION-LEMMAS
     andBool   bitwidthMInt(MI) >Int (E -Int S)
     andBool   uvalueMInt(MI) >=Int 0    
     andBool   uvalueMInt(MI) <Int (2 ^Int (E -Int S))    
+    //andBool   S ==Int 32 andBool E ==Int 64 
 
   rule extractMInt(MI:MInt, S:Int, E:Int) => mi(E -Int S, 0)
     requires  E<Int bitwidthMInt(MI)
@@ -802,17 +806,6 @@ module PROG-VERIFICATION-LEMMAS
   rule eqMInt( mi(M, I), MI2:MInt) => svalueMInt(MI2) ==Int I
     requires  bitwidthMInt(MI2) ==Int M
     andBool   #isConcrete(MI2)
-
-  /*
-  rule lshrMInt(M:MInt, I:Int) => mi(bitwidthMInt(M), uvalueMInt(M) /Int 2)
-    requires I ==Int 1
-
-  rule V:Int /Int I /Int J => V /Int (I *Int J)
-
-  rule mi(W:Int, V:Int /Int N) => mi(W, 0)
-    //requires (2 ^Int W) ==Int N
-    requires W ==Int N
-    */
 
   rule lshrMInt(lshrMInt(M:MInt, I:Int), J:Int) => lshrMInt(M, I +Int J)
     requires I <=Int bitwidthMInt(M) andBool J <=Int bitwidthMInt(M)
