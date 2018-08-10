@@ -789,9 +789,7 @@ module PROG-VERIFICATION-LEMMAS
   */
   rule mi(M, A +Int B) ==K mi(M, J) => A +Int B ==Int J
     requires  
-              J >=Int -1 *Int (2 ^Int (M -Int 1))
-      andBool 
-              J <Int (2 ^Int (M -Int 1))
+              J >=Int -1 *Int (2 ^Int (M -Int 1)) andBool J <Int (2 ^Int (M -Int 1))
 
       andBool B +Int ((A *Int (A +Int 1)) /Int 2) >=Int   -1 *Int (2 ^Int (M -Int 1))
       andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int   (2 ^Int (M -Int 1))
