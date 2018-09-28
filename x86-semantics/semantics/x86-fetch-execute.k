@@ -45,6 +45,7 @@ module X86-FETCH-EXECUTE
       <functargets> FMap:Map </functargets>
         //requires notBool iloc( {RSMap["RIP"]}:>MInt ) in_keys ( CMap )
         requires notBool {RSMap["RIP"]}:>PointerVal  in_keys ( CMap )
+ */
 
   /*@
     Final Exit.
