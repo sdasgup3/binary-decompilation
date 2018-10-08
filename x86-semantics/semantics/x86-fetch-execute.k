@@ -15,7 +15,7 @@ module X86-FETCH-EXECUTE
     Fetch the instructions from Code memory for exection & monitoring.
   */
   rule
-    <k> fetchMonitor => execinstr(OpC OpR) ~> inforegisters ~> fetch ... </k>
+    <k> fetchMonitor => execinstr(OpC OpR) ~> inforegisters ~> fetchMonitor ... </k>
       <text>code(PV:PointerVal |-> storedInstr(OpC OpR) _:Map) </text>
       <regstate>... "RIP" |-> ( PV => addMInt(PV,  ptr(getMemLoc(PV), mi(64, 1))))  ...</regstate>
 

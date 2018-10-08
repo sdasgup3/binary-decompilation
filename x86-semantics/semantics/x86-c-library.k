@@ -420,11 +420,19 @@ module X86-C-LIBRARY
 
   //rule asCInt(I:Int) => setRegisterValue(mi(64, I), %rax)
   rule asCInt(I:Int) => I
-  rule <k> I:Int  ~> inforegisters ~> fetch =>  
-    setRegisterValue(mi(64, I), %rax) ~> inforegisters ~> fetch
+  rule <k> I:Int  ~> inforegisters ~> fetchMonitor =>  
+    setRegisterValue(mi(64, I), %rax) ~> inforegisters ~> fetchMonitor
   </k>
-  rule <k> PV:PointerVal ~> inforegisters ~> fetch =>  
-    setRegisterValue(PV, %rax) ~> inforegisters ~> fetch
+  rule <k> PV:PointerVal ~> inforegisters ~> fetchMonitor =>  
+    setRegisterValue(PV, %rax) ~> inforegisters ~> fetchMonitor
+  </k>
+
+
+  rule <k> I:Int  ~>  fetch =>  
+    setRegisterValue(mi(64, I), %rax) ~>  fetch
+  </k>
+  rule <k> PV:PointerVal ~>  fetch =>  
+    setRegisterValue(PV, %rax) ~>  fetch
   </k>
 
   rule asCLongInt(I:Int) => I

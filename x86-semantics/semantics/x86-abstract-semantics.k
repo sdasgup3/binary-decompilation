@@ -96,9 +96,12 @@ module X86-ABSTRACT-SEMANTICS
     */
 
   // eqMInt
-  rule eqMInt(ptr(L:MemLoc, MI1:MInt), MI2:MInt) => eqMInt(MI1, MI2)
-  rule eqMInt(MI1:MInt, ptr(L:MemLoc, MI2:MInt)) => eqMInt(MI1, MI2)
+  // rule eqMInt(ptr(L:MemLoc, MI1:MInt), MI2:MInt) => eqMInt(MI1, MI2)
+  // rule eqMInt(MI1:MInt, ptr(L:MemLoc, MI2:MInt)) => eqMInt(MI1, MI2)
   rule eqMInt(ptr(L:MemLoc, MI1:MInt), ptr(L:MemLoc, MI2:MInt)) => eqMInt(MI1, MI2)
+
+  rule mi(W:Int, uvalueMInt(PV:PointerVal)) => 
+    ptr(getMemLoc(PV), mi(W, uvalueMInt(getMIntVal(PV))))
 
   // Sign Extension
   //rule mi(W:Int, svalueMInt(PV:PointerVal)) => 
