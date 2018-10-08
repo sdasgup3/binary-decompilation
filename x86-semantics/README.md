@@ -16,7 +16,7 @@
   cd !$
   // Clone the following
   // 2 and 3 are requred incase we need to gather statistics.
-  1. git clone https://github.com/sdasgup3/binary-decompilation.git [master]
+  1. git clone https://github.com/sdasgup3/binary-decompilation.git [merge]
   2. git clone https://github.com/sdasgup3/x86-64-instruction-summary.git    
   3. git clone --recursive  https://github.com/sdasgup3/strata-data-private.git  strata-data
   4.  git clone https://github.com/sdasgup3/llvm-verified-backend.git [f_llvm_parser] (preferred) OR
@@ -65,12 +65,7 @@ binary-decompilation/x86-semantics/scripts/remove_directives.pl --i --file test.
 
 
 ## Running kprove
- 1. Download branch 'programV' supporting symbolic executon. 
-  ```
-  git clone https://github.com/sdasgup3/binary-decompilation.git [branch programV]
-
-  ```
- 2. All the program verification example are there in program-veriifcation
+ 1. All the program verification example are there in program-veriifcation
    folder.
    ```
     cd binary-decompilation/x86-semantics/program-veriifcation
