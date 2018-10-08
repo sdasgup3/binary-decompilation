@@ -26,7 +26,7 @@ module X86-CONFIGURATION
 	$PGM:Instructions ~> 
         loadEntryPoint ~>
 	inforegisters ~> 
-	fetch 
+	fetchMonitor 
     </k>
 
     <functargets> .Map </functargets> 

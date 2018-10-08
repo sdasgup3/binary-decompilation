@@ -51,6 +51,7 @@ module X86-ASBTRACT-SYNTAX
   // syntax Int ::= getISize(Instruction) [function]
 
   syntax KItem ::= "fetch" [token]
+  syntax KItem ::= "fetchMonitor" [token]
   syntax KItem ::= "inforegisters" [token]
 
   /*@
