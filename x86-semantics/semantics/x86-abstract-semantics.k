@@ -23,6 +23,7 @@ module X86-ABSTRACT-SEMANTICS
   rule convertPV(MI:MInt) => MI  [owise]
 
   //rule mi(W:Int, svalueMInt(PV:PointerVal)) => ptr(getMemLoc(PV), mi(W, svalueMInt(getMIntVal(PV))))
+  rule svalueMInt(PV:PointerVal) => svalueMInt(getMIntVal(PV))
 
   //negMInt
   rule negMInt(PV:PointerVal) =>

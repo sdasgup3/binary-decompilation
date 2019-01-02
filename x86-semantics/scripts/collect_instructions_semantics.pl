@@ -68,12 +68,18 @@ for my $line (@lines) {
 
 for my $opcode (keys %opcodeMap) {
   print $opcode ."\n";
+  # Just for print
+  #populate($opcode, 2);
   populate($opcode);
 }
 
 sub populate {
   my $opcode = shift @_;
   my $doit = shift @_;
+
+  if($opcode eq "" || $opcode eq "//") {
+    return;
+  }
 
   execute("cp $regDir/$opcode* $immDir/$opcode* $memDir/$opcode* $sysDir/$opcode* $target 1> /dev/null 2>&1",  $doit);
 
