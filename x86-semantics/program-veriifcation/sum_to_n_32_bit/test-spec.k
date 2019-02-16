@@ -5,9 +5,9 @@ module TEST-SPEC
   rule
     <k> fetch => exit_0 </k>
       <functargets>  
-        L2    |-> ptr ( symloc ( -1 , 0) , mi(64, 10))
-        L3    |-> ptr ( symloc ( -1 , 0) , mi(64, 4))
-        main  |-> ptr ( symloc ( -1 , 0) , mi(64, 0))
+        L2    |-> ptr ( symloc ( -1 , 0 ) , mi(64, 10))
+        L3    |-> ptr ( symloc ( -1 , 0 ) , mi(64, 4))
+        main  |-> ptr ( symloc ( -1 , 0 ) , mi(64, 0))
       </functargets> 
       <rotargets> .Map </rotargets> 
       <bsstargets> .Map </bsstargets> 
@@ -56,7 +56,7 @@ module TEST-SPEC
           <memory>
             <nextLoc> 1 </nextLoc> 
             <objects>  
-                    mem( 
+               mem( 
               symloc ( 1 , 128 ) |-> 
                 mVector(64, 8, 
                     36 |-> (byte ( 0 , undefMInt ) => byte(0, mi(32, N)))
@@ -90,8 +90,7 @@ module TEST-SPEC
             </objects>
           </memory>
           <stackbase>
-            stackBaseInfo ( symloc ( 1 , 128) , _ )
-
+            stackBaseInfo ( symloc ( 1 , 128 ) , _ )
           </stackbase>
           <robase>    roBaseInfo(.K , .K , .K  ) </robase>
           <database>  dataBaseInfo(.K , .K , .K ) </database>
@@ -105,16 +104,16 @@ module TEST-SPEC
       </environment>
         requires N >=Int 0 andBool N <Int (2 ^Int 31) 
         andBool (N *Int (N +Int 1)) /Int 2 >=Int 0  
-        andBool (N *Int (N +Int 1)) /Int 2 <Int  (2 ^Int 31) [trusted]
+        andBool (N *Int (N +Int 1)) /Int 2 <Int  (2 ^Int 31) //[trusted]
 
 
   // Other Configuration
   rule
     <k> fetch => fetch </k>
       <functargets>  
-        L2    |-> ptr ( symloc ( -1 , 0) , mi(64, 10))
-        L3    |-> ptr ( symloc ( -1 , 0) , mi(64, 4))
-        main  |-> ptr ( symloc ( -1 , 0) , mi(64, 0))
+        L2    |-> ptr ( symloc ( -1 , 0 ) , mi(64, 10))
+        L3    |-> ptr ( symloc ( -1 , 0 ) , mi(64, 4))
+        main  |-> ptr ( symloc ( -1 , 0 ) , mi(64, 0))
       </functargets> 
       <rotargets> .Map </rotargets> 
       <bsstargets> .Map </bsstargets> 
@@ -124,7 +123,7 @@ module TEST-SPEC
       <lastseenlabel> .K </lastseenlabel>
       <currentsection> "text" </currentsection>
       <regstate>
-        "RIP" |-> ( ptr (symloc(-1, 0 ), mi(64, 4))  => ptr(symloc(-1, 0), mi(64, 10)))
+        "RIP" |-> ( ptr (symloc(-1, 0), mi(64, 4))  => ptr(symloc(-1, 0), mi(64, 10)))
         "RSP" |-> ( ptr (symloc(1, 128), mi(64, 56)))
         "RBP" |-> ( ptr (symloc(1, 128), mi(64, 56)))
         "AF" |-> (_:MInt => _:MInt)
@@ -164,7 +163,7 @@ module TEST-SPEC
             <nextLoc> 1 </nextLoc> 
             <objects>  
                mem( 
-                                symloc ( 1 , 128 ) |-> 
+              symloc ( 1 , 128 ) |-> 
                 mVector(64, 8, 
                     36 |-> byte(0, mi(32, M))
                     37 |-> byte(1, mi(32, M))
@@ -197,7 +196,7 @@ module TEST-SPEC
             </objects>
           </memory>
           <stackbase>
-            stackBaseInfo ( symloc ( 1 , 128) , _ )
+            stackBaseInfo ( symloc ( 1 , 128 ) , _ )
           </stackbase>
           <robase>    roBaseInfo(.K , .K , .K  ) </robase>
           <database>  dataBaseInfo(.K , .K , .K ) </database>
@@ -215,7 +214,7 @@ module TEST-SPEC
         andBool B >=Int 0 andBool B <Int (2 ^Int 31) 
 
         andBool B +Int ((A *Int (A +Int 1)) /Int 2) >=Int 0  
-        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int (2 ^Int 31)  //[trusted]
+        andBool B +Int ((A *Int (A +Int 1)) /Int 2) <Int (2 ^Int 31)  // [trusted]
 
 
 endmodule
