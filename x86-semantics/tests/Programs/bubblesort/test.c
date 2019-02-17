@@ -19,10 +19,12 @@ void bubbleSort(int arr[], int n)
 int main()
 {
     int arr[] = {4,3, 2, 1 ,0}, i;
+      printf("Before Sort\n") ;
     for( i = 0 ; i < sizeof(arr)/sizeof(int);i++) {
       printf("%d ", arr[i]) ;
     }
       printf("\n") ;
+      printf("After Sort\n") ;
     bubbleSort(arr, 5);
     for( i = 0 ; i < sizeof(arr)/sizeof(int);i++) {
       printf("%d ", arr[i]) ;
