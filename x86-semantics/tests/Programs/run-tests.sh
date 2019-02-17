@@ -34,10 +34,11 @@ execute() {
 
 	if [ "$kstate" == "1" ]; then
                 rm -rf $K_DIR/underTestInstructions/*
-                cp $K_DIR/pseudoTestInstructions/* $K_DIR/underTestInstructions/
+                #cp $K_DIR/pseudoTestInstructions/* $K_DIR/underTestInstructions/
 		cat filelist.txt | parallel "../../scripts/collect_instructions_semantics.pl --file {}/test.s"
                 cd $K_DIR
-                ../scripts/kompile.pl --backend java
+                #../scripts/kompile.pl --backend java
+                ../scripts/process_spec.pl --compile
 
                 cd $THIS_DIR
                 cat filelist.txt | parallel -j 5 "echo; echo running kstate: {}; echo ====; cd {}; make kstate; cd .."
