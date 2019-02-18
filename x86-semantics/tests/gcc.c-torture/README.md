@@ -1,11 +1,42 @@
-# Run
+In order to achieve "Program Level Validation", we used the tests inside the “testsuite/gcc.c-
+torture/execute” directory for GCC version 8.1.0. There are
+originally 1576 tests, which we distributed as:
+
+| Job  | Total | Working Directory |
+|------|-------|-------------------|
+| ieee | 58    | ieee              |
+| builtins | 53   | builtins       |
+| rest | 1465   | job_1_100, job_101_600, job_601_1465 |
+| Total | 1576 | |
+
+As a mater of fact, concrete execution slows down heavily, if all the instruction's semantics are compiled together.
+In order to keep the execution time reasonable, we decided to distribute the 1469 programs into three batches (we call
+    jobs) of 100, 500, 865 programs each and placed in separate directories,
+named job_1_100, job_101_600, job_601_1465 resp. The idea is: We will individually collect the instruction semantics required for all the programs in each job
+, compile them and use it to interpret the programs in that job.
+
+Each working directory of a job has the following structure:
+1. bin_worklist.txt: The names of the assembly language programs to run/test.
+2. bin/\*.kstate: The output of executing a program (say XXX.asm) using the semantics. The output consist of the CPU state after executing each instruction in file XXX.asm.
+3. bin/\*.xstate: The output of executing a program (say XXX.asm) on the actual hardware using GDB script. The output consist of the CPU state after executing each instruction in file XXX.asm.
+4. bin/\*.compare.log: The comparison of the above two outputs.
+
+Note that the assembly language programs are generated from the corresponding C files in `src/*.c` using the following command
 ```
+source cmd_worklist.txt; cat bin_worklist.txt | parallel "../../../scripts/remove_directives.pl --file bin/{}.asm > bin/{}.tmp; mv bin/{}.tmp bin/{}.asm" |& tee buildlog.txt
+```
+
+# Running tests individually
+```
+../../../scripts/collect_instructions_semantics.pl --file bin/20000113-1-0.asm 
 ../../scripts/run.pl --file bin/20000113-1-0.asm --krun --output Output/20000113-1-0.kstate --nopathsplit
-../../scripts/run.pl --file bin/20000113-1-0.asm --xrun --output Output/20000113-1-0.kstate --nopathsplit
+../../scripts/run.pl --file bin/20000113-1-0.asm --xrun --output Output/20000113-1-0.xstate --nopathsplit
 ../../scripts/run.pl --file bin/20000113-1-0.asm --compare |& tee Output/20000113-1-0.compare.log
+```
 
-OR
-
+# Running all the tests in a job
+```
+cat bin_worklist.txt | parallel -j1 ../../../scripts/collect_instructions_semantics.pl --file bin/{}.asm
 cat bin_worklist.txt | parallel -j5 "echo; echo {}; echo ======; ../../../scripts/run.pl --file bin/{}.asm --krun --output Output/{}.kstate --nopathsplit" |& tee runlog.kstate.txt
 cat bin_worklist.txt | parallel "../../../scripts/run.pl --file bin/{}.asm --xrun --output Output/{}.xstate --nopathsplit" |& tee runlog.xstate.txt
 cat pass_worklist.txt | parallel "echo ; echo {}; echo =======;  ../../../scripts/run.pl --file bin/{}.asm --compare |& tee Output/{}.compare.log" |& tee runlog.compare.txt
@@ -13,114 +44,9 @@ cat pass_worklist.txt | parallel "echo ; echo {}; echo =======;  ../../../script
 // To clean the compare log
 // g/Pass\|Fail\|pf at\|af at\|states\|0 != 1\|1 != 0\|Compare\|grep\|numOf/d
 
-// Allow vebose outpput
+// Allow verbose output
 cat diff_worklist.txt | parallel "echo ; echo {}; echo =======;  ../../../scripts/run.pl --file bin/{}.asm --compare |& tee Output/{}.compare.log"
 ```
-
-# Modify source (One time)
-```
-cat src_worklist.txt  | parallel  "sed -i '1 i\#include \"mini_stdlib.h\"' src/{}.c" 
-cat src_worklist.txt  | parallel  "sed -i '1 i\#include \"mini_string.h\"' src/{}.c" 
-
-
-cat src_worklist.txt  | parallel  "sed -i '1d' src/{}.c"
-cat src_worklist.txt  | parallel  "sed -i '1d' src/{}.c"
-```
-
-For builtins
-```
-cat src_worklist.txt | parallel   "sed -i '1 i\#include \"lib/main.c\"' src/{}.c"
-cat src_worklist.txt | parallel    "sed -i '1 i\#include \"{}-lib.c\"' src/{}.c"
-```
-
-# Generate Binaries
-```
-source cmd_worklist.txt; cat bin_worklist.txt | parallel "../../../scripts/remove_directives.pl --file bin/{}.asm > bin/{}.tmp; mv bin/{}.tmp bin/{}.asm" |& tee buildlog.txt
-```
-
-# collect the instructions semantics
-```
-cp collect_instructions_semantics.txt ../../../semantics/
-../../../scripts/collect_instructions_semantics.pl --file collect_instructions_semantics.txt
-```
-
-# Remove blacklist instr from test pool
-```
-cat bin_blacklist.txt  | parallel -j1 "sed -i '/\<{}\>/d' cmd_worklist.txt "
-```
-
-# CHeck for a presence of specific pattern
-```
-cat log | parallel  "echo {}; grep  \"\\.\" bin/{}.asm  | grep -v globl"
-
-cat log | parallel  "grep -l \"shld\\|shrd\\|scas\\|stos\\|cvt\" bin/{}.asm "
-cat log | parallel grep -l "_overflow" bin/{}.asm
-cat log | parallel  "grep -l  \"fadd\\|fsubp\\|fstpt\\|fmulp\\|fldt\\|fisttpl\\|fchs\" bin/{}.asm  "
-cat log | parallel  "grep -l  \"printf\\|putc\\|puts\\|write\" bin/{}.asm"
-cat log | parallel  "grep -l  \"comis\" bin/{}.asm"
-cat log | parallel  "grep -l  \"__builtin_conjf\" src/{}.c"
-```
-
-# Search commands
-```
-cat log | parallel "grep -w "{}" ../docs/work.build_O0.binary"
-```
-
-# Statistics
-  ```
-  find . -name cmd_worklist.txt | xargs wc -l
-     100 ./job_1_100/cmd_worklist.txt
-     500 ./job_101_600/cmd_worklist.txt
-     867 ./job_601_1465/cmd_worklist.txt
-    1467 total
-  
-  find . -name bin_worklist.txt | xargs wc -l
-    100 ./job_1_100/bin_worklist.txt
-    500 ./job_101_600/bin_worklist.txt
-    867 ./job_601_1465/bin_worklist.txt
-   1467 total
-  
-  find . -name whitelist.txt | xargs wc -l
-     74 ./job_1_100/whitelist.txt
-    232 ./job_101_600/whitelist.txt
-    321 ./job_601_1465/whitelist.txt
-    627 total
-   
-  find . -name blacklist.txt | xargs wc -l
-     26 ./job_1_100/blacklist.txt
-    268 ./job_101_600/blacklist.txt
-    546 ./job_601_1465/blacklist.txt
-    840 total
-  
-  total == white + blacklist  
-  ```
-  
-  
-  Whitelist: 627
-  
-  Blacklist (1_100 101_600 601_rest)
-    - Unsupp instr (shld\\|shrd\\|scas\\|stos\\): 0 + 6 +  14
-    - Unsupp syscall:                             0 + 12 + 15 / 25 (revised)
-    - x87 :                                       0 + 9 +  12
-    - Unsupp instr (cvt|comis):                   4 + 32 + 63
-    - prefetch:                                   0 + 0  + 5
-    - buitins:                                    0 + 0  + 5
-    - gcc seg fault:                              0 + 0  + 1
-    - Can be whitelisted:                         22 + 209 + 431
-  
-  
-  Total support:  627 +  (22 + 209 + 431) + (4 + 32 + 63) == 1388 / 1467                                           
-
-## Total
-106 + 58 + 600 + 865
-= 1629
-
-## Blacklist criteria
-grep -rl "__builtin_\|printf\|overflow\|puts\|putc\|write\|scanf\|prefetch\|\.comm\|\.string\|\.bss" bin/*.asm  | wc
-
-wc ./job_101_600/blacklist.txt ./ieee/blacklist.txt ./builtins/blacklist.txt ./job_601_1465/blacklist.txt ./job_1_100/blacklist.txt
-
-
 
 ## Testing gcc.c-torture/builtins
  - Commented the definitions of fprintf/printf/sprintf as
@@ -155,7 +81,7 @@ wc ./job_101_600/blacklist.txt ./ieee/blacklist.txt ./builtins/blacklist.txt ./j
  - call signal
   - 20101011-1.c
 
-## Latest sttas
+## Latest stats
 | Job  | Total | KRun Pass | KRun Fail | Diff Pass | Diff Fail |
 |------|-------|-----------|-----------|-----------|-----------|
 | ieee | 58    | 56        | 2         | 47        | 11        |
