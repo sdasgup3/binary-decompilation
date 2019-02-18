@@ -19,7 +19,7 @@ main:
 	call	fopen
 	movq	%rax, -8(%rbp)
 	movq	-8(%rbp), %rax
-	movl	$2012, %r9d
+	movl	$2019, %r9d
 	movl	$LC2, %r8d
 	movl	$LC3, %ecx
 	movl	$LC4, %edx
