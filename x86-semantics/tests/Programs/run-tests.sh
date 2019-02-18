@@ -8,6 +8,7 @@ cleanxstate=
 cleankstate=
 xstate=
 kstate=
+jobs=
 
 usage() {
 	echo "Usage: run_tests.sh --cleankstate | --cleanxstate | --xstate \
@@ -41,7 +42,7 @@ execute() {
                 ../scripts/process_spec.pl --compile
 
                 cd $THIS_DIR
-                cat filelist.txt | parallel -j 5 "echo; echo running kstate: {}; echo ====; cd {}; make kstate; cd .."
+                cat filelist.txt | parallel -j $jobs "echo; echo running kstate: {}; echo ====; cd {}; make kstate; cd .."
 		exit 0
 	fi
 
@@ -69,6 +70,11 @@ while [ "$1" != "" ]; do
 	--kstate)
 		shift
 		kstate=1
+		;;
+	--jobs)
+		shift
+		jobs=$1
+                shift
 		;;
 	--help)
 		usage
