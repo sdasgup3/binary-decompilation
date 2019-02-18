@@ -30,10 +30,9 @@ use utils;
 our $stoke_debug_circuit = "";
 #  "/home/sdasgup3/Github/stoke/./bin/stoke_debug_formula";
 our $strata_path = "$home/Github/strata-data/circuits";
-our $stoke_check_circuit = "";
-#  "/home/sdasgup3/Github/strata/stoke/./bin/stoke_check_circuit";
-our $functions_dir = "$home/Github/strata-data/data-regs/functions";
-our $testcases     = "$home/Github/strata-data/data-regs/testcases.tc";
+our $stoke_check_circuit = "/home/sdasgup3/Github/strata/stoke/./bin/stoke_check_circuit";
+our $functions_dir = "~/Github/strata-data/data-regs/functions";
+our $testcases     = "~/Github/strata-data/data-regs/testcases.tc";
 
 my $uif_binop = (
 qr/add_double|add_single|sub_double|sub_single|maxcmp_double|maxcmp_single|mincmp_double|mincmp_single|mul_double|mul_single|div_double|div_single/

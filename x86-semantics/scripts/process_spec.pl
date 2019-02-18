@@ -28,7 +28,7 @@ use threads;
 my $file = "";
 my $instantiated_instr_path =
   "$home/Github/strata-data/data-regs/instructions/";
-my $script = "~/x86-semantics/scripts/process_spec.pl";
+my $script = "$home/Github/binay-decompilation/x86-semantics/scripts/process_spec.pl";
 my $UTInstructionsPath        = "underTestInstructions/";
 
 my $help                 = "";
@@ -461,6 +461,8 @@ if ( "" ne $prepare_concrete ) {
 
     print "\n\nInstantiating  $opcode\n";
     execute("mkdir -p $workdir");
+    execute("touch $workdir/check_stoke.txt");
+    execute("echo $opcode > $workdir/check_stoke.txt");
     my $switch_samereg = "";
     if ( "" ne $samereg ) {
         $switch_samereg = "--samereg";
@@ -513,14 +515,14 @@ if ( "" ne $prepare_concrete_imm ) {
     print "\n\nPreparing workdir $workdir\n";
     execute( "mkdir -p $workdir", 1 );
 
-    #my $check_stoke_text = "$workdir/$prefix.txt";
+    my $check_stoke_text = "$workdir/$prefix.txt";
 
-    #open( my $scfp, ">", $check_stoke_text )
-    #  or die "cannot open: $!";
+    open( my $scfp, ">", $check_stoke_text )
+      or die "cannot open: $!";
     for ( my $i = 0 ; $i < 256 ; $i++ ) {
         my $conc_instr = $line . "_" . $i;
 
-        #print $scfp $conc_instr . "\n";
+        print $scfp $conc_instr . "\n";
         execute("$specgen_setup --workdir $workdir --opc $conc_instr");
     }
 
