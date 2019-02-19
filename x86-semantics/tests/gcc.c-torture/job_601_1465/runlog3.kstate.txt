@@ -1,0 +1,24 @@
+
+zero-struct-1-0
+======
+time krun -d ~/Github/binary-decompilation/x86-semantics/semantics/ bin//zero-struct-1-0.asm   --output-file Output/zero-struct-1-0.kstate 
+cat Output/zero-struct-1-0.kstate | sed  '/^\s*$/d' | sed 's/(\s*"/(\n"/g'  1> /tmp/tmpfileibuRR  2>&1 &&  mv /tmp/tmpfileibuRR Output/zero-struct-1-0.kstate 
+Passed:[4m[1m[92mOutput/zero-struct-1-0.kstate: Pass: krun[0m
+1047.40user 31.04system 6:22.10elapsed 282%CPU (0avgtext+0avgdata 11820836maxresident)k
+0inputs+14240outputs (0major+6803324minor)pagefaults 0swaps
+
+zero-struct-2-0
+======
+time krun -d ~/Github/binary-decompilation/x86-semantics/semantics/ bin//zero-struct-2-0.asm   --output-file Output/zero-struct-2-0.kstate 
+cat Output/zero-struct-2-0.kstate | sed  '/^\s*$/d' | sed 's/(\s*"/(\n"/g'  1> /tmp/tmpfileiJh36  2>&1 &&  mv /tmp/tmpfileiJh36 Output/zero-struct-2-0.kstate 
+Passed:[4m[1m[92mOutput/zero-struct-2-0.kstate: Pass: krun[0m
+1085.51user 73.71system 6:24.69elapsed 301%CPU (0avgtext+0avgdata 12084068maxresident)k
+0inputs+14168outputs (0major+9717815minor)pagefaults 0swaps
+
+zerolen-1-0
+======
+time krun -d ~/Github/binary-decompilation/x86-semantics/semantics/ bin//zerolen-1-0.asm   --output-file Output/zerolen-1-0.kstate 
+cat Output/zerolen-1-0.kstate | sed  '/^\s*$/d' | sed 's/(\s*"/(\n"/g'  1> /tmp/tmpfilefgM6c  2>&1 &&  mv /tmp/tmpfilefgM6c Output/zerolen-1-0.kstate 
+Passed:[4m[1m[92mOutput/zerolen-1-0.kstate: Pass: krun[0m
+992.36user 49.12system 6:07.85elapsed 283%CPU (0avgtext+0avgdata 11656600maxresident)k
+0inputs+14224outputs (0major+6493881minor)pagefaults 0swaps

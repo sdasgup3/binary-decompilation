@@ -9,7 +9,7 @@ cleankstate=
 cleancstate=
 xstate=
 kstate=
-pjobs=5
+pjobs=4
 
 usage() {
 	echo "Usage: run_tests.sh --cleankstate | --cleanxstate | --xstate \
