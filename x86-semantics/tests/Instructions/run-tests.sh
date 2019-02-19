@@ -26,12 +26,11 @@ execute() {
 	if [ "$kstate" == "1" ]; then
 		# Collect  instructon semantics
 		rm -rf $K_DIR/underTestInstructions/*
-                cp $K_DIR/pseudoTestInstructions/* $K_DIR/underTestInstructions/
 		cat filelist.txt | parallel "echo; echo collect semantics: {}; echo ====; cd {}; make collect; cd -"
 		
 		# Compile the collected semantics
 		cd $K_DIR	
-                ../../scripts/process_spec.pl --compile
+                ../scripts/process_spec.pl --compile
 		cd $THIS_DIR
 		# Parallel test runs
                 cat filelist.txt | parallel -j $pjobs "echo; echo running kstate: {}; echo ====; cd {}; make kstate; cd -"
