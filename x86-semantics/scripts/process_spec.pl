@@ -714,8 +714,11 @@ sub threadop_check_stoke {
     }
 
     my $testcases_path = $kutils::testcases;
+    my $stoke_check_bin = $kutils::stoke_check_circuit;
+    print $stoke_check_bin . "\n";
     if ( "" ne $use_updated_tc ) {
         $testcases_path = "$instructions_path/../testcases.$testid.tc";
+        $stoke_check_bin = $kutils::stoke_check_circuit_with_sat_check;
     }
 
     my $strata_path_switch = "--strata_path $kutils::strata_path";
@@ -723,7 +726,7 @@ sub threadop_check_stoke {
         $strata_path_switch = "";
     }
     execute(
-"timeout 30m  $kutils::stoke_check_circuit $strata_path_switch --target $target --functions $kutils::functions_dir --testcases $testcases_path --def_in $def_in --live_out $live_out --maybe_undef_out $maybe_undef_out",
+"timeout 30m  $stoke_check_bin $strata_path_switch --target $target --functions $kutils::functions_dir --testcases $testcases_path --def_in $def_in --live_out $live_out --maybe_undef_out $maybe_undef_out",
         1
     );
     my $duration = time - $start;
