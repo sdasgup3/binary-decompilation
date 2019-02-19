@@ -11,9 +11,9 @@ use Cwd;
 use File::Path qw(make_path remove_tree);
 use Env;
 
-use lib qw( /home/sdasgup3/scripts-n-docs/scripts/perl/ );
+#use lib qw( /home/sdasgup3/scripts-n-docs/scripts/perl/ );
+use lib qw( /home/sdasgup3/Github/binary-decompilation/x86-semantics/scripts/ );
 use utils;
-use lib qw( /home/sdasgup3/x86-semantics/scripts/ );
 use kutils;
 
 # Using GetOPtions
