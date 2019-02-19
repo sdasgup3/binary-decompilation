@@ -30,8 +30,9 @@ execute() {
 		cat filelist.txt | parallel "echo; echo collect semantics: {}; echo ====; cd {}; make collect; cd -"
 		
 		# Compile the collected semantics
+		cd $K_DIR	
                 ../../scripts/process_spec.pl --compile
-
+		cd $THIS_DIR
 		# Parallel test runs
                 cat filelist.txt | parallel -j $pjobs "echo; echo running kstate: {}; echo ====; cd {}; make kstate; cd -"
 	fi
