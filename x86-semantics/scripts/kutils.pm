@@ -777,7 +777,7 @@ sub compareStates {
           . "xstates = "
           . scalar(@xstates) . "\n\n";
 
-        failInfo("$basename: kstate xstate count unequal");
+        utils::info("$basename: kstate xstate count unequal");
         print $msg;
         #return;
 
