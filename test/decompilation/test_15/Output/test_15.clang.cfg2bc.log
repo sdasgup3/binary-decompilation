@@ -1,7 +1,0 @@
-E1111 21:10:59.944305 17175 CFG.cpp:208] Data cross reference at 600ff8 targeting __gmon_start__ at 601058 does not match any known externals and is not contained within any data segments.
-E1111 21:11:00.080032 17175 Instruction.cpp:144] Adding pseudo-load of weak function printf at 40048e
-E1111 21:11:00.080138 17175 Instruction.cpp:144] Adding pseudo-load of weak function printf at 400460
-E1111 21:11:00.080168 17175 Instruction.cpp:144] Adding pseudo-load of weak function printf at 400466
-E1111 21:11:00.083452 17175 Instruction.cpp:144] Adding pseudo-load of weak function printf at 400440
-E1111 21:11:00.083703 17175 Instruction.cpp:144] Adding pseudo-load of weak function printf at 400420
-E1111 21:11:00.083847 17175 Instruction.cpp:144] Adding pseudo-load of weak function printf at 400426

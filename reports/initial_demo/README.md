@@ -1,2 +1,0 @@
-![ScreenShot](proposal.png)
-

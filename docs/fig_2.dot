@@ -1,4 +1,0 @@
-digraph graphname { 
-Node_0 [ shape="record" label="bb|{In[bb]|Gen[bb]|Out[bb]}"]
-
-}
