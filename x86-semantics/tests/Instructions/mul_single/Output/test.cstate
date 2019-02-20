@@ -1,0 +1,916 @@
+grep  -A 40  "ListItem"  Output/test.kstate  | sed -e '/RIP/d' 1> /tmp/tmpfileG_LL7 2>&1 
+numOfInstrs: 5
+
+	0:	48 b8 00 00 00 80 00 00 00 00	movabs $0x80000000,%rax
+	1:	48 bb 00 00 00 80 00 00 00 00	movabs $0x80000000,%rbx
+	2:	66 48 0f 6e c0	movq   %rax,%xmm0
+	3:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	4:	0f 59 c8	mulps  %xmm0,%xmm1
+	5:	48 c7 c0 cd cc cc 3d	mov    $0x3dcccccd,%rax
+	6:	48 c7 c3 cd cc cc 3d	mov    $0x3dcccccd,%rbx
+	7:	66 48 0f 6e c0	movq   %rax,%xmm0
+	8:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	9:	0f 59 c8	mulps  %xmm0,%xmm1
+	10:	48 c7 c0 cd cc 4c 3e	mov    $0x3e4ccccd,%rax
+	11:	48 c7 c3 cd cc 4c 3e	mov    $0x3e4ccccd,%rbx
+	12:	66 48 0f 6e c0	movq   %rax,%xmm0
+	13:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	14:	0f 59 c8	mulps  %xmm0,%xmm1
+	15:	48 c7 c0 cd cc cc 3e	mov    $0x3ecccccd,%rax
+	16:	48 c7 c3 cd cc cc 3e	mov    $0x3ecccccd,%rbx
+	17:	66 48 0f 6e c0	movq   %rax,%xmm0
+	18:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	19:	0f 59 c8	mulps  %xmm0,%xmm1
+	20:	48 c7 c0 cd cc 4c 3f	mov    $0x3f4ccccd,%rax
+	21:	48 c7 c3 cd cc 4c 3f	mov    $0x3f4ccccd,%rbx
+	22:	66 48 0f 6e c0	movq   %rax,%xmm0
+	23:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	24:	0f 59 c8	mulps  %xmm0,%xmm1
+	25:	48 c7 c0 a5 d4 68 53	mov    $0x5368d4a5,%rax
+	26:	48 c7 c3 a5 d4 68 53	mov    $0x5368d4a5,%rbx
+	27:	66 48 0f 6e c0	movq   %rax,%xmm0
+	28:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	29:	0f 59 c8	mulps  %xmm0,%xmm1
+	30:	48 c7 c0 1c c2 53 67	mov    $0x6753c21c,%rax
+	31:	48 c7 c3 1c c2 53 67	mov    $0x6753c21c,%rbx
+	32:	66 48 0f 6e c0	movq   %rax,%xmm0
+	33:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	34:	0f 59 c8	mulps  %xmm0,%xmm1
+	35:	48 c7 c0 ce 97 40 7b	mov    $0x7b4097ce,%rax
+	36:	48 c7 c3 ce 97 40 7b	mov    $0x7b4097ce,%rbx
+	37:	66 48 0f 6e c0	movq   %rax,%xmm0
+	38:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	39:	0f 59 c8	mulps  %xmm0,%xmm1
+	40:	48 c7 c0 00 00 80 7f	mov    $0x7f800000,%rax
+	41:	48 c7 c3 00 00 80 7f	mov    $0x7f800000,%rbx
+	42:	66 48 0f 6e c0	movq   %rax,%xmm0
+	43:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	44:	0f 59 c8	mulps  %xmm0,%xmm1
+	45:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	46:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	47:	66 48 0f 6e c0	movq   %rax,%xmm0
+	48:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	49:	0f 59 c8	mulps  %xmm0,%xmm1
+	50:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	51:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	52:	66 48 0f 6e c0	movq   %rax,%xmm0
+	53:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	54:	0f 59 c8	mulps  %xmm0,%xmm1
+	55:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	56:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	57:	66 48 0f 6e c0	movq   %rax,%xmm0
+	58:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	59:	0f 59 c8	mulps  %xmm0,%xmm1
+	60:	48 c7 c0 00 00 80 00	mov    $0x800000,%rax
+	61:	48 c7 c3 00 00 80 00	mov    $0x800000,%rbx
+	62:	66 48 0f 6e c0	movq   %rax,%xmm0
+	63:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	64:	0f 59 c8	mulps  %xmm0,%xmm1
+	65:	48 c7 c0 db 0f 49 40	mov    $0x40490fdb,%rax
+	66:	48 c7 c3 db 0f 49 40	mov    $0x40490fdb,%rbx
+	67:	66 48 0f 6e c0	movq   %rax,%xmm0
+	68:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	69:	0f 59 c8	mulps  %xmm0,%xmm1
+	70:	48 c7 c0 ab aa aa 3e	mov    $0x3eaaaaab,%rax
+	71:	48 c7 c3 ab aa aa 3e	mov    $0x3eaaaaab,%rbx
+	72:	66 48 0f 6e c0	movq   %rax,%xmm0
+	73:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	74:	0f 59 c8	mulps  %xmm0,%xmm1
+	75:	48 c7 c0 00 00 46 41	mov    $0x41460000,%rax
+	76:	48 c7 c3 00 00 46 41	mov    $0x41460000,%rbx
+	77:	66 48 0f 6e c0	movq   %rax,%xmm0
+	78:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	79:	0f 59 c8	mulps  %xmm0,%xmm1
+	80:	48 c7 c0 fa 3e 88 42	mov    $0x42883efa,%rax
+	81:	48 c7 c3 fa 3e 88 42	mov    $0x42883efa,%rbx
+	82:	66 48 0f 6e c0	movq   %rax,%xmm0
+	83:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	84:	0f 59 c8	mulps  %xmm0,%xmm1
+	85:	48 b8 00 00 40 c0 00 00 00 00	movabs $0xc0400000,%rax
+	86:	48 bb 00 00 40 c0 00 00 00 00	movabs $0xc0400000,%rbx
+	87:	66 48 0f 6e c0	movq   %rax,%xmm0
+	88:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	89:	0f 59 c8	mulps  %xmm0,%xmm1
+	90:	48 c7 c0 01 00 00 40	mov    $0x40000001,%rax
+	91:	48 c7 c3 01 00 00 40	mov    $0x40000001,%rbx
+	92:	66 48 0f 6e c0	movq   %rax,%xmm0
+	93:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	94:	0f 59 c8	mulps  %xmm0,%xmm1
+	95:	48 b8 01 00 00 c0 00 00 00 00	movabs $0xc0000001,%rax
+	96:	48 bb 01 00 00 c0 00 00 00 00	movabs $0xc0000001,%rbx
+	97:	66 48 0f 6e c0	movq   %rax,%xmm0
+	98:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	99:	0f 59 c8	mulps  %xmm0,%xmm1
+	100:	48 c7 c0 00 00 40 00	mov    $0x400000,%rax
+	101:	48 c7 c3 00 00 40 00	mov    $0x400000,%rbx
+	102:	66 48 0f 6e c0	movq   %rax,%xmm0
+	103:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	104:	0f 59 c8	mulps  %xmm0,%xmm1
+	105:	48 b8 01 00 40 80 00 00 00 00	movabs $0x80400001,%rax
+	106:	48 bb 01 00 40 80 00 00 00 00	movabs $0x80400001,%rbx
+	107:	66 48 0f 6e c0	movq   %rax,%xmm0
+	108:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	109:	0f 59 c8	mulps  %xmm0,%xmm1
+	110:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	111:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	112:	66 48 0f 6e c0	movq   %rax,%xmm0
+	113:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	114:	0f 59 c8	mulps  %xmm0,%xmm1
+	115:	48 b8 ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rax
+	116:	48 bb ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rbx
+	117:	66 48 0f 6e c0	movq   %rax,%xmm0
+	118:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	119:	0f 59 c8	mulps  %xmm0,%xmm1
+	120:	48 c7 c0 ff ff 7f 00	mov    $0x7fffff,%rax
+	121:	48 c7 c3 ff ff 7f 00	mov    $0x7fffff,%rbx
+	122:	66 48 0f 6e c0	movq   %rax,%xmm0
+	123:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	124:	0f 59 c8	mulps  %xmm0,%xmm1
+	125:	48 b8 ff ff 7f 80 00 00 00 00	movabs $0x807fffff,%rax
+	126:	48 bb ff ff 7f 80 00 00 00 00	movabs $0x807fffff,%rbx
+	127:	66 48 0f 6e c0	movq   %rax,%xmm0
+	128:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	129:	0f 59 c8	mulps  %xmm0,%xmm1
+	130:	48 c7 c0 00 00 80 00	mov    $0x800000,%rax
+	131:	48 c7 c3 00 00 80 00	mov    $0x800000,%rbx
+	132:	66 48 0f 6e c0	movq   %rax,%xmm0
+	133:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	134:	0f 59 c8	mulps  %xmm0,%xmm1
+	135:	48 c7 c0 00 00 c0 00	mov    $0xc00000,%rax
+	136:	48 c7 c3 00 00 c0 00	mov    $0xc00000,%rbx
+	137:	66 48 0f 6e c0	movq   %rax,%xmm0
+	138:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	139:	0f 59 c8	mulps  %xmm0,%xmm1
+	140:	48 c7 c0 ff ff ff 00	mov    $0xffffff,%rax
+	141:	48 c7 c3 ff ff ff 00	mov    $0xffffff,%rbx
+	142:	66 48 0f 6e c0	movq   %rax,%xmm0
+	143:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	144:	0f 59 c8	mulps  %xmm0,%xmm1
+	145:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	146:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	147:	66 48 0f 6e c0	movq   %rax,%xmm0
+	148:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	149:	0f 59 c8	mulps  %xmm0,%xmm1
+	150:	48 b8 ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rax
+	151:	48 bb ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rbx
+	152:	66 48 0f 6e c0	movq   %rax,%xmm0
+	153:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	154:	0f 59 c8	mulps  %xmm0,%xmm1
+	155:	48 c7 c0 01 00 00 00	mov    $0x1,%rax
+	156:	48 c7 c3 01 00 00 00	mov    $0x1,%rbx
+	157:	66 48 0f 6e c0	movq   %rax,%xmm0
+	158:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	159:	0f 59 c8	mulps  %xmm0,%xmm1
+	160:	48 b8 01 00 00 80 00 00 00 00	movabs $0x80000001,%rax
+	161:	48 bb 01 00 00 80 00 00 00 00	movabs $0x80000001,%rbx
+	162:	66 48 0f 6e c0	movq   %rax,%xmm0
+	163:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	164:	0f 59 c8	mulps  %xmm0,%xmm1
+	165:	48 c7 c0 00 00 80 7f	mov    $0x7f800000,%rax
+	166:	48 c7 c3 00 00 80 7f	mov    $0x7f800000,%rbx
+	167:	66 48 0f 6e c0	movq   %rax,%xmm0
+	168:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	169:	0f 59 c8	mulps  %xmm0,%xmm1
+	170:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	171:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	172:	66 48 0f 6e c0	movq   %rax,%xmm0
+	173:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	174:	0f 59 c8	mulps  %xmm0,%xmm1
+	175:	48 c7 c0 fe ff 7f 7f	mov    $0x7f7ffffe,%rax
+	176:	48 c7 c3 fe ff 7f 7f	mov    $0x7f7ffffe,%rbx
+	177:	66 48 0f 6e c0	movq   %rax,%xmm0
+	178:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	179:	0f 59 c8	mulps  %xmm0,%xmm1
+	180:	48 c7 c0 fe ff 7f 7e	mov    $0x7e7ffffe,%rax
+	181:	48 c7 c3 fe ff 7f 7e	mov    $0x7e7ffffe,%rbx
+	182:	66 48 0f 6e c0	movq   %rax,%xmm0
+	183:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	184:	0f 59 c8	mulps  %xmm0,%xmm1
+	185:	48 b8 fe ff 7f ff 00 00 00 00	movabs $0xff7ffffe,%rax
+	186:	48 bb fe ff 7f ff 00 00 00 00	movabs $0xff7ffffe,%rbx
+	187:	66 48 0f 6e c0	movq   %rax,%xmm0
+	188:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	189:	0f 59 c8	mulps  %xmm0,%xmm1
+	190:	48 b8 cb ff 7f fe 00 00 00 00	movabs $0xfe7fffcb,%rax
+	191:	48 bb cb ff 7f fe 00 00 00 00	movabs $0xfe7fffcb,%rbx
+	192:	66 48 0f 6e c0	movq   %rax,%xmm0
+	193:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	194:	0f 59 c8	mulps  %xmm0,%xmm1
+	195:	48 c7 c0 ff ff ff 7f	mov    $0x7fffffff,%rax
+	196:	48 c7 c3 ff ff ff 7f	mov    $0x7fffffff,%rbx
+	197:	66 48 0f 6e c0	movq   %rax,%xmm0
+	198:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	199:	0f 59 c8	mulps  %xmm0,%xmm1
+	200:	48 c7 c0 00 00 00 00	mov    $0x0,%rax
+	201:	48 c7 c3 00 00 00 00	mov    $0x0,%rbx
+	202:	66 48 0f 6e c0	movq   %rax,%xmm0
+	203:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	204:	0f 59 c8	mulps  %xmm0,%xmm1
+	205:	48 c7 c0 00 00 00 00	mov    $0x0,%rax
+	206:	48 bb 00 00 00 80 00 00 00 00	movabs $0x80000000,%rbx
+	207:	66 48 0f 6e c0	movq   %rax,%xmm0
+	208:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	209:	0f 59 c8	mulps  %xmm0,%xmm1
+	210:	48 c7 c0 00 00 00 00	mov    $0x0,%rax
+	211:	48 c7 c3 ff ff ff 00	mov    $0xffffff,%rbx
+	212:	66 48 0f 6e c0	movq   %rax,%xmm0
+	213:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	214:	0f 59 c8	mulps  %xmm0,%xmm1
+	215:	48 c7 c0 00 00 00 00	mov    $0x0,%rax
+	216:	48 bb ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rbx
+	217:	66 48 0f 6e c0	movq   %rax,%xmm0
+	218:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	219:	0f 59 c8	mulps  %xmm0,%xmm1
+	220:	48 c7 c0 00 00 00 00	mov    $0x0,%rax
+	221:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	222:	66 48 0f 6e c0	movq   %rax,%xmm0
+	223:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	224:	0f 59 c8	mulps  %xmm0,%xmm1
+	225:	48 c7 c0 00 00 00 00	mov    $0x0,%rax
+	226:	48 bb ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rbx
+	227:	66 48 0f 6e c0	movq   %rax,%xmm0
+	228:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	229:	0f 59 c8	mulps  %xmm0,%xmm1
+	230:	48 c7 c0 00 00 00 00	mov    $0x0,%rax
+	231:	48 c7 c3 01 00 00 00	mov    $0x1,%rbx
+	232:	66 48 0f 6e c0	movq   %rax,%xmm0
+	233:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	234:	0f 59 c8	mulps  %xmm0,%xmm1
+	235:	48 c7 c0 00 00 00 00	mov    $0x0,%rax
+	236:	48 bb 01 00 00 80 00 00 00 00	movabs $0x80000001,%rbx
+	237:	66 48 0f 6e c0	movq   %rax,%xmm0
+	238:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	239:	0f 59 c8	mulps  %xmm0,%xmm1
+	240:	48 c7 c0 00 00 00 00	mov    $0x0,%rax
+	241:	48 c7 c3 00 00 80 7f	mov    $0x7f800000,%rbx
+	242:	66 48 0f 6e c0	movq   %rax,%xmm0
+	243:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	244:	0f 59 c8	mulps  %xmm0,%xmm1
+	245:	48 c7 c0 00 00 00 00	mov    $0x0,%rax
+	246:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	247:	66 48 0f 6e c0	movq   %rax,%xmm0
+	248:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	249:	0f 59 c8	mulps  %xmm0,%xmm1
+	250:	48 b8 00 00 00 80 00 00 00 00	movabs $0x80000000,%rax
+	251:	48 c7 c3 00 00 00 00	mov    $0x0,%rbx
+	252:	66 48 0f 6e c0	movq   %rax,%xmm0
+	253:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	254:	0f 59 c8	mulps  %xmm0,%xmm1
+	255:	48 b8 00 00 00 80 00 00 00 00	movabs $0x80000000,%rax
+	256:	48 bb 00 00 00 80 00 00 00 00	movabs $0x80000000,%rbx
+	257:	66 48 0f 6e c0	movq   %rax,%xmm0
+	258:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	259:	0f 59 c8	mulps  %xmm0,%xmm1
+	260:	48 b8 00 00 00 80 00 00 00 00	movabs $0x80000000,%rax
+	261:	48 c7 c3 ff ff ff 00	mov    $0xffffff,%rbx
+	262:	66 48 0f 6e c0	movq   %rax,%xmm0
+	263:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	264:	0f 59 c8	mulps  %xmm0,%xmm1
+	265:	48 b8 00 00 00 80 00 00 00 00	movabs $0x80000000,%rax
+	266:	48 bb ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rbx
+	267:	66 48 0f 6e c0	movq   %rax,%xmm0
+	268:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	269:	0f 59 c8	mulps  %xmm0,%xmm1
+	270:	48 b8 00 00 00 80 00 00 00 00	movabs $0x80000000,%rax
+	271:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	272:	66 48 0f 6e c0	movq   %rax,%xmm0
+	273:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	274:	0f 59 c8	mulps  %xmm0,%xmm1
+	275:	48 b8 00 00 00 80 00 00 00 00	movabs $0x80000000,%rax
+	276:	48 bb ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rbx
+	277:	66 48 0f 6e c0	movq   %rax,%xmm0
+	278:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	279:	0f 59 c8	mulps  %xmm0,%xmm1
+	280:	48 b8 00 00 00 80 00 00 00 00	movabs $0x80000000,%rax
+	281:	48 c7 c3 01 00 00 00	mov    $0x1,%rbx
+	282:	66 48 0f 6e c0	movq   %rax,%xmm0
+	283:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	284:	0f 59 c8	mulps  %xmm0,%xmm1
+	285:	48 b8 00 00 00 80 00 00 00 00	movabs $0x80000000,%rax
+	286:	48 bb 01 00 00 80 00 00 00 00	movabs $0x80000001,%rbx
+	287:	66 48 0f 6e c0	movq   %rax,%xmm0
+	288:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	289:	0f 59 c8	mulps  %xmm0,%xmm1
+	290:	48 b8 00 00 00 80 00 00 00 00	movabs $0x80000000,%rax
+	291:	48 c7 c3 00 00 80 7f	mov    $0x7f800000,%rbx
+	292:	66 48 0f 6e c0	movq   %rax,%xmm0
+	293:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	294:	0f 59 c8	mulps  %xmm0,%xmm1
+	295:	48 b8 00 00 00 80 00 00 00 00	movabs $0x80000000,%rax
+	296:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	297:	66 48 0f 6e c0	movq   %rax,%xmm0
+	298:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	299:	0f 59 c8	mulps  %xmm0,%xmm1
+	300:	48 c7 c0 ff ff ff 00	mov    $0xffffff,%rax
+	301:	48 c7 c3 00 00 00 00	mov    $0x0,%rbx
+	302:	66 48 0f 6e c0	movq   %rax,%xmm0
+	303:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	304:	0f 59 c8	mulps  %xmm0,%xmm1
+	305:	48 c7 c0 ff ff ff 00	mov    $0xffffff,%rax
+	306:	48 bb 00 00 00 80 00 00 00 00	movabs $0x80000000,%rbx
+	307:	66 48 0f 6e c0	movq   %rax,%xmm0
+	308:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	309:	0f 59 c8	mulps  %xmm0,%xmm1
+	310:	48 c7 c0 ff ff ff 00	mov    $0xffffff,%rax
+	311:	48 c7 c3 ff ff ff 00	mov    $0xffffff,%rbx
+	312:	66 48 0f 6e c0	movq   %rax,%xmm0
+	313:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	314:	0f 59 c8	mulps  %xmm0,%xmm1
+	315:	48 c7 c0 ff ff ff 00	mov    $0xffffff,%rax
+	316:	48 bb ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rbx
+	317:	66 48 0f 6e c0	movq   %rax,%xmm0
+	318:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	319:	0f 59 c8	mulps  %xmm0,%xmm1
+	320:	48 c7 c0 ff ff ff 00	mov    $0xffffff,%rax
+	321:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	322:	66 48 0f 6e c0	movq   %rax,%xmm0
+	323:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	324:	0f 59 c8	mulps  %xmm0,%xmm1
+	325:	48 c7 c0 ff ff ff 00	mov    $0xffffff,%rax
+	326:	48 bb ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rbx
+	327:	66 48 0f 6e c0	movq   %rax,%xmm0
+	328:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	329:	0f 59 c8	mulps  %xmm0,%xmm1
+	330:	48 c7 c0 ff ff ff 00	mov    $0xffffff,%rax
+	331:	48 c7 c3 01 00 00 00	mov    $0x1,%rbx
+	332:	66 48 0f 6e c0	movq   %rax,%xmm0
+	333:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	334:	0f 59 c8	mulps  %xmm0,%xmm1
+	335:	48 c7 c0 ff ff ff 00	mov    $0xffffff,%rax
+	336:	48 bb 01 00 00 80 00 00 00 00	movabs $0x80000001,%rbx
+	337:	66 48 0f 6e c0	movq   %rax,%xmm0
+	338:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	339:	0f 59 c8	mulps  %xmm0,%xmm1
+	340:	48 c7 c0 ff ff ff 00	mov    $0xffffff,%rax
+	341:	48 c7 c3 00 00 80 7f	mov    $0x7f800000,%rbx
+	342:	66 48 0f 6e c0	movq   %rax,%xmm0
+	343:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	344:	0f 59 c8	mulps  %xmm0,%xmm1
+	345:	48 c7 c0 ff ff ff 00	mov    $0xffffff,%rax
+	346:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	347:	66 48 0f 6e c0	movq   %rax,%xmm0
+	348:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	349:	0f 59 c8	mulps  %xmm0,%xmm1
+	350:	48 b8 ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rax
+	351:	48 c7 c3 00 00 00 00	mov    $0x0,%rbx
+	352:	66 48 0f 6e c0	movq   %rax,%xmm0
+	353:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	354:	0f 59 c8	mulps  %xmm0,%xmm1
+	355:	48 b8 ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rax
+	356:	48 bb 00 00 00 80 00 00 00 00	movabs $0x80000000,%rbx
+	357:	66 48 0f 6e c0	movq   %rax,%xmm0
+	358:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	359:	0f 59 c8	mulps  %xmm0,%xmm1
+	360:	48 b8 ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rax
+	361:	48 c7 c3 ff ff ff 00	mov    $0xffffff,%rbx
+	362:	66 48 0f 6e c0	movq   %rax,%xmm0
+	363:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	364:	0f 59 c8	mulps  %xmm0,%xmm1
+	365:	48 b8 ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rax
+	366:	48 bb ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rbx
+	367:	66 48 0f 6e c0	movq   %rax,%xmm0
+	368:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	369:	0f 59 c8	mulps  %xmm0,%xmm1
+	370:	48 b8 ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rax
+	371:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	372:	66 48 0f 6e c0	movq   %rax,%xmm0
+	373:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	374:	0f 59 c8	mulps  %xmm0,%xmm1
+	375:	48 b8 ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rax
+	376:	48 bb ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rbx
+	377:	66 48 0f 6e c0	movq   %rax,%xmm0
+	378:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	379:	0f 59 c8	mulps  %xmm0,%xmm1
+	380:	48 b8 ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rax
+	381:	48 c7 c3 01 00 00 00	mov    $0x1,%rbx
+	382:	66 48 0f 6e c0	movq   %rax,%xmm0
+	383:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	384:	0f 59 c8	mulps  %xmm0,%xmm1
+	385:	48 b8 ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rax
+	386:	48 bb 01 00 00 80 00 00 00 00	movabs $0x80000001,%rbx
+	387:	66 48 0f 6e c0	movq   %rax,%xmm0
+	388:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	389:	0f 59 c8	mulps  %xmm0,%xmm1
+	390:	48 b8 ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rax
+	391:	48 c7 c3 00 00 80 7f	mov    $0x7f800000,%rbx
+	392:	66 48 0f 6e c0	movq   %rax,%xmm0
+	393:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	394:	0f 59 c8	mulps  %xmm0,%xmm1
+	395:	48 b8 ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rax
+	396:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	397:	66 48 0f 6e c0	movq   %rax,%xmm0
+	398:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	399:	0f 59 c8	mulps  %xmm0,%xmm1
+	400:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	401:	48 c7 c3 00 00 00 00	mov    $0x0,%rbx
+	402:	66 48 0f 6e c0	movq   %rax,%xmm0
+	403:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	404:	0f 59 c8	mulps  %xmm0,%xmm1
+	405:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	406:	48 bb 00 00 00 80 00 00 00 00	movabs $0x80000000,%rbx
+	407:	66 48 0f 6e c0	movq   %rax,%xmm0
+	408:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	409:	0f 59 c8	mulps  %xmm0,%xmm1
+	410:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	411:	48 c7 c3 ff ff ff 00	mov    $0xffffff,%rbx
+	412:	66 48 0f 6e c0	movq   %rax,%xmm0
+	413:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	414:	0f 59 c8	mulps  %xmm0,%xmm1
+	415:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	416:	48 bb ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rbx
+	417:	66 48 0f 6e c0	movq   %rax,%xmm0
+	418:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	419:	0f 59 c8	mulps  %xmm0,%xmm1
+	420:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	421:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	422:	66 48 0f 6e c0	movq   %rax,%xmm0
+	423:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	424:	0f 59 c8	mulps  %xmm0,%xmm1
+	425:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	426:	48 bb ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rbx
+	427:	66 48 0f 6e c0	movq   %rax,%xmm0
+	428:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	429:	0f 59 c8	mulps  %xmm0,%xmm1
+	430:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	431:	48 c7 c3 01 00 00 00	mov    $0x1,%rbx
+	432:	66 48 0f 6e c0	movq   %rax,%xmm0
+	433:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	434:	0f 59 c8	mulps  %xmm0,%xmm1
+	435:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	436:	48 bb 01 00 00 80 00 00 00 00	movabs $0x80000001,%rbx
+	437:	66 48 0f 6e c0	movq   %rax,%xmm0
+	438:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	439:	0f 59 c8	mulps  %xmm0,%xmm1
+	440:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	441:	48 c7 c3 00 00 80 7f	mov    $0x7f800000,%rbx
+	442:	66 48 0f 6e c0	movq   %rax,%xmm0
+	443:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	444:	0f 59 c8	mulps  %xmm0,%xmm1
+	445:	48 c7 c0 ff ff 7f 7f	mov    $0x7f7fffff,%rax
+	446:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	447:	66 48 0f 6e c0	movq   %rax,%xmm0
+	448:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	449:	0f 59 c8	mulps  %xmm0,%xmm1
+	450:	48 b8 ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rax
+	451:	48 c7 c3 00 00 00 00	mov    $0x0,%rbx
+	452:	66 48 0f 6e c0	movq   %rax,%xmm0
+	453:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	454:	0f 59 c8	mulps  %xmm0,%xmm1
+	455:	48 b8 ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rax
+	456:	48 bb 00 00 00 80 00 00 00 00	movabs $0x80000000,%rbx
+	457:	66 48 0f 6e c0	movq   %rax,%xmm0
+	458:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	459:	0f 59 c8	mulps  %xmm0,%xmm1
+	460:	48 b8 ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rax
+	461:	48 c7 c3 ff ff ff 00	mov    $0xffffff,%rbx
+	462:	66 48 0f 6e c0	movq   %rax,%xmm0
+	463:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	464:	0f 59 c8	mulps  %xmm0,%xmm1
+	465:	48 b8 ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rax
+	466:	48 bb ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rbx
+	467:	66 48 0f 6e c0	movq   %rax,%xmm0
+	468:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	469:	0f 59 c8	mulps  %xmm0,%xmm1
+	470:	48 b8 ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rax
+	471:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	472:	66 48 0f 6e c0	movq   %rax,%xmm0
+	473:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	474:	0f 59 c8	mulps  %xmm0,%xmm1
+	475:	48 b8 ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rax
+	476:	48 bb ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rbx
+	477:	66 48 0f 6e c0	movq   %rax,%xmm0
+	478:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	479:	0f 59 c8	mulps  %xmm0,%xmm1
+	480:	48 b8 ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rax
+	481:	48 c7 c3 01 00 00 00	mov    $0x1,%rbx
+	482:	66 48 0f 6e c0	movq   %rax,%xmm0
+	483:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	484:	0f 59 c8	mulps  %xmm0,%xmm1
+	485:	48 b8 ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rax
+	486:	48 bb 01 00 00 80 00 00 00 00	movabs $0x80000001,%rbx
+	487:	66 48 0f 6e c0	movq   %rax,%xmm0
+	488:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	489:	0f 59 c8	mulps  %xmm0,%xmm1
+	490:	48 b8 ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rax
+	491:	48 c7 c3 00 00 80 7f	mov    $0x7f800000,%rbx
+	492:	66 48 0f 6e c0	movq   %rax,%xmm0
+	493:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	494:	0f 59 c8	mulps  %xmm0,%xmm1
+	495:	48 b8 ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rax
+	496:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	497:	66 48 0f 6e c0	movq   %rax,%xmm0
+	498:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	499:	0f 59 c8	mulps  %xmm0,%xmm1
+	500:	48 c7 c0 01 00 00 00	mov    $0x1,%rax
+	501:	48 c7 c3 00 00 00 00	mov    $0x0,%rbx
+	502:	66 48 0f 6e c0	movq   %rax,%xmm0
+	503:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	504:	0f 59 c8	mulps  %xmm0,%xmm1
+	505:	48 c7 c0 01 00 00 00	mov    $0x1,%rax
+	506:	48 bb 00 00 00 80 00 00 00 00	movabs $0x80000000,%rbx
+	507:	66 48 0f 6e c0	movq   %rax,%xmm0
+	508:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	509:	0f 59 c8	mulps  %xmm0,%xmm1
+	510:	48 c7 c0 01 00 00 00	mov    $0x1,%rax
+	511:	48 c7 c3 ff ff ff 00	mov    $0xffffff,%rbx
+	512:	66 48 0f 6e c0	movq   %rax,%xmm0
+	513:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	514:	0f 59 c8	mulps  %xmm0,%xmm1
+	515:	48 c7 c0 01 00 00 00	mov    $0x1,%rax
+	516:	48 bb ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rbx
+	517:	66 48 0f 6e c0	movq   %rax,%xmm0
+	518:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	519:	0f 59 c8	mulps  %xmm0,%xmm1
+	520:	48 c7 c0 01 00 00 00	mov    $0x1,%rax
+	521:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	522:	66 48 0f 6e c0	movq   %rax,%xmm0
+	523:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	524:	0f 59 c8	mulps  %xmm0,%xmm1
+	525:	48 c7 c0 01 00 00 00	mov    $0x1,%rax
+	526:	48 bb ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rbx
+	527:	66 48 0f 6e c0	movq   %rax,%xmm0
+	528:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	529:	0f 59 c8	mulps  %xmm0,%xmm1
+	530:	48 c7 c0 01 00 00 00	mov    $0x1,%rax
+	531:	48 c7 c3 01 00 00 00	mov    $0x1,%rbx
+	532:	66 48 0f 6e c0	movq   %rax,%xmm0
+	533:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	534:	0f 59 c8	mulps  %xmm0,%xmm1
+	535:	48 c7 c0 01 00 00 00	mov    $0x1,%rax
+	536:	48 bb 01 00 00 80 00 00 00 00	movabs $0x80000001,%rbx
+	537:	66 48 0f 6e c0	movq   %rax,%xmm0
+	538:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	539:	0f 59 c8	mulps  %xmm0,%xmm1
+	540:	48 c7 c0 01 00 00 00	mov    $0x1,%rax
+	541:	48 c7 c3 00 00 80 7f	mov    $0x7f800000,%rbx
+	542:	66 48 0f 6e c0	movq   %rax,%xmm0
+	543:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	544:	0f 59 c8	mulps  %xmm0,%xmm1
+	545:	48 c7 c0 01 00 00 00	mov    $0x1,%rax
+	546:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	547:	66 48 0f 6e c0	movq   %rax,%xmm0
+	548:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	549:	0f 59 c8	mulps  %xmm0,%xmm1
+	550:	48 b8 01 00 00 80 00 00 00 00	movabs $0x80000001,%rax
+	551:	48 c7 c3 00 00 00 00	mov    $0x0,%rbx
+	552:	66 48 0f 6e c0	movq   %rax,%xmm0
+	553:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	554:	0f 59 c8	mulps  %xmm0,%xmm1
+	555:	48 b8 01 00 00 80 00 00 00 00	movabs $0x80000001,%rax
+	556:	48 bb 00 00 00 80 00 00 00 00	movabs $0x80000000,%rbx
+	557:	66 48 0f 6e c0	movq   %rax,%xmm0
+	558:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	559:	0f 59 c8	mulps  %xmm0,%xmm1
+	560:	48 b8 01 00 00 80 00 00 00 00	movabs $0x80000001,%rax
+	561:	48 c7 c3 ff ff ff 00	mov    $0xffffff,%rbx
+	562:	66 48 0f 6e c0	movq   %rax,%xmm0
+	563:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	564:	0f 59 c8	mulps  %xmm0,%xmm1
+	565:	48 b8 01 00 00 80 00 00 00 00	movabs $0x80000001,%rax
+	566:	48 bb ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rbx
+	567:	66 48 0f 6e c0	movq   %rax,%xmm0
+	568:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	569:	0f 59 c8	mulps  %xmm0,%xmm1
+	570:	48 b8 01 00 00 80 00 00 00 00	movabs $0x80000001,%rax
+	571:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	572:	66 48 0f 6e c0	movq   %rax,%xmm0
+	573:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	574:	0f 59 c8	mulps  %xmm0,%xmm1
+	575:	48 b8 01 00 00 80 00 00 00 00	movabs $0x80000001,%rax
+	576:	48 bb ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rbx
+	577:	66 48 0f 6e c0	movq   %rax,%xmm0
+	578:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	579:	0f 59 c8	mulps  %xmm0,%xmm1
+	580:	48 b8 01 00 00 80 00 00 00 00	movabs $0x80000001,%rax
+	581:	48 c7 c3 01 00 00 00	mov    $0x1,%rbx
+	582:	66 48 0f 6e c0	movq   %rax,%xmm0
+	583:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	584:	0f 59 c8	mulps  %xmm0,%xmm1
+	585:	48 b8 01 00 00 80 00 00 00 00	movabs $0x80000001,%rax
+	586:	48 bb 01 00 00 80 00 00 00 00	movabs $0x80000001,%rbx
+	587:	66 48 0f 6e c0	movq   %rax,%xmm0
+	588:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	589:	0f 59 c8	mulps  %xmm0,%xmm1
+	590:	48 b8 01 00 00 80 00 00 00 00	movabs $0x80000001,%rax
+	591:	48 c7 c3 00 00 80 7f	mov    $0x7f800000,%rbx
+	592:	66 48 0f 6e c0	movq   %rax,%xmm0
+	593:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	594:	0f 59 c8	mulps  %xmm0,%xmm1
+	595:	48 b8 01 00 00 80 00 00 00 00	movabs $0x80000001,%rax
+	596:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	597:	66 48 0f 6e c0	movq   %rax,%xmm0
+	598:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	599:	0f 59 c8	mulps  %xmm0,%xmm1
+	600:	48 c7 c0 00 00 80 7f	mov    $0x7f800000,%rax
+	601:	48 c7 c3 00 00 00 00	mov    $0x0,%rbx
+	602:	66 48 0f 6e c0	movq   %rax,%xmm0
+	603:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	604:	0f 59 c8	mulps  %xmm0,%xmm1
+	605:	48 c7 c0 00 00 80 7f	mov    $0x7f800000,%rax
+	606:	48 bb 00 00 00 80 00 00 00 00	movabs $0x80000000,%rbx
+	607:	66 48 0f 6e c0	movq   %rax,%xmm0
+	608:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	609:	0f 59 c8	mulps  %xmm0,%xmm1
+	610:	48 c7 c0 00 00 80 7f	mov    $0x7f800000,%rax
+	611:	48 c7 c3 ff ff ff 00	mov    $0xffffff,%rbx
+	612:	66 48 0f 6e c0	movq   %rax,%xmm0
+	613:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	614:	0f 59 c8	mulps  %xmm0,%xmm1
+	615:	48 c7 c0 00 00 80 7f	mov    $0x7f800000,%rax
+	616:	48 bb ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rbx
+	617:	66 48 0f 6e c0	movq   %rax,%xmm0
+	618:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	619:	0f 59 c8	mulps  %xmm0,%xmm1
+	620:	48 c7 c0 00 00 80 7f	mov    $0x7f800000,%rax
+	621:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	622:	66 48 0f 6e c0	movq   %rax,%xmm0
+	623:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	624:	0f 59 c8	mulps  %xmm0,%xmm1
+	625:	48 c7 c0 00 00 80 7f	mov    $0x7f800000,%rax
+	626:	48 bb ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rbx
+	627:	66 48 0f 6e c0	movq   %rax,%xmm0
+	628:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	629:	0f 59 c8	mulps  %xmm0,%xmm1
+	630:	48 c7 c0 00 00 80 7f	mov    $0x7f800000,%rax
+	631:	48 c7 c3 01 00 00 00	mov    $0x1,%rbx
+	632:	66 48 0f 6e c0	movq   %rax,%xmm0
+	633:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	634:	0f 59 c8	mulps  %xmm0,%xmm1
+	635:	48 c7 c0 00 00 80 7f	mov    $0x7f800000,%rax
+	636:	48 bb 01 00 00 80 00 00 00 00	movabs $0x80000001,%rbx
+	637:	66 48 0f 6e c0	movq   %rax,%xmm0
+	638:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	639:	0f 59 c8	mulps  %xmm0,%xmm1
+	640:	48 c7 c0 00 00 80 7f	mov    $0x7f800000,%rax
+	641:	48 c7 c3 00 00 80 7f	mov    $0x7f800000,%rbx
+	642:	66 48 0f 6e c0	movq   %rax,%xmm0
+	643:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	644:	0f 59 c8	mulps  %xmm0,%xmm1
+	645:	48 c7 c0 00 00 80 7f	mov    $0x7f800000,%rax
+	646:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	647:	66 48 0f 6e c0	movq   %rax,%xmm0
+	648:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	649:	0f 59 c8	mulps  %xmm0,%xmm1
+	650:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	651:	48 c7 c3 00 00 00 00	mov    $0x0,%rbx
+	652:	66 48 0f 6e c0	movq   %rax,%xmm0
+	653:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	654:	0f 59 c8	mulps  %xmm0,%xmm1
+	655:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	656:	48 bb 00 00 00 80 00 00 00 00	movabs $0x80000000,%rbx
+	657:	66 48 0f 6e c0	movq   %rax,%xmm0
+	658:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	659:	0f 59 c8	mulps  %xmm0,%xmm1
+	660:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	661:	48 c7 c3 ff ff ff 00	mov    $0xffffff,%rbx
+	662:	66 48 0f 6e c0	movq   %rax,%xmm0
+	663:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	664:	0f 59 c8	mulps  %xmm0,%xmm1
+	665:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	666:	48 bb ff ff ff 80 00 00 00 00	movabs $0x80ffffff,%rbx
+	667:	66 48 0f 6e c0	movq   %rax,%xmm0
+	668:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	669:	0f 59 c8	mulps  %xmm0,%xmm1
+	670:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	671:	48 c7 c3 ff ff 7f 7f	mov    $0x7f7fffff,%rbx
+	672:	66 48 0f 6e c0	movq   %rax,%xmm0
+	673:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	674:	0f 59 c8	mulps  %xmm0,%xmm1
+	675:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	676:	48 bb ff ff 7f ff 00 00 00 00	movabs $0xff7fffff,%rbx
+	677:	66 48 0f 6e c0	movq   %rax,%xmm0
+	678:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	679:	0f 59 c8	mulps  %xmm0,%xmm1
+	680:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	681:	48 c7 c3 01 00 00 00	mov    $0x1,%rbx
+	682:	66 48 0f 6e c0	movq   %rax,%xmm0
+	683:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	684:	0f 59 c8	mulps  %xmm0,%xmm1
+	685:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	686:	48 bb 01 00 00 80 00 00 00 00	movabs $0x80000001,%rbx
+	687:	66 48 0f 6e c0	movq   %rax,%xmm0
+	688:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	689:	0f 59 c8	mulps  %xmm0,%xmm1
+	690:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	691:	48 c7 c3 00 00 80 7f	mov    $0x7f800000,%rbx
+	692:	66 48 0f 6e c0	movq   %rax,%xmm0
+	693:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	694:	0f 59 c8	mulps  %xmm0,%xmm1
+	695:	48 b8 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rax
+	696:	48 bb 00 00 80 ff 00 00 00 00	movabs $0xff800000,%rbx
+	697:	66 48 0f 6e c0	movq   %rax,%xmm0
+	698:	66 48 0f 6e cb	movq   %rbx,%xmm1
+	699:	0f 59 c8	mulps  %xmm0,%xmm1
+	700:	90	nop
+
+
+Count 0) reg	kstate	xstate		48 b8 00 00 00 80 00 00 00 00	movabs $0x80000000,%rax
+---------------------
+rax	64'0	0
+rbx	64'0	0
+rcx	64'0	0
+rdx	64'0	0
+rsi	64'0	0
+rdi	64'0	0
+rsp	ptr ( symloc ( 1 , 128 ) , 64'1016 )	140737488346464
+rbp	ptr ( symloc ( 1 , 128 ) , 64'1016 )	0
+r8	64'0	0
+r9	64'0	0
+r10	64'0	0
+r11	64'0	0
+r12	64'0	0
+r13	64'0	0
+r14	64'0	0
+r15	64'0	0
+cf	1'0	0
+pf	1'0	0
+af	1'0	0
+zf	1'0	0
+sf	1'0	0
+of	1'0	0
+ymm0	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm1	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm2	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm3	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm4	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm5	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm6	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm7	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm8	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm9	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm10	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm11	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm12	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm13	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm14	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm15	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+
+Count 1) reg	kstate	xstate		48 bb 00 00 00 80 00 00 00 00	movabs $0x80000000,%rbx
+---------------------
+rax	64'2147483648	2147483648
+rbx	64'0	0
+rcx	64'0	0
+rdx	64'0	0
+rsi	64'0	0
+rdi	64'0	0
+rsp	ptr ( symloc ( 1 , 128 ) , 64'1016 )	140737488346464
+rbp	ptr ( symloc ( 1 , 128 ) , 64'1016 )	0
+r8	64'0	0
+r9	64'0	0
+r10	64'0	0
+r11	64'0	0
+r12	64'0	0
+r13	64'0	0
+r14	64'0	0
+r15	64'0	0
+cf	1'0	0
+pf	1'0	0
+af	1'0	0
+zf	1'0	0
+sf	1'0	0
+of	1'0	0
+ymm0	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm1	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm2	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm3	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm4	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm5	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm6	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm7	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm8	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm9	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm10	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm11	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm12	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm13	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm14	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm15	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+
+Count 2) reg	kstate	xstate		66 48 0f 6e c0	movq   %rax,%xmm0
+---------------------
+rax	64'2147483648	2147483648
+rbx	64'2147483648	2147483648
+rcx	64'0	0
+rdx	64'0	0
+rsi	64'0	0
+rdi	64'0	0
+rsp	ptr ( symloc ( 1 , 128 ) , 64'1016 )	140737488346464
+rbp	ptr ( symloc ( 1 , 128 ) , 64'1016 )	0
+r8	64'0	0
+r9	64'0	0
+r10	64'0	0
+r11	64'0	0
+r12	64'0	0
+r13	64'0	0
+r14	64'0	0
+r15	64'0	0
+cf	1'0	0
+pf	1'0	0
+af	1'0	0
+zf	1'0	0
+sf	1'0	0
+of	1'0	0
+ymm0	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm1	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm2	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm3	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm4	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm5	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm6	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm7	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm8	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm9	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm10	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm11	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm12	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm13	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm14	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm15	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+
+Count 3) reg	kstate	xstate		66 48 0f 6e cb	movq   %rbx,%xmm1
+---------------------
+rax	64'2147483648	2147483648
+rbx	64'2147483648	2147483648
+rcx	64'0	0
+rdx	64'0	0
+rsi	64'0	0
+rdi	64'0	0
+rsp	ptr ( symloc ( 1 , 128 ) , 64'1016 )	140737488346464
+rbp	ptr ( symloc ( 1 , 128 ) , 64'1016 )	0
+r8	64'0	0
+r9	64'0	0
+r10	64'0	0
+r11	64'0	0
+r12	64'0	0
+r13	64'0	0
+r14	64'0	0
+r15	64'0	0
+cf	1'0	0
+pf	1'0	0
+af	1'0	0
+zf	1'0	0
+sf	1'0	0
+of	1'0	0
+ymm0	256'2147483648	0x0000000000000000000000000000000000000000000000000000000080000000
+ymm1	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm2	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm3	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm4	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm5	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm6	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm7	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm8	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm9	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm10	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm11	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm12	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm13	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm14	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm15	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+
+Count 4) reg	kstate	xstate		0f 59 c8	mulps  %xmm0,%xmm1
+---------------------
+rax	64'2147483648	2147483648
+rbx	64'2147483648	2147483648
+rcx	64'0	0
+rdx	64'0	0
+rsi	64'0	0
+rdi	64'0	0
+rsp	ptr ( symloc ( 1 , 128 ) , 64'1016 )	140737488346464
+rbp	ptr ( symloc ( 1 , 128 ) , 64'1016 )	0
+r8	64'0	0
+r9	64'0	0
+r10	64'0	0
+r11	64'0	0
+r12	64'0	0
+r13	64'0	0
+r14	64'0	0
+r15	64'0	0
+cf	1'0	0
+pf	1'0	0
+af	1'0	0
+zf	1'0	0
+sf	1'0	0
+of	1'0	0
+ymm0	256'2147483648	0x0000000000000000000000000000000000000000000000000000000080000000
+ymm1	256'2147483648	0x0000000000000000000000000000000000000000000000000000000080000000
+ymm2	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm3	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm4	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm5	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm6	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm7	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm8	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm9	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm10	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm11	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm12	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm13	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm14	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+ymm15	256'0	0x0000000000000000000000000000000000000000000000000000000000000000
+Info:[4m[1m[34mtest Compare Results :[0m
+Failed:[4m[1m[91mtest: kstate xstate count unequal[0m
+kstates = 190
+xstates = 26638
+
+Passed:[4m[1m[92mPassed[0m

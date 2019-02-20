@@ -1,0 +1,3 @@
+grep  -A 40  "ListItem"  Output/test.kstate  | sed -e '/RIP/d' 1> /tmp/tmpfilex9hGh 2>&1 
+Can't use an undefined value as an ARRAY reference at /home/sdasgup3/Github/binary-decompilation/x86-semantics/scripts/kutils.pm line 639.
+numOfInstrs: 0

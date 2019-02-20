@@ -39,6 +39,7 @@ mpsadbw
 mulpdpssdsd
 mul_single
 or
+pclmulqdq
 pcmpestri
 pcmpestri_m128
 pcmpestrm
@@ -103,6 +104,9 @@ vfmsub
 vfnmadd
 vfnmsub
 vmaxmin
+vmpsadbw_xmm_xmm_xmm
+vmpsadbw_ymm_ymm_ymm
+vpclmulqdq
 vpcmpestri
 vpcmpestrm
 vpcmpistri
