@@ -1,0 +1,24 @@
+add_single
+cvtsi2sd
+div_single
+mul_single
+repnz_scas
+repz_scas
+vadd
+vaddsub
+vfmaddsub
+vfmsub
+vfnmadd
+vfnmsub
+vmaxmin
+vmpsadbw_xmm_xmm_xmm
+vmpsadbw_ymm_ymm_ymm
+vpclmulqdq
+vpcmpestrm
+vsub
+=====================
+A: filelist.txt: 116
+B: xxx: 100
+A - B: 18
+B - A: 2
+A & B: 98

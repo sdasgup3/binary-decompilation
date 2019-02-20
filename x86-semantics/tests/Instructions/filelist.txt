@@ -50,7 +50,6 @@ pdepq
 pextl
 pextq
 popcnt
-rcp
 rep_lodsb
 rep_lodsl
 rep_lodsq
@@ -62,7 +61,6 @@ rep_movsw
 repnz_scas
 repz_scas
 rol
-rsqrt
 sal
 sar
 sarx
