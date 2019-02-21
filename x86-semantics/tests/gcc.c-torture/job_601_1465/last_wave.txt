@@ -1,16 +1,9 @@
-961223-1-0
-990128-1-0
-981001-1-0
-990413-2-0
-990524-1-0
-991118-1-0
 alias-2-0
 alias-3-0
 alias-4-0
 arith-rand-0
 arith-rand-ll-0
 doloop-2-0
-loop-10-0
 memcpy-2-0
 memcpy-bi-0
 memset-1-0
