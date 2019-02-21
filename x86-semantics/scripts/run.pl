@@ -142,6 +142,10 @@ if ( "" ne $krun ) {
       $basename =  $dir. "/" . $basename; 
     }
 
+    if($output eq "") {
+      $output = "$outdir/$basename.kstate";
+    }
+
     execute(
 "time krun -d $kdefn $basename.$ext $envArgs $regArgs --output-file $output",
         1
