@@ -29,6 +29,7 @@ source cmd_worklist.txt; cat bin_worklist.txt | parallel "../../../scripts/remov
 # Running tests individually
 ```
 ../../../scripts/collect_instructions_semantics.pl --file bin/20000113-1-0.asm 
+../../../scripts/kompile.pl --backend java
 ../../scripts/run.pl --file bin/20000113-1-0.asm --krun --output Output/20000113-1-0.kstate --nopathsplit
 ../../scripts/run.pl --file bin/20000113-1-0.asm --xrun --output Output/20000113-1-0.xstate --nopathsplit
 ../../scripts/run.pl --file bin/20000113-1-0.asm --compare |& tee Output/20000113-1-0.compare.log
@@ -37,9 +38,10 @@ source cmd_worklist.txt; cat bin_worklist.txt | parallel "../../../scripts/remov
 # Running all the tests in a job
 ```
 cat bin_worklist.txt | parallel -j1 ../../../scripts/collect_instructions_semantics.pl --file bin/{}.asm
+../../../scripts/kompile.pl --backend java
 cat bin_worklist.txt | parallel -j5 "echo; echo {}; echo ======; ../../../scripts/run.pl --file bin/{}.asm --krun --output Output/{}.kstate --nopathsplit" |& tee runlog.kstate.txt
 cat bin_worklist.txt | parallel "../../../scripts/run.pl --file bin/{}.asm --xrun --output Output/{}.xstate --nopathsplit" |& tee runlog.xstate.txt
-cat pass_worklist.txt | parallel "echo ; echo {}; echo =======;  ../../../scripts/run.pl --file bin/{}.asm --compare |& tee Output/{}.compare.log" |& tee runlog.compare.txt
+cat bin_worklist.txt | parallel "echo ; echo {}; echo =======;  ../../../scripts/run.pl --file bin/{}.asm --compare |& tee Output/{}.compare.log" |& tee runlog.compare.txt
 
 // To clean the compare log
 // g/Pass\|Fail\|pf at\|af at\|states\|0 != 1\|1 != 0\|Compare\|grep\|numOf/d
