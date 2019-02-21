@@ -9,12 +9,6 @@ alias-3-0
 alias-4-0
 arith-rand-0
 arith-rand-ll-0
-builtin-prefetch-1-0
-builtin-prefetch-2-0
-builtin-prefetch-3-0
-builtin-prefetch-4-0
-builtin-prefetch-5-0
-builtin-prefetch-6-0
 doloop-2-0
 loop-10-0
 memcpy-2-0
