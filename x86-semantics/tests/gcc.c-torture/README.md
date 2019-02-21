@@ -29,6 +29,7 @@ source cmd_worklist.txt; cat bin_worklist.txt | parallel "../../../scripts/remov
 # Running tests individually
 ```
 ../../../scripts/collect_instructions_semantics.pl --file bin/20000113-1-0.asm 
+../../../scripts/kompile.pl --backend java
 ../../scripts/run.pl --file bin/20000113-1-0.asm --krun --output Output/20000113-1-0.kstate --nopathsplit
 ../../scripts/run.pl --file bin/20000113-1-0.asm --xrun --output Output/20000113-1-0.xstate --nopathsplit
 ../../scripts/run.pl --file bin/20000113-1-0.asm --compare |& tee Output/20000113-1-0.compare.log
