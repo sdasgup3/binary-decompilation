@@ -35,7 +35,6 @@ max_single
 mov
 movmskpd
 movs
-mpsadbw
 mulpdpssdsd
 mul_single
 or
@@ -99,8 +98,6 @@ vcvtps2ph_xmm_xmm_imm8
 vfmadd
 vfmsub
 vmaxmin
-vmpsadbw_xmm_xmm_xmm
-vmpsadbw_ymm_ymm_ymm
 vpclmulqdq
 vpcmpestri
 vpcmpestrm
