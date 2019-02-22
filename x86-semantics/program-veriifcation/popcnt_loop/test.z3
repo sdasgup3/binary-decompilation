@@ -4,6 +4,9 @@
 (assert
 (not 
 (= 
+  ; The Z3 formula corresponding to line 8710 of the runlog.txt file.
+  ; This corresponds to the symbolic output stored in %rax for the
+  ; un-optimized program,
   (bvadd  
       (bvand ((_ extract 31 0) V) #x00000001)
       (bvand ((_ extract 31 0) (bvlshr V #x0000000000000001)) #x00000001)
@@ -74,6 +77,8 @@
       (bvand ((_ extract 31 0) (bvlshr V #x000000000000003f)) #x00000001)
   )
 
+  ; The Z3 formula corresponding to popcnt instruction at
+  ; ../../semantics/registerInstructions/popcntq_r64_r64.k
   (let ((a!1 (concat #b00
                    (bvadd (concat #b0 ((_ extract 63 63) V))
                           (concat #b0 ((_ extract 62 62) V)))))
