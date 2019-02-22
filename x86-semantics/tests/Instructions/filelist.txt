@@ -98,8 +98,6 @@ vcvtph2ps_xmm_xmm
 vcvtps2ph_xmm_xmm_imm8
 vfmadd
 vfmsub
-vfnmadd
-vfnmsub
 vmaxmin
 vmpsadbw_xmm_xmm_xmm
 vmpsadbw_ymm_ymm_ymm
