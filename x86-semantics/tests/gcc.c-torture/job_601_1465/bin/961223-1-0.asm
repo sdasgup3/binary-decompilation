@@ -375,7 +375,6 @@ L52:
 L50:
     popq	%rbp
     ret
-    .globl	sub
 sub:
     pushq	%rbp
     movq	%rsp, %rbp
@@ -389,7 +388,6 @@ sub:
     vmovq	%rax, %xmm0
     popq	%rbp
     ret
-    .globl	main
 .globl _start
 _start:
     pushq	%rbp

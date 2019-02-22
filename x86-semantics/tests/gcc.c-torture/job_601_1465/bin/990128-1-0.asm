@@ -425,7 +425,6 @@ L54:
 L56:
     movl	$0, %edi
     call	exit
-    .globl	sub
 sub:
     pushq	%rbp
     movq	%rsp, %rbp

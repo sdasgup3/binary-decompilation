@@ -383,7 +383,6 @@ a:
 b:
     .string	"12345"
     .text
-    .globl	loop
 loop:
     pushq	%rbp
     movq	%rsp, %rbp

@@ -380,7 +380,6 @@ L50:
 flg:
     .zero	8
     .text
-    .globl	sub
 sub:
     pushq	%rbp
     movq	%rsp, %rbp

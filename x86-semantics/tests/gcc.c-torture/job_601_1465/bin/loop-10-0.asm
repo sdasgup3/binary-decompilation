@@ -376,7 +376,7 @@ L50:
     popq	%rbp
     ret
     .comm	count,4,4
-inc:
+inc1:
     pushq	%rbp
     movq	%rsp, %rbp
     movl	count(%rip), %eax
@@ -395,10 +395,10 @@ _start:
     movl	$0, -4(%rbp)
     jmp	L55
 L58:
-    call	inc
+    call	inc1
     cmpl	$0, -8(%rbp)
     je	L61
-    call	inc
+    call	inc1
     subl	$1, -8(%rbp)
     movl	$1, -4(%rbp)
 L55:
