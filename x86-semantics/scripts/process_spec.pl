@@ -11,7 +11,7 @@ use File::Basename;
 use Cwd;
 use File::Path qw(make_path remove_tree);
 
-my $home = "";
+my $home = $ENV{"HOME"};
 BEGIN{
 	$home = $ENV{"HOME"};
 	unshift @INC, "$home/Github/binary-decompilation/x86-semantics/scripts/";
@@ -168,12 +168,13 @@ if ( "" ne $compareintel ) {
     my $ungeneralized_memory =
       "docs/relatedwork/strata/ungeneralized_memory.txt";
 
+    print(  " | Scope of instrucion support | Number of Att/Intel Opcodes | \n|-----|-----|\n");
     ## get intel <-> att
     my ( $intel2att_ref, $att2intel_ref ) =
       assocIntelATT( $intelatt, $debugprint );
     my %intel2att = %{$intel2att_ref};
     my %att2intel = %{$att2intel_ref};
-    print(  " | Att/Intel Opcodes |"
+    print(  " | Total Att/Intel Opcodes |"
           . scalar( keys %{att2intel} ) . "/"
           . scalar( keys %{intel2att} )
           . "|\n" );
@@ -183,11 +184,12 @@ if ( "" ne $compareintel ) {
       modelInstructions( $idealfile, $intelatt, "", 0 );
     my %ideal_supp_att   = %{$ideal_supp_att_ref};
     my %ideal_supp_intel = %{$ideal_supp_intel_ref};
-    print(  "| Ideal Support(att/intel)| "
+    print(  "| Ideal User Level Support(att/intel)| "
           . scalar( keys %ideal_supp_att ) . "/"
           . scalar( keys %ideal_supp_intel )
           . "|\n" );
 
+    print(  " \n| Project Name | Number of Att/Intel Opcodes [Supported percentage w.r.t Ideal User Level Support] | \n|-----|-----|\n");
     ## Get the current supported instr
     my ( $curr_supp_att_ref, $curr_supp_intel_ref ) =
       modelInstructions( $currentfile, $intelatt, "", 0 );
@@ -272,6 +274,7 @@ if ( "" ne $compareintel ) {
     print "\n\n";
     #printMap(\%acl2_intel); 
 
+=pod
     # Strata Vs McSema
     utils::compareMaps(
         \%strata_supp_intel, \%mcsema_supp_intel,
@@ -315,6 +318,7 @@ if ( "" ne $compile ) {
 "time  kompile x86-semantics.k --syntax-module X86-SYNTAX --main-module X86-SEMANTICS --debug -v --backend java -I ./ -I common/x86-config/",
         1
     );
+=cut
 
     exit(0);
 }

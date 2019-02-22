@@ -20,7 +20,7 @@ $VERSION = 1.00;
   qw(processKFile checkKRunStatus processXFile compareStates pprint find_stratum getReadMod spec_template getSpecCode selectbraces mixfix2infix processSpecOutput sanitizeSpecOutput writeKDefn opcHasOperand instrGetOperands runkprove postProcess createSpecFile checkSupported checkManuallyGenerated getImmInstrs getMemInstrs generateZ3Formula modelInstructions assocateMcSemaXed assocateMcSemaAvail assocIntelATT getTargetInstr getStrataBVFormula getRegVaraint  mem_modify_testcases getInstrsFolder getDummyRegsForOperands getOperandListFromOpcode getOperandListFromInstr sanitizeBVF parseKFile);
 @EXPORT_OK = qw();
 
-my $home = "";
+my $home = $ENV{"HOME"};
 BEGIN{
 	$home = $ENV{"HOME"};
 	unshift @INC, "$home/Github/binary-decompilation/x86-semantics/scripts/";
@@ -5112,7 +5112,7 @@ sub assocIntelATT {
     my $verifyCount = 0;
 
     ## Model instruction in a map.
-    open( my $fp, "<", $filename ) or die "Can't open: $!";
+    open( my $fp, "<", $filename ) or die "Can't open $filename: $!";
     my @lines = <$fp>;
     close $fp;
 
