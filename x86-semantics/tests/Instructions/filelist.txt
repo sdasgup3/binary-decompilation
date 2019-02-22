@@ -98,7 +98,6 @@ vcvtps2ph_xmm_xmm_imm8
 vfmadd
 vfmsub
 vmaxmin
-vpclmulqdq
 vpcmpestri
 vpcmpestrm
 vpcmpistri
