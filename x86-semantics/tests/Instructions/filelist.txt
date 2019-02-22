@@ -97,7 +97,6 @@ vaddsub
 vcvtph2ps_xmm_xmm
 vcvtps2ph_xmm_xmm_imm8
 vfmadd
-vfmaddsub
 vfmsub
 vfnmadd
 vfnmsub

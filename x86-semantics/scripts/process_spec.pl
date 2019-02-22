@@ -306,6 +306,7 @@ if ( "" ne $compareintel ) {
       modelInstructions( $ungeneralized_memory, $intelatt, "", 0 );
     utils::compareMaps( $ug_intel_ref, \%mcsema_supp_intel,
         $debugprint, "A: UnGeneralized Memory B: McSema" );
+=cut
 
     exit(0);
 }
@@ -318,7 +319,6 @@ if ( "" ne $compile ) {
 "time  kompile x86-semantics.k --syntax-module X86-SYNTAX --main-module X86-SEMANTICS --debug -v --backend java -I ./ -I common/x86-config/",
         1
     );
-=cut
 
     exit(0);
 }
