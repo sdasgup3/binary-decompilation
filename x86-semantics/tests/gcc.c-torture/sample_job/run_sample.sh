@@ -1,4 +1,7 @@
-rm ../../../semantics/underTestInstructions/*
+#!/bin/bash
+set -xe
+
+rm -rf ../../../semantics/underTestInstructions/*
 cat bin_worklist.txt | parallel -j1 ../../../scripts/collect_instructions_semantics.pl --file bin/{}.asm
 cd  ../../../semantics/
 ../scripts/process_spec.pl --compile

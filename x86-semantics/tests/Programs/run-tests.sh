@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+set -xe
 
 THIS_DIR="$(pwd)"
 K_DIR=$THIS_DIR/../../semantics/
