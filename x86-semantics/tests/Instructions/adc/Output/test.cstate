@@ -1,4 +1,4 @@
-grep  -A 40  "ListItem"  Output/test.kstate  | sed -e '/RIP/d' 1> /tmp/tmpfileewtuo 2>&1 
+grep  -A 40  "ListItem"  Output/test.kstate  | sed -e '/RIP/d' 1> /tmp/tmpfilej31cs 2>&1 
 numOfInstrs: 452
 
 	0:	48 05 fe ef 00 00	add    $0xeffe,%rax
