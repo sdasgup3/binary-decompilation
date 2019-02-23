@@ -51,17 +51,16 @@ cat diff_worklist.txt | parallel "echo ; echo {}; echo =======;  ../../../script
 ```
 
 ## Testing gcc.c-torture/builtins
- - Commented the definitions of fprintf/printf/sprintf as
-    the definitions use 'v' variants of the library functions with we do not support.
-    This will not hurt as we directly support  fprintf/printf/sprintf.
+ - Commented those definitions of fprintf/printf/sprintf which are defined in terms of 
+    the  'v' variants of the library functions (like vfprintf,vscanf) which  we do not yet support.
+    This will not hurt as we can directly execute fprintf/printf/sprintf.
     Following source files are modified.
       - src/lib/fprintf.c
       - src/lib/printf.c
       - src/lib/sprintf.c
- - Some constants are reduced in size: src/pr22237.c 256 --> 8
-
+      
 ## Testing gcc.c-torture/ieee
- - name clash with opcode names
+ - Following test-cases have name clashes with opcode names. Hence we needed to rename them.
   - copysign1.c: testl is a function name
   - copysign2.c: testl is a function name
   - fp-cmp-1.c: leave is a function name
@@ -72,21 +71,13 @@ cat diff_worklist.txt | parallel "echo ; echo {}; echo =======;  ../../../script
   - mzero5.c: sub is a function name
 
 ## Testing gcc.c-torture/job1
- - .quad L47 before L47 is defined
+ - .quad L47 before L47 is defined. In our model, the label name needed to be defined first before use. Hence, we put the definition before use in the assembly code.
   - 20010106-1.c
 
 ## Testing gcc.c-torture/job2
- - printf with more than 6 args
+ - printf with more than 6 args is not yet supported. We skipped such prints as the goal is to test the instruction support and supported library functions are already tested separately.
   - 920501-8.c
- - passing printf as arguments
+ - passing builtin functions like printf as argument will work if the lirary defining the function is also provided so as to know the PC value of the built-in funcion. As we model the built-in functions directly in K, we need  to assign some fixed addresses to these functions.   
   - 930513-1.c
- - call signal
+ - signal handling not supported
   - 20101011-1.c
-
-## Latest stats
-| Job  | Total | KRun Pass | KRun Fail | Diff Pass | Diff Fail |
-|------|-------|-----------|-----------|-----------|-----------|
-| ieee | 58    | 56        | 2         | 47        | 11        |
-| job1 | 100   | 96        | 4         | 90        | 6         |
-| job2 | 500   | 446       | 54        | 443       | 43        |
-| job3 | 466   | 412       | 54        | 393       | 19        |
