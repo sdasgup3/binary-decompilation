@@ -52,14 +52,14 @@ Please note that the goal of this testing is to test the semantics of individual
       - For example, src/lib/fprintf.c, src/lib/printf.c, src/lib/sprintf.c
       
  - Some test-cases have name clashes with opcode names. Hence we needed to rename them. Some examples are
-  - copysign1.c: testl is a function name
-  - copysign2.c: testl is a function name
-  - fp-cmp-1.c: leave is a function name
-  - fp-cmp-2.c: leave is a function name
-  - fp-cmp-3.c: leave is a function name
-  - inf-2.c: testl is a function name
-  - inf-3.c: testl is a function name
-  - mzero5.c: sub is a function name
+    - copysign1.c: testl is a function name
+    - copysign2.c: testl is a function name
+    - fp-cmp-1.c: leave is a function name
+    - fp-cmp-2.c: leave is a function name
+    - fp-cmp-3.c: leave is a function name
+    - inf-2.c: testl is a function name
+    - inf-3.c: testl is a function name
+    - mzero5.c: sub is a function name
 
 
  - .quad L47 before L47 is defined. In our model, the label name needed to be defined first before use. Hence, we put the definition before use in the assembly code. For example, 20010106-1.c
