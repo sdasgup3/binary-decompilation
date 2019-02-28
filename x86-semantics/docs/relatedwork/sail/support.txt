@@ -246,7 +246,6 @@ divq_m64
 divq_r64
 divw_m16
 divw_r16
-fence
 hlt
 incb_m8
 incb_r8

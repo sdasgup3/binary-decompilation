@@ -39,7 +39,6 @@ grep "^div[blwq]_" $IDEAL >> $OUT
 echo "hlt" >> $OUT
 echo "lfence" >> $OUT
 echo "mfence" >> $OUT
-echo "fence" >> $OUT
 grep "^j" $IDEAL >> $OUT
 grep "^lea[blwq]_" $IDEAL >> $OUT
 grep "^leave[blwq]_" $IDEAL >> $OUT
