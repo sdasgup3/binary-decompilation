@@ -1,0 +1,3 @@
+wc crypto_instructions.txt register_instructions.txt memory_instructions.txt system_instructions.txt unsupport_by_sandbox_instructions.txt control_flow_instructions.txt duplicate_instructions.txt x87_instructions.txt mmx_instructions.txt  immediate_instructions.txt 
+
+wc all.txt

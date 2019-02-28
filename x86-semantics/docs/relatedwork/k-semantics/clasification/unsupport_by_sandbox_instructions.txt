@@ -1,0 +1,32 @@
+vldmxcsr_m32 <-- MXCSR
+vstmxcsr_m32 <-- End
+movw_m16_sreg <-- Segment register
+movq_m64_sreg
+movw_r16_sreg
+movq_r64_sreg
+mov_sreg_m16
+mov_sreg_m64
+mov_sreg_r16
+mov_sreg_r64  
+popq_fs
+popq_fs_pref66
+popq_gs
+popq_gs_pref66
+pushq_fs
+pushq_gs  <-- End
+vgatherdpd_xmm_m32_xmm <--- vm32{x,y,z}
+vgatherdpd_ymm_m32_ymm
+vgatherdps_xmm_m32_xmm
+vgatherdps_ymm_m32_ymm
+vgatherqpd_xmm_m64_xmm
+vgatherqpd_ymm_m64_ymm
+vgatherqps_xmm_m64_xmm
+vpgatherdd_xmm_m32_xmm
+vpgatherdd_ymm_m32_ymm
+vpgatherdq_xmm_m32_xmm
+vpgatherdq_ymm_m32_ymm
+vpgatherqd_xmm_m64_xmm
+vpgatherqq_xmm_m64_xmm
+vgatherqps_xmm_m64_xmm_1
+vpgatherqd_xmm_m64_xmm_1
+vpgatherqq_ymm_m64_ymm <-- End
