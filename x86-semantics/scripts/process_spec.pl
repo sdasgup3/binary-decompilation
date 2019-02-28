@@ -162,6 +162,7 @@ if ( "" ne $compareintel ) {
 "$home/Github/binary-decompilation/x86-semantics/docs/relatedwork/mcsema/xed.txt";
     my $acl2file = "$home/Github/binary-decompilation/x86-semantics/docs/relatedwork/acl2/implemented.txt";
     my $sailfile = "$home/Github/binary-decompilation/x86-semantics/docs/relatedwork/sail/support.txt";
+    my $cppfile = "$home/Github/binary-decompilation/x86-semantics/docs/relatedwork/verbeek/support.txt";
 #"$home/Github/binary-decompilation/x86-semantics/docs/relatedwork/acl2/supportedOPcodes.txt";
     my $r2file = "$home/Github/binary-decompilation/x86-semantics/docs/relatedwork/radare2/r2log.txt";
     my $stoke_strata_unsup_file =
@@ -214,6 +215,18 @@ if ( "" ne $compareintel ) {
           . scalar( keys %sail_supp_intel )
           . " \t[". scalar( keys %sail_supp_intel ) * 100 / scalar( keys %ideal_supp_intel ) ." %]"
           . "|\n" );
+
+    ## Get the sail supported instr
+    my ( $cpp_supp_att_ref, $cpp_supp_intel_ref ) =
+      modelInstructions( $cppfile, $intelatt, "", 0 );
+    my %cpp_supp_att   = %{$cpp_supp_att_ref};
+    my %cpp_supp_intel = %{$cpp_supp_intel_ref};
+    print(  "| CPP Support(att/intel)| "
+          . scalar( keys %cpp_supp_att ) . "/"
+          . scalar( keys %cpp_supp_intel )
+          . " \t[". scalar( keys %cpp_supp_intel ) * 100 / scalar( keys %ideal_supp_intel ) ." %]"
+          . "|\n" );
+
 
     ## Get the bap supported instr
     my ( $bap_supp_att_ref, $bap_supp_intel_ref ) =
