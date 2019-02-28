@@ -181,6 +181,7 @@ cmc
 cwtd
 cwtl
 cld
+cqto
 cmoval_r32_r32
 cmovaq_r64_r64
 cmovaw_r16_r16

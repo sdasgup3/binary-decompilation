@@ -32,6 +32,7 @@ grep "^cmc" $IDEAL
 grep "^cwtd" $IDEAL
 grep "^cwtl" $IDEAL
 grep "^cld" $IDEAL
+grep "^cqto" $IDEAL
 grep "^cmova[blwq]*_" $IDEAL
 grep "^cmovae[blwq]*_" $IDEAL
 grep "^cmovb[blwq]*_" $IDEAL
