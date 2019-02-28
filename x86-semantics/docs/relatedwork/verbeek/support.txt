@@ -173,6 +173,14 @@ btq_m64_r64
 btw_r16_imm8
 btl_r32_imm8
 btq_r64_imm8
+cbtw
+clc
+cltd
+cltq
+cmc
+cwtd
+cwtl
+cld
 cmoval_r32_r32
 cmovaq_r64_r64
 cmovaw_r16_r16
