@@ -8,6 +8,7 @@ wc -l all.txt
 
 echo "Breakdown"
 cat crypto_instructions.txt mmx_instructions.txt x87_instructions.txt system_instructions.txt unsupport_by_sandbox_instructions.txt > /tmp/yyy
+wc crypto_instructions.txt mmx_instructions.txt x87_instructions.txt system_instructions.txt unsupport_by_sandbox_instructions.txt
 UNSUP=`grep -v "label_1"  /tmp/yyy |wc -l`
 
 echo "Unsupported": $UNSUP

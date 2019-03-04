@@ -80,6 +80,7 @@ my $update_tc            = "";
 my $use_updated_tc       = "";
 my $no_strata_handler    = "";
 my $samereg              = "";
+my $stokedir             = "";
 
 GetOptions(
     "help"                 => \$help,
@@ -130,6 +131,7 @@ GetOptions(
     "testid:s"             => \$testid,
     "workdir:s"            => \$workdir,
     "opcode:s"             => \$opcode,
+    "stokedir:s"           => \$stokedir,
     "samereg"              => \$samereg,
 ) or die("Error in command line arguments\n");
 
@@ -137,6 +139,8 @@ GetOptions(
 my $sfp;
 my $removeComment;
 my $debugprint = 0;
+my $stoke_check_circuit = "$stokedir/bin/stoke_check_circuit";
+my $stoke_check_circuit_with_sat_check = "$stokedir/bin/stoke_check_circuit_with_sat_check";
 
 if ( "" ne $compareintel ) {
     ## file names
@@ -744,12 +748,17 @@ sub threadop_check_stoke {
         }
     }
 
+    if($stokedir eq "") {
+      utils::failInfo("Provide --stokedir. Exiting..");
+      exit(0);
+    }
+
     my $testcases_path = $kutils::testcases;
-    my $stoke_check_bin = $kutils::stoke_check_circuit;
+    my $stoke_check_bin = $stoke_check_circuit;
     print $stoke_check_bin . "\n";
     if ( "" ne $use_updated_tc ) {
         $testcases_path = "$instructions_path/../testcases.$testid.tc";
-        $stoke_check_bin = $kutils::stoke_check_circuit_with_sat_check;
+        $stoke_check_bin = $stoke_check_circuit_with_sat_check;
     }
 
     my $strata_path_switch = "--strata_path $kutils::strata_path";
