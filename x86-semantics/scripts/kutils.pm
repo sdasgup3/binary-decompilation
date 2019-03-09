@@ -21,15 +21,17 @@ $VERSION = 1.00;
 @EXPORT_OK = qw();
 
 my $home = $ENV{"HOME"};
-BEGIN{
-	$home = $ENV{"HOME"};
-	unshift @INC, "$home/Github/binary-decompilation/x86-semantics/scripts/";
+
+BEGIN {
+    $home = $ENV{"HOME"};
+    unshift @INC, "$home/Github/binary-decompilation/x86-semantics/scripts/";
 }
 use utils;
 
 our $stoke_debug_circuit = "";
+
 #  "/home/sdasgup3/Github/stoke/./bin/stoke_debug_formula";
-our $strata_path = "/home/sdasgup3/Github/strata-data/circuits";
+our $strata_path   = "/home/sdasgup3/Github/strata-data/circuits";
 our $functions_dir = "/home/sdasgup3/Github/strata-data/data-regs/functions";
 our $testcases     = "/home/sdasgup3/Github/strata-data/data-regs/testcases.tc";
 
@@ -574,6 +576,7 @@ sub processKFile {
     my @kstates       = ();
     my @sortedkstates = ();
     my %kstateMap     = ();
+
     #print "\n\n$basename\n\n";
     my @kpatterns = ( qr/"(\w*)" \|-> (\d+'[-]?\d+)/, qr/"(\w*)" \|-> (.*)/ );
 
@@ -591,11 +594,11 @@ sub processKFile {
         #print "Line: " . $line . "\n";
         if ( $line =~ m/$kpatterns[0]/ ) {
 
-#print "Match: " . $1 . "=>" . $2 . "\n";
+            #print "Match: " . $1 . "=>" . $2 . "\n";
             my $key = $1;
             my $val = $2;
-            if($key ne "DF") {
-              push( @{ $kstateMap{$key} }, $val );
+            if ( $key ne "DF" ) {
+                push( @{ $kstateMap{$key} }, $val );
             }
         }
         elsif ( $line =~ m/$kpatterns[1]/ ) {
@@ -612,7 +615,7 @@ sub processKFile {
 
         }
         else {
-          #print("Skipped::$line\n");
+            #print("Skipped::$line\n");
         }
     }
 
@@ -655,11 +658,12 @@ sub processKFile {
 }
 
 my @instructions = ();
+
 sub processXFile {
     my $basename = shift @_;
     my $file     = shift @_;
     my ( $unused_fh, $tmpfile ) = tempfile( "tmpfileXXXXX", DIR => "/tmp/" );
-    my @xstates   = ();
+    my @xstates = ();
 
     my @xpatterns = (
         qr/$\d* = ([-]?\d+)/,
@@ -676,8 +680,8 @@ sub processXFile {
     for my $line (@lines) {
         chomp $line;
 
-        if($line =~ m/.*>:(.*)/g) {
-          push @instructions, $1;
+        if ( $line =~ m/.*>:(.*)/g ) {
+            push @instructions, $1;
         }
 
         #print $line."\n";
@@ -717,8 +721,9 @@ sub parseFlags {
 }
 
 sub compareInts {
-    my $knum = shift @_;
-    my $xnum = shift @_;
+    my $knum       = shift @_;
+    my $xnum       = shift @_;
+    my $checkWidth = shift @_;
 
     #print "Check: " . $knum . " " . $xnum . "\n";
     my $khexnum = "";
@@ -726,8 +731,12 @@ sub compareInts {
     my $bit     = 64;
 
     if ( $knum =~ /(\d+)'([-]?\d+)/ ) {
-        $bit     = $1;
-        $knum    = $2;
+        $bit = $1;
+        if ( $bit != $checkWidth ) {
+            failInfo("Check Width Failed, Expected $checkWidth, Found $bit\n");
+            return 0;
+        }
+        $knum = $2;
         $khexnum = toHex( $knum, $bit );
     }
 
@@ -778,11 +787,12 @@ sub compareStates {
 
         utils::info("$basename: kstate xstate count unequal");
         print $msg;
+
         #return;
 
-#print join( "\n", @kstates );
-#print join( "\n", @xstates );
-#return;
+        #print join( "\n", @kstates );
+        #print join( "\n", @xstates );
+        #return;
     }
 
     my $iter = scalar(@kstates);
@@ -808,7 +818,8 @@ sub compareStates {
             next;
         }
 
-        if ( $kstates[$i] =~ m/symloc/) {
+        if ( $kstates[$i] =~ m/symloc/ ) {
+
 #info("\"pointerval affected register or flags\" found at $regMap{$i % $regcount}");
             next;
         }
@@ -819,10 +830,23 @@ sub compareStates {
             next;
         }
 
-        if ( 0 == compareInts( $kstates[$i], $xstates[$i] ) ) {
-          #print $kstates[$i] . "\n" . $xstates[$i] . "\n";
-            print( "$regMap{$i % $regcount} at instrcount: " . $instrcount ."\n\n" );
-#return;
+        # Derive the bit width
+        my $checkWidth = 64;
+        if ( $regMap{ $i % $regcount } =~ m/ymm/ ) {
+            $checkWidth = 256;
+        }
+        elsif ( $regMap{ $i % $regcount } =~ m/pf|af|of|sf|zf|cf/ ) {
+            $checkWidth = 1;
+        }
+
+        if ( 0 == compareInts( $kstates[$i], $xstates[$i], $checkWidth ) ) {
+
+            #print $kstates[$i] . "\n" . $xstates[$i] . "\n";
+            print(  "$regMap{$i % $regcount} at instrcount: "
+                  . $instrcount
+                  . "\n\n" );
+
+            #return;
         }
         else {
             #info("$instrcount matched");
@@ -842,12 +866,13 @@ sub pprint {
     my $instrcount = 0;
 
     my $i = 0 + $kstateskip * $regcount;
-    
-    printArray(\@instructions,"");
+
+    printArray( \@instructions, "" );
 
     for ( ; $i < scalar(@kstates) ; $i++ ) {
         if ( 0 == $i % $regcount ) {
-            print "\nCount $instrcount) reg\tkstate\txstate\t$instructions[$instrcount]"
+            print
+"\nCount $instrcount) reg\tkstate\txstate\t$instructions[$instrcount]"
               . "\n---------------------\n";
         }
 
@@ -1092,7 +1117,7 @@ sub getMDFromOpcode {
 #############################################
     my $opcode     = shift @_;
     my $debugprint = shift @_;
-    my $path = "$home/Github/strata-data/data-regs/instructions/";
+    my $path       = "$home/Github/strata-data/data-regs/instructions/";
 
     my $metapath = $path . "/" . $opcode . "/" . $opcode . ".meta.json";
     my $metadata = "";
@@ -4979,10 +5004,12 @@ sub modelInstructions {
     my $hint         = shift @_;
     my $print        = shift @_;
 
-    if($hint eq "inIntel") {
-      return modelIntelInstructions($filename, $intelattfile, $hint, $print);
-    } else {
-      return modelAttInstructions($filename, $intelattfile, $hint, $print);
+    if ( $hint eq "inIntel" ) {
+        return modelIntelInstructions( $filename, $intelattfile, $hint,
+            $print );
+    }
+    else {
+        return modelAttInstructions( $filename, $intelattfile, $hint, $print );
     }
 }
 
@@ -4992,7 +5019,7 @@ sub modelIntelInstructions {
     my $hint         = shift @_;
     my $print        = shift @_;
 
-     ## get intel <-> att
+    ## get intel <-> att
     my ( $intel2att_ref, $att2intel_ref ) = assocIntelATT( $intelattfile, 0 );
     my %intel2att = %{$intel2att_ref};
     my %att2intel = %{$att2intel_ref};
@@ -5004,7 +5031,7 @@ sub modelIntelInstructions {
 
     my %model_att   = ();
     my %model_intel = ();
-    my $linecount = 0;
+    my $linecount   = 0;
     for my $line (@lines) {
         chomp $line;
         $linecount++;
@@ -5012,7 +5039,7 @@ sub modelIntelInstructions {
         my $key  = "";
         my $name = "";
 
-        $key = $line ;
+        $key  = $line;
         $name = $line;
         push @{ $model_intel{$key} }, $name;
     }
@@ -5086,8 +5113,7 @@ sub modelAttInstructions {
         }
     }
 
-    if ( $hint eq "keep_instruction" )
-    {
+    if ( $hint eq "keep_instruction" ) {
         return ( \%model_att, \%model_att );
     }
 
