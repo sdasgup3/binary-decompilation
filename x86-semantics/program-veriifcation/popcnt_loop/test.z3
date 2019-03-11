@@ -4,9 +4,9 @@
 (assert
 (not 
 (= 
-  ; The Z3 formula corresponding to line 8710 of the runlog.txt file.
+  ; The Z3 formula corresponding to line 37350 of updatedLog.txt file. ~~8710 of the runlog.txt file.~~
   ; This corresponds to the symbolic output stored in %rax for the
-  ; un-optimized program,
+  ; un-optimized program at program exit,
   (bvadd  
       (bvand ((_ extract 31 0) V) #x00000001)
       (bvand ((_ extract 31 0) (bvlshr V #x0000000000000001)) #x00000001)
