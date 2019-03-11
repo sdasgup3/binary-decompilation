@@ -152,6 +152,17 @@ module MINT-LEMMAS
   rule extractMInt(concatenateMInt(MI1, MI2), S, E) => concatenateMInt(extractMInt(MI1, S, bitwidthMInt(MI1)), extractMInt(MI2, 0, E -Int bitwidthMInt(MI1)))
     requires S <Int bitwidthMInt(MI1) andBool E >Int bitwidthMInt(MI1)  
 
+  /*
+  ** Extract over zeroExtend:
+  ** When the Etract overlaps with the signExtended MInt.
+  ** When the Etract DOES NOT overlap with the signExtended MInt.
+  */
+  rule extractMInt(mi(W, uvalueMInt(MI)), S, E) => extractMInt(MI, S -Int W +Int bitwidthMInt(MI), E -Int W +Int bitwidthMInt(MI))
+    requires
+      (S ==Int 1 andBool E ==Int 33 andBool bitwidthMInt(MI) ==Int 32 andBool W ==Int 33)
+    orBool
+      (S ==Int 32 andBool E ==Int 64 andBool bitwidthMInt(MI) ==Int 32 andBool W ==Int 64)
+
   /* 
   ** Concatenate zeroes
   */
