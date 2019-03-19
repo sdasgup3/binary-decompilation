@@ -15,6 +15,7 @@ Each working directory of a job has the following structure:
 2. bin/\*.kstate: The output of executing a program (say XXX.asm) using the semantics. The output consist of the CPU state after executing each instruction in file XXX.asm.
 3. bin/\*.xstate: The output of executing a program (say XXX.asm) on the actual hardware using GDB script. The output consist of the CPU state after executing each instruction in file XXX.asm.
 4. bin/\*.compare.log: The comparison of the above two outputs.
+5. cmd_worklist.txt: The gcc invocations to generated the asm file.
 
 Note that the assembly language programs are generated from the corresponding C files in `src/*.c` using the following command
 ```
