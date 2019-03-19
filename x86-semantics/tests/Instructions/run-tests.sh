@@ -10,10 +10,11 @@ cleancstate=
 xstate=
 kstate=
 pjobs=4
+list=filelist.txt
 
 usage() {
 	echo "Usage: run_tests.sh --cleankstate | --cleanxstate | --xstate \
-      | --kstate | --compare"
+      | --kstate | --compare | --list"
 }
 
 execute() {
@@ -83,6 +84,11 @@ while [ "$1" != "" ]; do
 	--jobs)
 		shift
 		pjobs=$1
+		shift
+		;;
+	--list)
+		shift
+		list=$1
 		shift
 		;;
 	--all)
