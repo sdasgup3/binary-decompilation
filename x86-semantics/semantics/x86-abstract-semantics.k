@@ -16,6 +16,7 @@ module X86-ABSTRACT-SEMANTICS
   */
 
   rule mi(W:Int, svalueMInt(PV:PointerVal)) => ptr(getMemLoc(PV), mi(W, svalueMInt(getMIntVal(PV))))
+  rule mi(W:Int, uvalueMInt(PV:PointerVal)) => ptr(getMemLoc(PV), mi(W, uvalueMInt(getMIntVal(PV))))
 
   rule getMemLoc(ptr(L:MemLoc, MI:MInt)) => L
   rule getMIntVal(ptr(L:MemLoc, MI:MInt)) => MI
@@ -133,6 +134,13 @@ module X86-ABSTRACT-SEMANTICS
   ...</k>
       <regstate> RSMap </regstate>
       <functargets>...  L |-> LoadAddr:PointerVal  ...</functargets>
+
+  // (%r32)    
+  rule <k> (R1:R32):Mem => 0 (R1:R32) ...</k>
+  rule <k> I:Int (R1:R32):Mem => 
+    memOffset( addMInt(mi(32, I), addMInt(getRegisterValue(R1, RSMap), mulMInt(mi(32, 0), mi(32, 1)))))
+  ...</k>
+      <regstate> RSMap </regstate>
 
   // (%r64)    
   rule <k> (R1:R64):Mem => 0 (R1:R64) ...</k>

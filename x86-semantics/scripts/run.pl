@@ -5,12 +5,14 @@ use Getopt::Long;
 use File::Compare;
 use File::Basename;
 use File::Temp qw/ tempfile tempdir /;
+use Cwd 'abs_path';
 
 my $home = "";
-BEGIN{
-	$home = $ENV{"HOME"};
-	unshift @INC, "$home/Github/binary-decompilation/x86-semantics/scripts/";
+BEGIN {
+    my $script_dir = dirname(__FILE__);
+    unshift @INC, $script_dir;
 }
+
 use kutils;
 use utils;
 
@@ -29,8 +31,8 @@ my $nopathsplit  = "";
 my @args       = ();
 my $kstateskip = 0;
 #my $home   = $ENV{'HOME'};
-my $kdefn =
-  "~/Github/binary-decompilation/x86-semantics/semantics/";
+my $script_dir  = dirname( abs_path($0) );
+my $kdefn       = "$script_dir/../semantics";
 my $outdir = "Output/";
 
 GetOptions(
