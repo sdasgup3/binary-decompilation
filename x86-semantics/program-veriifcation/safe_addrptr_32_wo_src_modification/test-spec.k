@@ -17,9 +17,9 @@ module TEST-SPEC
       <lastseenlabel> .K </lastseenlabel>
       <currentsection> "text" </currentsection>
       <regstate>
-        "RIP" |-> ( ptr (symloc(-1, 0), mi(64, 0))  => mi(64, 4294967295))
-        "RSP" |-> ( ptr (symloc(1, 128), mi(64, 60))  => ptr(symloc(1, 128), mi(64, 64)))
-        "RBP" |-> ( ptr (symloc(1, 128), mi(64, 88)))
+        "RIP" |-> ( ptr (symloc(-1, 0), mi(64, 0))  => mi(64, 4294967295)) //@ensure
+        "RSP" |-> ( ptr (symloc(1, 128), mi(64, 60))  => ptr(symloc(1, 128), mi(64, 64))) //@ensure
+        "RBP" |-> ( ptr (symloc(1, 128), mi(64, 88))) // @ensure
         "RAX" |-> (mi(64, _:Int):MInt => mi(64, _:Int))
         "RDX" |-> (mi(64, _:Int):MInt => mi(64, _:Int))
         "AF" |-> (_:MInt => _:MInt)
@@ -150,10 +150,10 @@ module TEST-SPEC
                     83 |-> (byte ( 7 , mi(64, B))) 
 
                     // Value of of
-                    84 |-> byte ( 0 , mi(64, 0))
-                    85 |-> byte ( 1 , mi(64, 0))
-                    86 |-> byte ( 2 , mi(64, 0))
-                    87 |-> byte ( 3 , mi(64, 0))
+                    84 |-> byte ( 0 , mi(64, 0)) //@ensure
+                    85 |-> byte ( 1 , mi(64, 0)) //@ensure
+                    86 |-> byte ( 2 , mi(64, 0)) //@ensure
+                    87 |-> byte ( 3 , mi(64, 0)) //@ensure
                   ))
             </objects>
           </memory>
