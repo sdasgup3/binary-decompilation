@@ -12,7 +12,6 @@ after.trans.out
 ELF_64_linux.bc
 alltogether.log
 build/*
-*.ll
 *.cfg
 *.coverage.csv
 *.native
