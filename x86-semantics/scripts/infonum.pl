@@ -1,5 +1,8 @@
 #!/usr/bin/perl
 
+# infopl +bit 64 +num 64
+# infopl +bit 64 +num 0x64
+
 # Common includes
 use strict;
 use warnings;
