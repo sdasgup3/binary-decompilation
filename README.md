@@ -9,3 +9,16 @@
   - [Basics: Binary Decompilation] (docs/basics-of-binary-decompilation.md)  
 
 
+```C
+uintptr_t safe_addptr(int *of, uint64_t a, uint64_t b) {
+    
+    uintptr_t r = a + b;
+    
+    if (r < a) {
+      *of = 1;
+      return r;
+    } else {
+      return r;
+    }
+}
+```
